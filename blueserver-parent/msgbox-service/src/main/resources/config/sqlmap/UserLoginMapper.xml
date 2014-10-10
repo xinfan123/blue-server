@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xinfan.msgbox.service.dao.UserLoginMapper" >
+  <resultMap id="BaseResultMap" type="com.xinfan.msgbox.service.dao.entity.UserLogin" >
+    <id column="ID" property="id" jdbcType="BIGINT" />
+    <result column="USER_ID" property="userId" jdbcType="BIGINT" />
+    <result column="LOGIN_TIME" property="loginTime" jdbcType="TIMESTAMP" />
+    <result column="GPSX" property="gpsx" jdbcType="VARCHAR" />
+    <result column="GPSY" property="gpsy" jdbcType="VARCHAR" />
+    <result column="LOGIN_IP" property="loginIp" jdbcType="VARCHAR" />
+    <result column="CLIENT_VERSION" property="clientVersion" jdbcType="VARCHAR" />
+    <result column="CLIENT_TYPE" property="clientType" jdbcType="VARCHAR" />
+    <result column="LOGIN_AREA" property="loginArea" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, USER_ID, LOGIN_TIME, GPSX, GPSY, LOGIN_IP, CLIENT_VERSION, CLIENT_TYPE, LOGIN_AREA
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xinfan.msgbox.service.dao.entity.UserLoginExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_user_login
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_user_login
+    where ID = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_user_login
+    where ID = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.xinfan.msgbox.service.dao.entity.UserLoginExample" >
+    delete from t_user_login
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.xinfan.msgbox.service.dao.entity.UserLogin" >
+    insert into t_user_login (ID, USER_ID, LOGIN_TIME, 
+      GPSX, GPSY, LOGIN_IP, 
+      CLIENT_VERSION, CLIENT_TYPE, LOGIN_AREA
+      )
+    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{loginTime,jdbcType=TIMESTAMP}, 
+      #{gpsx,jdbcType=VARCHAR}, #{gpsy,jdbcType=VARCHAR}, #{loginIp,jdbcType=VARCHAR}, 
+      #{clientVersion,jdbcType=VARCHAR}, #{clientType,jdbcType=VARCHAR}, #{loginArea,jdbcType=CHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.xinfan.msgbox.service.dao.entity.UserLogin" >
+    insert into t_user_login
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+      <if test="loginTime != null" >
+        LOGIN_TIME,
+      </if>
+      <if test="gpsx != null" >
+        GPSX,
+      </if>
+      <if test="gpsy != null" >
+        GPSY,
+      </if>
+      <if test="loginIp != null" >
+        LOGIN_IP,
+      </if>
+      <if test="clientVersion != null" >
+        CLIENT_VERSION,
+      </if>
+      <if test="clientType != null" >
+        CLIENT_TYPE,
+      </if>
+      <if test="loginArea != null" >
+        LOGIN_AREA,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="loginTime != null" >
+        #{loginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gpsx != null" >
+        #{gpsx,jdbcType=VARCHAR},
+      </if>
+      <if test="gpsy != null" >
+        #{gpsy,jdbcType=VARCHAR},
+      </if>
+      <if test="loginIp != null" >
+        #{loginIp,jdbcType=VARCHAR},
+      </if>
+      <if test="clientVersion != null" >
+        #{clientVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="clientType != null" >
+        #{clientType,jdbcType=VARCHAR},
+      </if>
+      <if test="loginArea != null" >
+        #{loginArea,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.xinfan.msgbox.service.dao.entity.UserLoginExample" resultType="java.lang.Integer" >
+    select count(*) from t_user_login
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_user_login
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.userId != null" >
+        USER_ID = #{record.userId,jdbcType=BIGINT},
+      </if>
+      <if test="record.loginTime != null" >
+        LOGIN_TIME = #{record.loginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.gpsx != null" >
+        GPSX = #{record.gpsx,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gpsy != null" >
+        GPSY = #{record.gpsy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.loginIp != null" >
+        LOGIN_IP = #{record.loginIp,jdbcType=VARCHAR},
+      </if>
+      <if test="record.clientVersion != null" >
+        CLIENT_VERSION = #{record.clientVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="record.clientType != null" >
+        CLIENT_TYPE = #{record.clientType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.loginArea != null" >
+        LOGIN_AREA = #{record.loginArea,jdbcType=CHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_user_login
+    set ID = #{record.id,jdbcType=BIGINT},
+      USER_ID = #{record.userId,jdbcType=BIGINT},
+      LOGIN_TIME = #{record.loginTime,jdbcType=TIMESTAMP},
+      GPSX = #{record.gpsx,jdbcType=VARCHAR},
+      GPSY = #{record.gpsy,jdbcType=VARCHAR},
+      LOGIN_IP = #{record.loginIp,jdbcType=VARCHAR},
+      CLIENT_VERSION = #{record.clientVersion,jdbcType=VARCHAR},
+      CLIENT_TYPE = #{record.clientType,jdbcType=VARCHAR},
+      LOGIN_AREA = #{record.loginArea,jdbcType=CHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xinfan.msgbox.service.dao.entity.UserLogin" >
+    update t_user_login
+    <set >
+      <if test="userId != null" >
+        USER_ID = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="loginTime != null" >
+        LOGIN_TIME = #{loginTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="gpsx != null" >
+        GPSX = #{gpsx,jdbcType=VARCHAR},
+      </if>
+      <if test="gpsy != null" >
+        GPSY = #{gpsy,jdbcType=VARCHAR},
+      </if>
+      <if test="loginIp != null" >
+        LOGIN_IP = #{loginIp,jdbcType=VARCHAR},
+      </if>
+      <if test="clientVersion != null" >
+        CLIENT_VERSION = #{clientVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="clientType != null" >
+        CLIENT_TYPE = #{clientType,jdbcType=VARCHAR},
+      </if>
+      <if test="loginArea != null" >
+        LOGIN_AREA = #{loginArea,jdbcType=CHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xinfan.msgbox.service.dao.entity.UserLogin" >
+    update t_user_login
+    set USER_ID = #{userId,jdbcType=BIGINT},
+      LOGIN_TIME = #{loginTime,jdbcType=TIMESTAMP},
+      GPSX = #{gpsx,jdbcType=VARCHAR},
+      GPSY = #{gpsy,jdbcType=VARCHAR},
+      LOGIN_IP = #{loginIp,jdbcType=VARCHAR},
+      CLIENT_VERSION = #{clientVersion,jdbcType=VARCHAR},
+      CLIENT_TYPE = #{clientType,jdbcType=VARCHAR},
+      LOGIN_AREA = #{loginArea,jdbcType=CHAR}
+    where ID = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

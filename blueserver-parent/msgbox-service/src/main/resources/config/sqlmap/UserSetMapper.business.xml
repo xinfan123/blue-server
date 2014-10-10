@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xinfan.msgbox.service.dao.UserSetMapper" >
+  <resultMap id="BaseResultMap" type="com.xinfan.msgbox.service.dao.entity.UserSet" >
+    <id column="USER_ID" property="userId" jdbcType="BIGINT" />
+    <result column="NEW_MSG_NOTIFY" property="newMsgNotify" jdbcType="INTEGER" />
+    <result column="VOICE" property="voice" jdbcType="INTEGER" />
+    <result column="VIBRATE" property="vibrate" jdbcType="INTEGER" />
+    <result column="MAX_COUNT" property="maxCount" jdbcType="INTEGER" />
+    <result column="SIMILAR_LEVEL" property="similarLevel" jdbcType="INTEGER" />
+    <result column="MIN_AMMOUNT" property="minAmmount" jdbcType="INTEGER" />
+    <result column="MIN_CREDIT" property="minCredit" jdbcType="INTEGER" />
+    <result column="UPDATETIME" property="updatetime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    USER_ID, NEW_MSG_NOTIFY, VOICE, VIBRATE, MAX_COUNT, SIMILAR_LEVEL, MIN_AMMOUNT, MIN_CREDIT, 
+    UPDATETIME
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xinfan.msgbox.service.dao.entity.UserSetExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_user_set
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_user_set
+    where USER_ID = #{userId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_user_set
+    where USER_ID = #{userId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.xinfan.msgbox.service.dao.entity.UserSetExample" >
+    delete from t_user_set
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.xinfan.msgbox.service.dao.entity.UserSet" >
+    insert into t_user_set (USER_ID, NEW_MSG_NOTIFY, VOICE, 
+      VIBRATE, MAX_COUNT, SIMILAR_LEVEL, 
+      MIN_AMMOUNT, MIN_CREDIT, UPDATETIME
+      )
+    values (#{userId,jdbcType=BIGINT}, #{newMsgNotify,jdbcType=INTEGER}, #{voice,jdbcType=INTEGER}, 
+      #{vibrate,jdbcType=INTEGER}, #{maxCount,jdbcType=INTEGER}, #{similarLevel,jdbcType=INTEGER}, 
+      #{minAmmount,jdbcType=INTEGER}, #{minCredit,jdbcType=INTEGER}, #{updatetime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.xinfan.msgbox.service.dao.entity.UserSet" >
+    insert into t_user_set
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+      <if test="newMsgNotify != null" >
+        NEW_MSG_NOTIFY,
+      </if>
+      <if test="voice != null" >
+        VOICE,
+      </if>
+      <if test="vibrate != null" >
+        VIBRATE,
+      </if>
+      <if test="maxCount != null" >
+        MAX_COUNT,
+      </if>
+      <if test="similarLevel != null" >
+        SIMILAR_LEVEL,
+      </if>
+      <if test="minAmmount != null" >
+        MIN_AMMOUNT,
+      </if>
+      <if test="minCredit != null" >
+        MIN_CREDIT,
+      </if>
+      <if test="updatetime != null" >
+        UPDATETIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="newMsgNotify != null" >
+        #{newMsgNotify,jdbcType=INTEGER},
+      </if>
+      <if test="voice != null" >
+        #{voice,jdbcType=INTEGER},
+      </if>
+      <if test="vibrate != null" >
+        #{vibrate,jdbcType=INTEGER},
+      </if>
+      <if test="maxCount != null" >
+        #{maxCount,jdbcType=INTEGER},
+      </if>
+      <if test="similarLevel != null" >
+        #{similarLevel,jdbcType=INTEGER},
+      </if>
+      <if test="minAmmount != null" >
+        #{minAmmount,jdbcType=INTEGER},
+      </if>
+      <if test="minCredit != null" >
+        #{minCredit,jdbcType=INTEGER},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.xinfan.msgbox.service.dao.entity.UserSetExample" resultType="java.lang.Integer" >
+    select count(*) from t_user_set
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_user_set
+    <set >
+      <if test="record.userId != null" >
+        USER_ID = #{record.userId,jdbcType=BIGINT},
+      </if>
+      <if test="record.newMsgNotify != null" >
+        NEW_MSG_NOTIFY = #{record.newMsgNotify,jdbcType=INTEGER},
+      </if>
+      <if test="record.voice != null" >
+        VOICE = #{record.voice,jdbcType=INTEGER},
+      </if>
+      <if test="record.vibrate != null" >
+        VIBRATE = #{record.vibrate,jdbcType=INTEGER},
+      </if>
+      <if test="record.maxCount != null" >
+        MAX_COUNT = #{record.maxCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.similarLevel != null" >
+        SIMILAR_LEVEL = #{record.similarLevel,jdbcType=INTEGER},
+      </if>
+      <if test="record.minAmmount != null" >
+        MIN_AMMOUNT = #{record.minAmmount,jdbcType=INTEGER},
+      </if>
+      <if test="record.minCredit != null" >
+        MIN_CREDIT = #{record.minCredit,jdbcType=INTEGER},
+      </if>
+      <if test="record.updatetime != null" >
+        UPDATETIME = #{record.updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_user_set
+    set USER_ID = #{record.userId,jdbcType=BIGINT},
+      NEW_MSG_NOTIFY = #{record.newMsgNotify,jdbcType=INTEGER},
+      VOICE = #{record.voice,jdbcType=INTEGER},
+      VIBRATE = #{record.vibrate,jdbcType=INTEGER},
+      MAX_COUNT = #{record.maxCount,jdbcType=INTEGER},
+      SIMILAR_LEVEL = #{record.similarLevel,jdbcType=INTEGER},
+      MIN_AMMOUNT = #{record.minAmmount,jdbcType=INTEGER},
+      MIN_CREDIT = #{record.minCredit,jdbcType=INTEGER},
+      UPDATETIME = #{record.updatetime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xinfan.msgbox.service.dao.entity.UserSet" >
+    update t_user_set
+    <set >
+      <if test="newMsgNotify != null" >
+        NEW_MSG_NOTIFY = #{newMsgNotify,jdbcType=INTEGER},
+      </if>
+      <if test="voice != null" >
+        VOICE = #{voice,jdbcType=INTEGER},
+      </if>
+      <if test="vibrate != null" >
+        VIBRATE = #{vibrate,jdbcType=INTEGER},
+      </if>
+      <if test="maxCount != null" >
+        MAX_COUNT = #{maxCount,jdbcType=INTEGER},
+      </if>
+      <if test="similarLevel != null" >
+        SIMILAR_LEVEL = #{similarLevel,jdbcType=INTEGER},
+      </if>
+      <if test="minAmmount != null" >
+        MIN_AMMOUNT = #{minAmmount,jdbcType=INTEGER},
+      </if>
+      <if test="minCredit != null" >
+        MIN_CREDIT = #{minCredit,jdbcType=INTEGER},
+      </if>
+      <if test="updatetime != null" >
+        UPDATETIME = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where USER_ID = #{userId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xinfan.msgbox.service.dao.entity.UserSet" >
+    update t_user_set
+    set NEW_MSG_NOTIFY = #{newMsgNotify,jdbcType=INTEGER},
+      VOICE = #{voice,jdbcType=INTEGER},
+      VIBRATE = #{vibrate,jdbcType=INTEGER},
+      MAX_COUNT = #{maxCount,jdbcType=INTEGER},
+      SIMILAR_LEVEL = #{similarLevel,jdbcType=INTEGER},
+      MIN_AMMOUNT = #{minAmmount,jdbcType=INTEGER},
+      MIN_CREDIT = #{minCredit,jdbcType=INTEGER},
+      UPDATETIME = #{updatetime,jdbcType=TIMESTAMP}
+    where USER_ID = #{userId,jdbcType=BIGINT}
+  </update>
+</mapper>

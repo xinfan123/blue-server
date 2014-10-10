@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xinfan.msgbox.service.dao.MessageReportedMapper" >
+  <resultMap id="BaseResultMap" type="com.xinfan.msgbox.service.dao.entity.MessageReported" >
+    <id column="REPORTED_ID" property="reportedId" jdbcType="BIGINT" />
+    <result column="BE_REPORTED_USER_ID" property="beReportedUserId" jdbcType="BIGINT" />
+    <result column="BE_REPORTED_MSG_ID" property="beReportedMsgId" jdbcType="BIGINT" />
+    <result column="CONTEXT" property="context" jdbcType="VARCHAR" />
+    <result column="REPORT_TYPE" property="reportType" jdbcType="INTEGER" />
+    <result column="REPORT_USER_ID" property="reportUserId" jdbcType="BIGINT" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="DEAL_STATUS" property="dealStatus" jdbcType="INTEGER" />
+    <result column="DEAL_RESULT" property="dealResult" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    REPORTED_ID, BE_REPORTED_USER_ID, BE_REPORTED_MSG_ID, CONTEXT, REPORT_TYPE, REPORT_USER_ID, 
+    CREATE_TIME, DEAL_STATUS, DEAL_RESULT
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xinfan.msgbox.service.dao.entity.MessageReportedExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_message_reported
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_message_reported
+    where REPORTED_ID = #{reportedId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_message_reported
+    where REPORTED_ID = #{reportedId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.xinfan.msgbox.service.dao.entity.MessageReportedExample" >
+    delete from t_message_reported
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.xinfan.msgbox.service.dao.entity.MessageReported" >
+    insert into t_message_reported (REPORTED_ID, BE_REPORTED_USER_ID, BE_REPORTED_MSG_ID, 
+      CONTEXT, REPORT_TYPE, REPORT_USER_ID, 
+      CREATE_TIME, DEAL_STATUS, DEAL_RESULT
+      )
+    values (#{reportedId,jdbcType=BIGINT}, #{beReportedUserId,jdbcType=BIGINT}, #{beReportedMsgId,jdbcType=BIGINT}, 
+      #{context,jdbcType=VARCHAR}, #{reportType,jdbcType=INTEGER}, #{reportUserId,jdbcType=BIGINT}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{dealStatus,jdbcType=INTEGER}, #{dealResult,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.xinfan.msgbox.service.dao.entity.MessageReported" >
+    insert into t_message_reported
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="reportedId != null" >
+        REPORTED_ID,
+      </if>
+      <if test="beReportedUserId != null" >
+        BE_REPORTED_USER_ID,
+      </if>
+      <if test="beReportedMsgId != null" >
+        BE_REPORTED_MSG_ID,
+      </if>
+      <if test="context != null" >
+        CONTEXT,
+      </if>
+      <if test="reportType != null" >
+        REPORT_TYPE,
+      </if>
+      <if test="reportUserId != null" >
+        REPORT_USER_ID,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="dealStatus != null" >
+        DEAL_STATUS,
+      </if>
+      <if test="dealResult != null" >
+        DEAL_RESULT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="reportedId != null" >
+        #{reportedId,jdbcType=BIGINT},
+      </if>
+      <if test="beReportedUserId != null" >
+        #{beReportedUserId,jdbcType=BIGINT},
+      </if>
+      <if test="beReportedMsgId != null" >
+        #{beReportedMsgId,jdbcType=BIGINT},
+      </if>
+      <if test="context != null" >
+        #{context,jdbcType=VARCHAR},
+      </if>
+      <if test="reportType != null" >
+        #{reportType,jdbcType=INTEGER},
+      </if>
+      <if test="reportUserId != null" >
+        #{reportUserId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dealStatus != null" >
+        #{dealStatus,jdbcType=INTEGER},
+      </if>
+      <if test="dealResult != null" >
+        #{dealResult,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.xinfan.msgbox.service.dao.entity.MessageReportedExample" resultType="java.lang.Integer" >
+    select count(*) from t_message_reported
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_message_reported
+    <set >
+      <if test="record.reportedId != null" >
+        REPORTED_ID = #{record.reportedId,jdbcType=BIGINT},
+      </if>
+      <if test="record.beReportedUserId != null" >
+        BE_REPORTED_USER_ID = #{record.beReportedUserId,jdbcType=BIGINT},
+      </if>
+      <if test="record.beReportedMsgId != null" >
+        BE_REPORTED_MSG_ID = #{record.beReportedMsgId,jdbcType=BIGINT},
+      </if>
+      <if test="record.context != null" >
+        CONTEXT = #{record.context,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reportType != null" >
+        REPORT_TYPE = #{record.reportType,jdbcType=INTEGER},
+      </if>
+      <if test="record.reportUserId != null" >
+        REPORT_USER_ID = #{record.reportUserId,jdbcType=BIGINT},
+      </if>
+      <if test="record.createTime != null" >
+        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.dealStatus != null" >
+        DEAL_STATUS = #{record.dealStatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.dealResult != null" >
+        DEAL_RESULT = #{record.dealResult,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_message_reported
+    set REPORTED_ID = #{record.reportedId,jdbcType=BIGINT},
+      BE_REPORTED_USER_ID = #{record.beReportedUserId,jdbcType=BIGINT},
+      BE_REPORTED_MSG_ID = #{record.beReportedMsgId,jdbcType=BIGINT},
+      CONTEXT = #{record.context,jdbcType=VARCHAR},
+      REPORT_TYPE = #{record.reportType,jdbcType=INTEGER},
+      REPORT_USER_ID = #{record.reportUserId,jdbcType=BIGINT},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      DEAL_STATUS = #{record.dealStatus,jdbcType=INTEGER},
+      DEAL_RESULT = #{record.dealResult,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xinfan.msgbox.service.dao.entity.MessageReported" >
+    update t_message_reported
+    <set >
+      <if test="beReportedUserId != null" >
+        BE_REPORTED_USER_ID = #{beReportedUserId,jdbcType=BIGINT},
+      </if>
+      <if test="beReportedMsgId != null" >
+        BE_REPORTED_MSG_ID = #{beReportedMsgId,jdbcType=BIGINT},
+      </if>
+      <if test="context != null" >
+        CONTEXT = #{context,jdbcType=VARCHAR},
+      </if>
+      <if test="reportType != null" >
+        REPORT_TYPE = #{reportType,jdbcType=INTEGER},
+      </if>
+      <if test="reportUserId != null" >
+        REPORT_USER_ID = #{reportUserId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dealStatus != null" >
+        DEAL_STATUS = #{dealStatus,jdbcType=INTEGER},
+      </if>
+      <if test="dealResult != null" >
+        DEAL_RESULT = #{dealResult,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where REPORTED_ID = #{reportedId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xinfan.msgbox.service.dao.entity.MessageReported" >
+    update t_message_reported
+    set BE_REPORTED_USER_ID = #{beReportedUserId,jdbcType=BIGINT},
+      BE_REPORTED_MSG_ID = #{beReportedMsgId,jdbcType=BIGINT},
+      CONTEXT = #{context,jdbcType=VARCHAR},
+      REPORT_TYPE = #{reportType,jdbcType=INTEGER},
+      REPORT_USER_ID = #{reportUserId,jdbcType=BIGINT},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      DEAL_STATUS = #{dealStatus,jdbcType=INTEGER},
+      DEAL_RESULT = #{dealResult,jdbcType=VARCHAR}
+    where REPORTED_ID = #{reportedId,jdbcType=BIGINT}
+  </update>
+</mapper>
