@@ -25,7 +25,7 @@
 		<dependencies>
 			<dependency>
 				<groupId>com.xinfan</groupId>
-				<artifactId>blueserver-common</artifactId>
+				<artifactId>bulu-common</artifactId>
 				<version>${blueserver-version}</version>
 			</dependency>
 
