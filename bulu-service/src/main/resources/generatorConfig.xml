@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+
+	<classPathEntry
+		location="E:\xinfan\svn\mbox-server\msgbox-parent\msgbox-lib\mysql-connector-java-5.1.33.jar" />
+
+	<context id="msgbox" targetRuntime="MyBatis3">
+		<commentGenerator>
+			<property name="suppressAllComments" value="true" />
+		</commentGenerator>
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
+			connectionURL="jdbc:mysql://127.0.0.1:3306/msgbox?useUnicode=true&amp;characterEncoding=UTF-8"
+			userId="msgbox" password="msgbox">
+		</jdbcConnection>
+
+		<javaTypeResolver>
+			<property name="forceBigDecimals" value="false" />
+		</javaTypeResolver>
+
+		<javaModelGenerator targetPackage="com.xinfan.msgbox.service.dao.entity"
+			targetProject="msgbox-service">
+			<property name="enableSubPackages" value="true" />
+			<property name="trimStrings" value="true" />
+		</javaModelGenerator>
+
+		<!-- -->
+		<sqlMapGenerator targetPackage="com.xinfan.msgbox.service.dao"
+			targetProject="msgbox-service">
+			<property name="enableSubPackages" value="true" />
+		</sqlMapGenerator>
+
+		<javaClientGenerator type="XMLMAPPER"
+			targetPackage="com.xinfan.msgbox.service.dao" targetProject="msgbox-service">
+			<property name="enableSubPackages" value="true" />
+		</javaClientGenerator>
+
+<!-- 		<table tableName="t_area" domainObjectName="Area"/> -->
+<!-- 		<table tableName="t_client_type" domainObjectName="ClientType"/> -->
+<!-- 		<table tableName="t_client_version" domainObjectName="ClientVersion"/> -->
+<!-- 		<table tableName="t_config" domainObjectName="Config"/> -->
+		
+		
+<!-- 		<table tableName="t_message" domainObjectName="Message"/> -->
+<!-- 		<table tableName="t_message_received" domainObjectName="MessageReceived"/> -->
+ 		<table tableName="t_message_send" domainObjectName="MessageSend"/> 
+<!-- 		<table tableName="t_message_reply" domainObjectName="MessageReply"/> -->
+<!-- 		<table tableName="t_message_reported" domainObjectName="MessageReported"/> -->
+		
+<!--  		<table tableName="t_user" domainObjectName="User"/> -->
+<!-- 		<table tableName="t_user_balance" domainObjectName="UserBalance"/> -->
+<!-- 		<table tableName="t_user_balance_his" domainObjectName="UserBalanceHis"/> -->
+<!-- 		<table tableName="t_user_key" domainObjectName="UserKey"/> -->
+<!-- 		<table tableName="t_user_linkman" domainObjectName="UserLinkman"/> -->
+<!-- 		<table tableName="t_user_login" domainObjectName="UserLogin"/> -->
+<!-- 		<table tableName="t_user_sent" domainObjectName="UserSent"/> -->
+<!-- 		<table tableName="t_user_set" domainObjectName="UserSet"/> -->
+<!-- 		<TABLE TABLENAME="T_USER_VIP" DOMAINOBJECTNAME="USERVIP"/> -->
+<!-- 		<TABLE TABLENAME="T_USER_VIP_HIS" DOMAINOBJECTNAME="USERVIPHIS"/> -->
+		
+		
+	</context>
+</generatorConfiguration>

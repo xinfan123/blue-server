@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xinfan.msgbox.service.dao.UserVipMapper" >
+  <resultMap id="BaseResultMap" type="com.xinfan.msgbox.service.dao.entity.UserVip" >
+    <id column="USER_ID" property="userId" jdbcType="BIGINT" />
+    <result column="VIP_TATUS" property="vipTatus" jdbcType="INTEGER" />
+    <result column="VIP_REG_TIME" property="vipRegTime" jdbcType="TIMESTAMP" />
+    <result column="VIP_END_TIME" property="vipEndTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    USER_ID, VIP_TATUS, VIP_REG_TIME, VIP_END_TIME
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xinfan.msgbox.service.dao.entity.UserVipExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_user_vip
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_user_vip
+    where USER_ID = #{userId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_user_vip
+    where USER_ID = #{userId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.xinfan.msgbox.service.dao.entity.UserVipExample" >
+    delete from t_user_vip
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.xinfan.msgbox.service.dao.entity.UserVip" >
+    insert into t_user_vip (USER_ID, VIP_TATUS, VIP_REG_TIME, 
+      VIP_END_TIME)
+    values (#{userId,jdbcType=BIGINT}, #{vipTatus,jdbcType=INTEGER}, #{vipRegTime,jdbcType=TIMESTAMP}, 
+      #{vipEndTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xinfan.msgbox.service.dao.entity.UserVip" >
+    insert into t_user_vip
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+      <if test="vipTatus != null" >
+        VIP_TATUS,
+      </if>
+      <if test="vipRegTime != null" >
+        VIP_REG_TIME,
+      </if>
+      <if test="vipEndTime != null" >
+        VIP_END_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="vipTatus != null" >
+        #{vipTatus,jdbcType=INTEGER},
+      </if>
+      <if test="vipRegTime != null" >
+        #{vipRegTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="vipEndTime != null" >
+        #{vipEndTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.xinfan.msgbox.service.dao.entity.UserVipExample" resultType="java.lang.Integer" >
+    select count(*) from t_user_vip
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_user_vip
+    <set >
+      <if test="record.userId != null" >
+        USER_ID = #{record.userId,jdbcType=BIGINT},
+      </if>
+      <if test="record.vipTatus != null" >
+        VIP_TATUS = #{record.vipTatus,jdbcType=INTEGER},
+      </if>
+      <if test="record.vipRegTime != null" >
+        VIP_REG_TIME = #{record.vipRegTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.vipEndTime != null" >
+        VIP_END_TIME = #{record.vipEndTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_user_vip
+    set USER_ID = #{record.userId,jdbcType=BIGINT},
+      VIP_TATUS = #{record.vipTatus,jdbcType=INTEGER},
+      VIP_REG_TIME = #{record.vipRegTime,jdbcType=TIMESTAMP},
+      VIP_END_TIME = #{record.vipEndTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xinfan.msgbox.service.dao.entity.UserVip" >
+    update t_user_vip
+    <set >
+      <if test="vipTatus != null" >
+        VIP_TATUS = #{vipTatus,jdbcType=INTEGER},
+      </if>
+      <if test="vipRegTime != null" >
+        VIP_REG_TIME = #{vipRegTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="vipEndTime != null" >
+        VIP_END_TIME = #{vipEndTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where USER_ID = #{userId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xinfan.msgbox.service.dao.entity.UserVip" >
+    update t_user_vip
+    set VIP_TATUS = #{vipTatus,jdbcType=INTEGER},
+      VIP_REG_TIME = #{vipRegTime,jdbcType=TIMESTAMP},
+      VIP_END_TIME = #{vipEndTime,jdbcType=TIMESTAMP}
+    where USER_ID = #{userId,jdbcType=BIGINT}
+  </update>
+</mapper>

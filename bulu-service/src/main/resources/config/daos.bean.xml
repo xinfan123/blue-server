@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://code.alibabatech.com/schema/dubbo
+        http://code.alibabatech.com/schema/dubbo/dubbo.xsd
+        ">
+
+	<bean id="AreaDao" class="com.xinfan.msgbox.service.dao.AreaDao">
+		<property name="namespace" value="com.xinfan.msgbox.service.dao.AreaMapper" />
+		<property name="sqlSession" ref="sqlSession" />
+	</bean>
+	<bean id="ClientTypeDao" class="com.xinfan.msgbox.service.dao.ClientTypeDao">
+		<property name="namespace" value="com.xinfan.msgbox.service.dao.ClientTypeMapper" />
+		<property name="sqlSession" ref="sqlSession" />
+	</bean>
+	<bean id="ClientVersionDao" class="com.xinfan.msgbox.service.dao.ClientVersionDao">
+		<property name="namespace" value="com.xinfan.msgbox.service.dao.ClientVersionMapper" />
+		<property name="sqlSession" ref="sqlSession" />
+	</bean>
+	<bean id="ConfigDao" class="com.xinfan.msgbox.service.dao.ConfigDao">
+		<property name="namespace" value="com.xinfan.msgbox.service.dao.ConfigMapper" />
+		<property name="sqlSession" ref="sqlSession" />
+	</bean>
+	<bean id="MessageDao" class="com.xinfan.msgbox.service.dao.MessageDao">
+		<property name="namespace" value="com.xinfan.msgbox.service.dao.MessageMapper" />
+		<property name="sqlSession" ref="sqlSession" />
+	</bean>
+	<bean id="MessageReceivedDao" class="com.xinfan.msgbox.service.dao.MessageReceivedDao">
+		<property name="namespace" value="com.xinfan.msgbox.service.dao.MessageReceivedMapper" />
+		<property name="sqlSession" ref="sqlSession" />
+	</bean>
+	<bean id="MessageSendDao" class="com.xinfan.msgbox.service.dao.MessageSendDao">
+		<property name="namespace" value="com.xinfan.msgbox.service.dao.MessageSendMapper" />
+		<property name="sqlSession" ref="sqlSession" />
+	</bean>
+	<bean id="MessageReplyDao" class="com.xinfan.msgbox.service.dao.MessageReplyDao">
+		<property name="namespace" value="com.xinfan.msgbox.service.dao.MessageReplyMapper" />
+		<property name="sqlSession" ref="sqlSession" />
+	</bean>
+	<bean id="MessageReportedDao" class="com.xinfan.msgbox.service.dao.MessageReportedDao">
+		<property name="namespace" value="com.xinfan.msgbox.service.dao.MessageReportedMapper" />
+		<property name="sqlSession" ref="sqlSession" />
+	</bean>
+	<bean id="UserDao" class="com.xinfan.msgbox.service.dao.UserDao">
+		<property name="namespace" value="com.xinfan.msgbox.service.dao.UserMapper" />
+		<property name="sqlSession" ref="sqlSession" />
+	</bean>
+	<bean id="UserBalanceDao" class="com.xinfan.msgbox.service.dao.UserBalanceDao">
+		<property name="namespace" value="com.xinfan.msgbox.service.dao.UserBalanceMapper" />
+		<property name="sqlSession" ref="sqlSession" />
+	</bean>
+	<bean id="UserBalanceHisDao" class="com.xinfan.msgbox.service.dao.UserBalanceHisDao">
+		<property name="namespace" value="com.xinfan.msgbox.service.dao.UserBalanceHisMapper" />
+		<property name="sqlSession" ref="sqlSession" />
+	</bean>
+	<bean id="UserKeyDao" class="com.xinfan.msgbox.service.dao.UserKeyDao">
+		<property name="namespace" value="com.xinfan.msgbox.service.dao.UserKeyMapper" />
+		<property name="sqlSession" ref="sqlSession" />
+	</bean>
+	<bean id="UserLinkmanDao" class="com.xinfan.msgbox.service.dao.UserLinkmanDao">
+		<property name="namespace" value="com.xinfan.msgbox.service.dao.UserLinkmanMapper" />
+		<property name="sqlSession" ref="sqlSession" />
+	</bean>
+	<bean id="UserLoginDao" class="com.xinfan.msgbox.service.dao.UserLoginDao">
+		<property name="namespace" value="com.xinfan.msgbox.service.dao.UserLoginMapper" />
+		<property name="sqlSession" ref="sqlSession" />
+	</bean>
+	<bean id="UserSentDao" class="com.xinfan.msgbox.service.dao.UserSentDao">
+		<property name="namespace" value="com.xinfan.msgbox.service.dao.UserSentMapper" />
+		<property name="sqlSession" ref="sqlSession" />
+	</bean>
+	<bean id="UserSetDao" class="com.xinfan.msgbox.service.dao.UserSetDao">
+		<property name="namespace" value="com.xinfan.msgbox.service.dao.UserSetMapper" />
+		<property name="sqlSession" ref="sqlSession" />
+	</bean>
+	<bean id="UserVipDao" class="com.xinfan.msgbox.service.dao.UserVipDao">
+		<property name="namespace" value="com.xinfan.msgbox.service.dao.UserVipMapper" />
+		<property name="sqlSession" ref="sqlSession" />
+	</bean>
+	<bean id="UserVipHisDao" class="com.xinfan.msgbox.service.dao.UserVipHisDao">
+		<property name="namespace" value="com.xinfan.msgbox.service.dao.UserVipHisMapper" />
+		<property name="sqlSession" ref="sqlSession" />
+	</bean>
+
+</beans>
