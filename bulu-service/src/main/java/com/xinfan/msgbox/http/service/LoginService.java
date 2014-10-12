@@ -59,7 +59,7 @@ public class LoginService extends BaseService {
 		}
 
 		if (!param.getPasswd().equals(user.getPasswd())) {
-			return new LoginResult().success("密码不正确");
+			return new LoginResult().paramIllgal("密码不正确");
 		}
 		
 
