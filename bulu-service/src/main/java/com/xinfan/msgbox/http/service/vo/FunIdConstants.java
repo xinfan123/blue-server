@@ -16,6 +16,7 @@ import com.xinfan.msgbox.http.service.vo.param.ValidCodeParam;
 import com.xinfan.msgbox.http.service.vo.result.BaseResult;
 import com.xinfan.msgbox.http.service.vo.result.ClientVersionListResult;
 import com.xinfan.msgbox.http.service.vo.result.ConfigListResult;
+import com.xinfan.msgbox.http.service.vo.result.LoginResult;
 import com.xinfan.msgbox.http.service.vo.result.MessageListResult;
 import com.xinfan.msgbox.http.service.vo.result.MessageResult;
 import com.xinfan.msgbox.http.service.vo.result.UserLinkmanListResult;
@@ -57,7 +58,7 @@ public enum FunIdConstants {
 	
 	/*************用户登陆相关部分*************/
 	//登陆
-	LOGIN("login",LoginParam.class,BaseResult.class),
+	LOGIN("login",LoginParam.class,LoginResult.class),
 	//获取登陆验证码
 	GET_LOGIN_VALID_CODE("getLoginValidCode",ValidCodeParam.class,ValidCodeResult.class),
 	//退出
