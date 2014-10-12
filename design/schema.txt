@@ -1,0 +1,16 @@
+ DELETE FROM user WHERE User="msgbox" and Host="localhost";
+ flush privileges;
+ drop database msgbox;
+ 
+ insert into mysql.user(Host,User,Password) values("localhost","msgbox",password("msgbox"));
+ 
+ flush privileges;
+ 
+  CREATE SCHEMA `msgbox` DEFAULT CHARACTER SET utf8 ;
+ 
+ grant all privileges on msgbox.* to msgbox@localhost identified by 'msgbox';
+ flush privileges;
+ 
+
+
+set FOREIGN_KEY_CHECKS =0;
