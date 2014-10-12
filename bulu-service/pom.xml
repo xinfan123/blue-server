@@ -10,13 +10,11 @@
 	<artifactId>bulu-service</artifactId>
 	<packaging>war</packaging>
 
-
 	<dependencies>
 		<dependency>
 			<groupId>com.xinfan</groupId>
-			<artifactId>blueserver-common</artifactId>
+			<artifactId>bulu-common</artifactId>
 		</dependency>
-
 
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>

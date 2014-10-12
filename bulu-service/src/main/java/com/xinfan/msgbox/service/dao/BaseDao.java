@@ -10,7 +10,7 @@ import com.xinfan.msgbox.service.dao.dal.SqlSessionDaoSupport;
 public class BaseDao<T,V> extends SqlSessionDaoSupport {
 
 	public int deleteByPrimaryKey(Object obj) {
-		return this.getSqlSession().delete(wrapCommand("deleteByPrimaryKey"), obj);
+		return (Integer)this.getSqlSession().delete(wrapCommand("deleteByPrimaryKey"), obj);
 	}
 
 	public int insertSelective(T record) {
