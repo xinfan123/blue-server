@@ -4,13 +4,13 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.xinfan</groupId>
-	<artifactId>blueserver-parent</artifactId>
+	<artifactId>bulu-parent</artifactId>
 	<version>1.0.1</version>
 	<packaging>pom</packaging>
 
 	<modules>
-		<module>blueserver-common</module>
-		<module>blueserver-service</module>
+		<module>bulu-common</module>
+		<module>bulu-service</module>
 		<!--<module>mbr-de</module> -->
 	</modules>
 
