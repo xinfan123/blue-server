@@ -17,8 +17,10 @@ import com.xinfan.msgbox.config.ServiceMeta;
 import com.xinfan.msgbox.config.WsFileConfig;
 import com.xinfan.msgbox.http.common.ServiceContext;
 import com.xinfan.msgbox.http.context.AppContextHolder;
+import com.xinfan.msgbox.http.service.BaseService;
 import com.xinfan.msgbox.http.service.vo.param.BaseParam;
 import com.xinfan.msgbox.http.service.vo.result.BaseResult;
+import com.xinfan.msgbox.service.dao.entity.User;
 
 /**
  * http 服务调用类
@@ -59,6 +61,12 @@ public class ServiceExecuter {
 			logger.info("################# start invoke service " + meta.getId() + " ");
 			logger.debug("################# invoke service " + meta.getId() + " input paramters ： ");
 
+			//做登陆校验
+			boolean isLogin = checkLogin(request, meta, param);
+			if (!isLogin) {
+				return new BaseResult().noPrivilege("没有登陆");
+			}
+			
 			// 作权限判定
 			boolean toInvoke = doPrivilege(request, meta, param);
 			if (!toInvoke) {
@@ -88,6 +96,8 @@ public class ServiceExecuter {
 			decreaseConcurrentCount(meta);
 		}
 	}
+
+
 
 	/**
 	 * 并发计数
@@ -119,6 +129,17 @@ public class ServiceExecuter {
 	private static boolean doPrivilege(HttpServletRequest request, ServiceMeta meta, BaseParam param) {
 		return true;
 	}
+	private static boolean checkLogin(HttpServletRequest request,
+			ServiceMeta meta, BaseParam param) {
+		if(meta.isLogin()){
+			User user = BaseService.getUserFromSession();
+			if(user == null || user.getUserId() <= 0){
+				return false;
+			}
+		}
+		return true;
+	}
+	
 
 	public static BaseResult invoke(ServiceMeta meta, BaseParam param) throws Exception {
 		String bean = meta.getBean();
