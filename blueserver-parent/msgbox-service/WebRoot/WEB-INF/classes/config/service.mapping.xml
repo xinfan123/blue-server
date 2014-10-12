@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<service-map>
-	
-	<!-- 用户部分 -->
-    <service id="userRegister" bean="UserService" method="register" name="注册用户"  />
-    <service id="getValidCode" bean="UserService" method="getValidCode" name="获取验证码"  />
-    <service id="getUserInfo" bean="UserService" method="getUserInfo" name="获取用户基本信息"  />
-</service-map>
