@@ -43,4 +43,5 @@
     <service funId="getClientVersionList" bean="SysGloableService" method="getClientVersionList" name="获取客户端版本号"/>
      
     
+  	<service id="userLogin" bean="LoginService" method="login" name="登录"  />
 </service-map>

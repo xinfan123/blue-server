@@ -45,9 +45,11 @@ public class LoginService extends BaseService{
 		if(StringUtils.isEmpty(param.getValidCode())){
 			return new BaseResult().paramIllgal("验证码为空或不合法");
 		}
-		if(!param.getValidCode().equals(ServiceContext.getRequest().getSession().getAttribute(USER_LOGIN_VALID_CODE_SESSION_KEY))){
+		
+		//先注释掉，影响流程
+/*		if(!param.getValidCode().equals(ServiceContext.getRequest().getSession().getAttribute(USER_LOGIN_VALID_CODE_SESSION_KEY))){
 			return new BaseResult().paramIllgal("验证码不匹配");
-		}
+		}*/
 		
 		User user = userDao.selectByMobile(param.getMobile());
 		if(Md5PwdFactory.getUserMd5PwdEncoder().encodePassword(param.getPasswd()).equals(user.getPasswd())){

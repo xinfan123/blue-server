@@ -2,12 +2,12 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<artifactId>blueserver-parent</artifactId>
+		<artifactId>bulu-parent</artifactId>
 		<groupId>com.xinfan</groupId>
 		<version>1.0.1</version>
 	</parent>
 
-	<artifactId>blueserver-service</artifactId>
+	<artifactId>bulu-service</artifactId>
 	<packaging>war</packaging>
 
 
