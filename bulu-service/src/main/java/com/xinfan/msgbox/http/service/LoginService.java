@@ -3,6 +3,8 @@ package com.xinfan.msgbox.http.service;
 import java.util.Random;
 
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.xinfan.msgbox.common.security.Md5PwdFactory;
@@ -20,6 +22,9 @@ import com.xinfan.msgbox.service.dao.UserDao;
 import com.xinfan.msgbox.service.dao.entity.User;
 
 public class LoginService extends BaseService {
+
+	private static Logger logger = LoggerFactory.getLogger(LoginService.class);
+
 	@Autowired
 	UserDao userDao;
 
@@ -61,18 +66,17 @@ public class LoginService extends BaseService {
 		if (!param.getPasswd().equals(user.getPasswd())) {
 			return new LoginResult().paramIllgal("密码不正确");
 		}
-		
 
 		ServiceContext.getRequest().getSession().setAttribute(USER_SESSION_KEY, user);
-		
+
 		LoginResult login = new LoginResult().success("登陆成功");
-		
+
 		login.setUserId(user.getUserId());
 		login.setUserName(user.getUserName());
 		login.setMobile(user.getMobile());
 		login.setRegTime(user.getRegTime());
 		login.setRegEarea(user.getRegEarea());
-		
+
 		return login;
 	}
 
@@ -98,6 +102,11 @@ public class LoginService extends BaseService {
 	 */
 	public BaseResult logout(BaseParam param) {
 		ServiceContext.getRequest().getSession().removeAttribute(USER_SESSION_KEY);
+
+		Long userid = param.getUserId();
+
+		logger.info("userid : " + userid + " is logout ");
+
 		return new BaseResult().success("退出成功");
 	}
 
