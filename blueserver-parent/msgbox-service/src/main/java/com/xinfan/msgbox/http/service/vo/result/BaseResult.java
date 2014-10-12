@@ -1,5 +1,9 @@
 package com.xinfan.msgbox.http.service.vo.result;
 
+import java.util.Map;
+
+import org.apache.commons.beanutils.PropertyUtils;
+
 public class BaseResult {
 	/**
 	 * 服务器未知异常
@@ -50,7 +54,10 @@ public class BaseResult {
 
 	
 
-
+	public String getMsg() {
+		return msg;
+	}
+	
 	public void setMsg(String msg) {
 		this.msg = msg;
 	}
@@ -98,5 +105,16 @@ public class BaseResult {
 		this.result = BIZ_EXCEPTION;
 		return (T)this; 
 	}
-
+	
+	@Override
+	public String toString() {
+		try {
+			Map<String,Object> map= PropertyUtils.describe(this);
+			return map.toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "tostring error!!!!";
+		} 
+		
+	}
 }

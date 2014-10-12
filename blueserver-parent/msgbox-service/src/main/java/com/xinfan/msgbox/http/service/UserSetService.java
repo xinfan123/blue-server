@@ -15,10 +15,11 @@ import com.xinfan.msgbox.common.security.Md5PwdFactory;
 import com.xinfan.msgbox.http.common.ServiceContext;
 import com.xinfan.msgbox.http.service.vo.param.BaseParam;
 import com.xinfan.msgbox.http.service.vo.param.RegisterParam;
-import com.xinfan.msgbox.http.service.vo.param.UserInfoParam;
 import com.xinfan.msgbox.http.service.vo.param.UserLinkmanParam;
 import com.xinfan.msgbox.http.service.vo.param.UserReportMessageParam;
 import com.xinfan.msgbox.http.service.vo.param.UserSentParam;
+import com.xinfan.msgbox.http.service.vo.param.UserSetParam;
+import com.xinfan.msgbox.http.service.vo.param.ValidCodeParam;
 import com.xinfan.msgbox.http.service.vo.result.BaseResult;
 import com.xinfan.msgbox.http.service.vo.result.ValidCodeResult;
 import com.xinfan.msgbox.service.dao.MessageDao;
@@ -60,7 +61,7 @@ public class UserSetService extends BaseService{
 	 * @param param
 	 * @return
 	 */
-	public BaseResult register(RegisterParam param) {
+	public BaseResult userRegister(RegisterParam param) {
 		if(param == null){
 			return new BaseResult().paramIllgal("获取参数失败");
 		}
@@ -71,9 +72,9 @@ public class UserSetService extends BaseService{
 			return new BaseResult().paramIllgal("密码为空或不合法");
 		}
 		
-//		if(StringUtils.isEmpty(param.getValidCode()) || !param.getValidCode().equals(ServiceContext.getRequest().getSession().getAttribute(login_valid_code_key))){
-//			return new UserRegisterResult().paramIllgal("验证码为空或不匹配");
-//		}
+		if(StringUtils.isEmpty(param.getValidCode()) || !param.getValidCode().equals(ServiceContext.getRequest().getSession().getAttribute(USER_REGISTER_VALID_CODE_SESSION_KEY))){
+			return new BaseResult().paramIllgal("验证码为空或不匹配");
+		}
 		UserExample example = new UserExample();
 		example.createCriteria().andMobileEqualTo(param.getMobile());
 		List<User> userList =  userDao.selectByExample(example);
@@ -124,7 +125,7 @@ public class UserSetService extends BaseService{
 	 * @param param
 	 * @return
 	 */
-	public ValidCodeResult getValidCode(BaseParam param) {
+	public ValidCodeResult getUserRegisterValidCode(ValidCodeParam param) {
 		ValidCodeResult rs = new ValidCodeResult();
 		String random = new Random().nextInt(9999) + "";
 		ServiceContext.getRequest().getSession().setAttribute(USER_REGISTER_VALID_CODE_SESSION_KEY,random);
@@ -139,7 +140,7 @@ public class UserSetService extends BaseService{
 	 * @param param
 	 * @return
 	 */
-	public BaseResult setUserSet(UserInfoParam param) throws Exception{
+	public BaseResult setUserSet(UserSetParam param) throws Exception{
 		if(param == null){
 			return new BaseResult().paramIllgal("获取参数失败");
 		}
@@ -211,7 +212,7 @@ public class UserSetService extends BaseService{
 	 * @param param
 	 * @return
 	 */
-	public BaseResult deleteUserList(UserLinkmanParam param) throws Exception {
+	public BaseResult deleteUserLinkman(UserLinkmanParam param) throws Exception {
 		if(param.getUserId() == null || param.getLinkUserId() == null){
 			return new BaseResult().paramIllgal("用户ID或联系人用户ID不存在");
 		}
@@ -250,7 +251,7 @@ public class UserSetService extends BaseService{
 	 * @param param
 	 * @return
 	 */
-	public BaseResult delteteUserSent(UserSentParam param) throws Exception{
+	public BaseResult deleteUserSent(UserSentParam param) throws Exception{
 		if(param.getId() == null || param.getId() == null){
 			return new BaseResult().paramIllgal("ID不存在");
 		}

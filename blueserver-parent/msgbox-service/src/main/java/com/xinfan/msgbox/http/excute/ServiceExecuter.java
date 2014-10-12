@@ -12,11 +12,11 @@ import org.springframework.context.ApplicationContext;
 
 import com.xinfan.msgbox.common.BizException;
 import com.xinfan.msgbox.common.MapUtils;
-import com.xinfan.msgbox.config.ServiceMapConfig;
-import com.xinfan.msgbox.config.ServiceMeta;
-import com.xinfan.msgbox.config.WsFileConfig;
 import com.xinfan.msgbox.http.common.ServiceContext;
 import com.xinfan.msgbox.http.context.AppContextHolder;
+import com.xinfan.msgbox.http.excute.mapper.ServiceMapConfig;
+import com.xinfan.msgbox.http.excute.mapper.ServiceMeta;
+import com.xinfan.msgbox.http.excute.mapper.WsFileConfig;
 import com.xinfan.msgbox.http.service.BaseService;
 import com.xinfan.msgbox.http.service.vo.param.BaseParam;
 import com.xinfan.msgbox.http.service.vo.result.BaseResult;
@@ -58,8 +58,8 @@ public class ServiceExecuter {
 		}
 		
 		try {
-			logger.info("################# start invoke service " + meta.getId() + " ");
-			logger.debug("################# invoke service " + meta.getId() + " input paramters ： ");
+			logger.info("################# start invoke service " + meta.getFunId() + " ");
+			logger.debug("################# invoke service " + meta.getFunId() + " input paramters ： ");
 
 			//做登陆校验
 			boolean isLogin = checkLogin(request, meta, param);
@@ -77,20 +77,20 @@ public class ServiceExecuter {
 			
 			BaseResult rs = invoke(meta, param);
 
-			logger.info("################# invoke service " + meta.getId() + " success");
+			logger.info("################# invoke service " + meta.getFunId() + " success");
 			return rs;
 		} catch (ConcurrentException e) {
 			logger.error(e.getMessage(), e);
-			logger.info("################# invoke service " + meta.getId() + " error");
+			logger.info("################# invoke service " + meta.getFunId() + " error");
 			return new BaseResult().maxConcurrent("已达并发上限，请稍后传送");
 		}catch (BizException e) {
 			logger.error(e.getMessage(), e);
-			logger.info("################# invoke service " + meta.getId() + " error");
+			logger.info("################# invoke service " + meta.getFunId() + " error");
 			return new BaseResult().bizException("业务处理异常,exception:"+e.getMessage());
 		} 
 		catch (Exception e) {
 			logger.error(e.getMessage(), e);
-			logger.info("################# invoke service " + meta.getId() + " error");
+			logger.info("################# invoke service " + meta.getFunId() + " error");
 			return new BaseResult().unKnownException("未知处理异常,exception:"+e.getMessage());
 		} finally {
 			decreaseConcurrentCount(meta);

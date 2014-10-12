@@ -8,8 +8,8 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 
+import com.xinfan.msgbox.http.service.vo.param.BaseParam;
 import com.xinfan.msgbox.http.service.vo.param.ClientVersionParam;
-import com.xinfan.msgbox.http.service.vo.param.UserInfoParam;
 import com.xinfan.msgbox.http.service.vo.result.ClientVersionListResult;
 import com.xinfan.msgbox.http.service.vo.result.ClientVersionResult;
 import com.xinfan.msgbox.http.service.vo.result.ConfigListResult;
@@ -30,7 +30,7 @@ public class SysGloableService {
 	/**
 	 * 获取系统配置接口
 	 */
-	public ConfigListResult getConfigList(UserInfoParam param)throws Exception {
+	public ConfigListResult getConfigList(BaseParam param)throws Exception {
 		ConfigExample example = new ConfigExample();
 		List<Config> list = configDao.selectByExample(example);
 		

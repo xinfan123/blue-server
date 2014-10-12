@@ -6,11 +6,8 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.xinfan.msgbox.http.service.vo.param.BaseParam;
 import com.xinfan.msgbox.http.service.vo.param.MessageParam;
-import com.xinfan.msgbox.http.service.vo.param.UserInfoParam;
 import com.xinfan.msgbox.http.service.vo.result.BaseResult;
-import com.xinfan.msgbox.http.service.vo.result.UserInfoResult;
 import com.xinfan.msgbox.service.dao.MessageDao;
 import com.xinfan.msgbox.service.dao.MessageSendDao;
 import com.xinfan.msgbox.service.dao.UserBalanceDao;

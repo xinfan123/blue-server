@@ -14,6 +14,7 @@ import com.xinfan.msgbox.http.service.vo.param.UserLinkmanListParam;
 import com.xinfan.msgbox.http.service.vo.result.BaseResult;
 import com.xinfan.msgbox.http.service.vo.result.UserLinkmanListResult;
 import com.xinfan.msgbox.http.service.vo.result.UserLinkmanResult;
+import com.xinfan.msgbox.http.service.vo.result.UserResult;
 import com.xinfan.msgbox.http.service.vo.result.UserSentListResult;
 import com.xinfan.msgbox.http.service.vo.result.UserSentResult;
 import com.xinfan.msgbox.http.service.vo.result.UserSetResult;
@@ -24,10 +25,12 @@ import com.xinfan.msgbox.service.dao.UserSentDao;
 import com.xinfan.msgbox.service.dao.UserSetDao;
 import com.xinfan.msgbox.service.dao.UserVipDao;
 import com.xinfan.msgbox.service.dao.entity.User;
+import com.xinfan.msgbox.service.dao.entity.UserBalance;
 import com.xinfan.msgbox.service.dao.entity.UserLinkman;
 import com.xinfan.msgbox.service.dao.entity.UserSent;
 import com.xinfan.msgbox.service.dao.entity.UserSentExample;
 import com.xinfan.msgbox.service.dao.entity.UserSet;
+import com.xinfan.msgbox.service.dao.entity.UserVip;
 
 public class UserGetService {
 	@Autowired
@@ -42,6 +45,35 @@ public class UserGetService {
 	UserLinkmanDao userLinkmanDao;
 	@Autowired
 	UserSentDao userSentDao;
+	
+	/**
+	 * 用户获取接口
+	 */
+	public UserResult getUser(BaseParam param) throws Exception{
+		if(param.getUserId() == null || param.getUserId() == null){
+			return new UserResult().paramIllgal("用户ID不能为空");
+		}
+		
+		UserResult rs = new UserResult();
+		User user = userDao.selectByPrimaryKey(param.getUserId());
+		if(user != null){
+			BeanUtils.copyProperties(rs, user);
+		}else{
+			return new UserResult().paramIllgal("用户不存在");
+		}
+		
+		UserVip vip = userVipDao.selectByPrimaryKey(param.getUserId());
+		if(vip != null){
+			BeanUtils.copyProperties(rs, vip);
+		}
+		
+		UserBalance balance = userBalanceDao.selectByPrimaryKey(param.getUserId());
+		if(balance != null){
+			BeanUtils.copyProperties(rs, balance);
+		}
+		rs.setMsg("获取用户信息成功");
+		return rs;
+	}
 	
 	/**
 	 * 用户联系人获取接口

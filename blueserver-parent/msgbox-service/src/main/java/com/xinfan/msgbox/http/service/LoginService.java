@@ -11,6 +11,7 @@ import com.xinfan.msgbox.http.service.vo.param.BaseParam;
 import com.xinfan.msgbox.http.service.vo.param.ChangePasswdAfterLoginParam;
 import com.xinfan.msgbox.http.service.vo.param.ChangePasswdBeforeLoginParam;
 import com.xinfan.msgbox.http.service.vo.param.LoginParam;
+import com.xinfan.msgbox.http.service.vo.param.ValidCodeParam;
 import com.xinfan.msgbox.http.service.vo.result.BaseResult;
 import com.xinfan.msgbox.http.service.vo.result.UserInfoResult;
 import com.xinfan.msgbox.http.service.vo.result.ValidCodeResult;
@@ -50,6 +51,7 @@ public class LoginService extends BaseService{
 		
 		User user = userDao.selectByMobile(param.getMobile());
 		if(Md5PwdFactory.getUserMd5PwdEncoder().encodePassword(param.getPasswd()).equals(user.getPasswd())){
+			ServiceContext.getRequest().getSession().setAttribute(USER_SESSION_KEY, user);
 			return new BaseResult().success("登陆成功");
 		}else{
 			return new BaseResult().paramIllgal("密码错误");
@@ -62,7 +64,7 @@ public class LoginService extends BaseService{
 	 * @param param
 	 * @return
 	 */
-	public ValidCodeResult getValidCode(BaseParam param) {
+	public ValidCodeResult getLoginValidCode(ValidCodeParam param) {
 		ValidCodeResult rs = new ValidCodeResult();
 		String random = new Random().nextInt(9999) + "";
 		ServiceContext.getRequest().getSession().setAttribute(USER_LOGIN_VALID_CODE_SESSION_KEY,random);
@@ -85,7 +87,7 @@ public class LoginService extends BaseService{
 	 * @param param
 	 * @return
 	 */
-	public UserInfoResult changePassWdAfterLogin(ChangePasswdAfterLoginParam param) {
+	public BaseResult changePassWdAfterLogin(ChangePasswdAfterLoginParam param) {
 		if(param == null){
 			return new BaseResult().paramIllgal("获取参数失败");
 		}

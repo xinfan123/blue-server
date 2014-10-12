@@ -1,6 +1,6 @@
 package com.xinfan.msgbox.http.service.vo.param;
 
-public class ValidCodeParam {
+public class ValidCodeParam extends BaseParam{
 	private String mobile;
 
 	public String getMobile() {

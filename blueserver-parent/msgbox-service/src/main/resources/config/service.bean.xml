@@ -8,6 +8,11 @@
         "
 	default-lazy-init="true">
  	 
- 	 <bean id="UserService" class="com.xinfan.msgbox.http.service.UserService" />
+ 	 <bean id="UserSetService" class="com.xinfan.msgbox.http.service.UserSetService" />
+ 	 <bean id="UserGetService" class="com.xinfan.msgbox.http.service.UserGetService" />
+ 	 <bean id="LoginService" class="com.xinfan.msgbox.http.service.LoginService" />
+ 	 <bean id="MessageSetService" class="com.xinfan.msgbox.http.service.MessageSetService" />
+ 	 <bean id="MessageGetService" class="com.xinfan.msgbox.http.service.MessageGetService" />
+ 	 <bean id="SysGloableService" class="com.xinfan.msgbox.http.service.SysGloableService" />
 	  
 </beans>

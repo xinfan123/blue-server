@@ -1,8 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <service-map>
 	
-	<!-- 用户部分 -->
-    <service id="userRegister" bean="UserService" method="register" name="注册用户"  />
-    <service id="getValidCode" bean="UserService" method="getValidCode" name="获取验证码"  />
-    <service id="getUserInfo" bean="UserService" method="getUserInfo" name="获取用户基本信息"  />
+	<!-- 用户设置部分 -->
+    <service funId="userRegister" bean="UserSetService" method="userRegister" name="用户注册"/>
+    <service funId="getUserRegisterValidCode" bean="UserSetService" method="getUserRegisterValidCode" name="获取注册验证码"  />
+    <service funId="getUserInfo" bean="UserSetService" method="getUserInfo" name="获取用户基本信息"  />
+    <service funId="setUserSet" bean="UserSetService" method="setUserSet" name="设置用户设置"  login="true"/>
+    <service funId="addUserLinkman" bean="UserSetService" method="addUserLinkman" name="增加用户联系人"  login="true"/>
+    <service funId="updateUserLinkman" bean="UserSetService" method="updateUserLinkman" name="修改用户联系人"  login="true"/>
+    <service funId="deleteUserLinkman" bean="UserSetService" method="deleteUserLinkman" name="删除用户联系人"  login="true"/>
+    <service funId="setUserSent" bean="UserSetService" method="setUserSent" name="设置用户主题"  login="true"/>
+    <service funId="deleteUserSent" bean="UserSetService" method="deleteUserSent" name="删除用户主题"  login="true"/>
+    <service funId="reportMessage" bean="UserSetService" method="reportMessage" name="用户举报信息"  login="true"/>
+    
+    <!-- 用户信息获取部分 -->
+    <service funId="getUserLinkmanList" bean="UserGetService" method="getUserLinkmanList" name="获取用户联系人列表" login="true"/>
+    <service funId="getUserSet" bean="UserGetService" method="getUserSet" name="获取用户设置" login="true"/>
+    <service funId="getUserSentList" bean="UserGetService" method="getUserSentList" name="获取用户关键语" login="true"/>
+    <service funId="getUser" bean="UserGetService" method="getUser" name="获取用户信息" login="true"/>
+    
+    <!-- 用户登陆相关部分 -->
+    <service funId="login" bean="LoginService" method="login" name="登陆"/>
+    <service funId="getLoginValidCode" bean="LoginService" method="getLoginValidCode" name="获取用户登陆验证码"/>
+    <service funId="logout" bean="LoginService" method="logout" name="退出" login="true"/>
+    <service funId="changePassWdAfterLogin" bean="LoginService" method="changePassWdAfterLogin" name="登陆后修改密码" login="true"/>
+    <service funId="changePassWdBeforeLogin" bean="LoginService" method="changePassWdBeforeLogin" name="登陆前修改密码"/>
+    <service funId="getChangePassWordValidCode" bean="LoginService" method="getChangePassWordValidCode" name="修改密码验证码获取接口"/>
+    
+    
+    <!-- 消息设置相关部分 -->
+    <service funId="sendMessage" bean="MessageSetService" method="sendMessage" name="发送消息" login="true"/>
+    <service funId="deleteMessage" bean="MessageSetService" method="deleteMessage" name="删除消息" login="true"/>
+    <service funId="reSendMessage" bean="MessageSetService" method="reSendMessage" name="重发消息" login="true"/>
+    
+    <!-- 消息获取相关部分 -->
+    <service funId="getUserSendMessageList" bean="MessageGetService" method="getUserSendMessageList" name="获取发信列表" login="true"/>
+    <service funId="getUserRecievedMessageList" bean="MessageGetService" method="getUserRecievedMessageList" name="获取收信列表" login="true"/>
+    <service funId="getMessage" bean="MessageGetService" method="getMessage" name="获取指定消息" login="true"/>
+    
+    <!-- 系统相关部分 -->
+    <service funId="getConfigList" bean="SysGloableService" method="getConfigList" name="获取系统配置"/>
+    <service funId="getClientVersionList" bean="SysGloableService" method="getClientVersionList" name="获取客户端版本号"/>
+     
+    
 </service-map>

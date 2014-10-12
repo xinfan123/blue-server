@@ -13,6 +13,8 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.protocol.BasicHttpContext;
+import org.apache.http.protocol.HttpContext;
 import org.apache.http.util.EntityUtils;
 
 import com.alibaba.fastjson.JSONObject;
@@ -21,15 +23,15 @@ import com.xinfan.msgbox.common.JSONUtils;
 public class HttpUtils {
 
 	public static String httpaddress = "http://localhost:7001/msgbox/MainService";
+	
+	public static HttpClient httpclient = new DefaultHttpClient();
 
+	
 
-
-	public static JSONObject httpInvokerJson2(Map params) {
+	public static JSONObject httpInvokerJson(Map params) {
 
 		List<NameValuePair> formparams = toNameValues(params);
 		// 创建默认的httpClient实例.
-		HttpClient httpclient = new DefaultHttpClient();
-		// 创建httppost
 		HttpPost httppost = new HttpPost(httpaddress);
 		
 		long start = System.currentTimeMillis();
@@ -55,8 +57,6 @@ public class HttpUtils {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-		} finally {
-			httpclient.getConnectionManager().shutdown();
 		}
 	
 		return new JSONObject();
