@@ -17,15 +17,20 @@ import com.xinfan.msgbox.http.service.vo.param.BaseParam;
 import com.xinfan.msgbox.http.service.vo.param.RegisterParam;
 import com.xinfan.msgbox.http.service.vo.param.UserInfoParam;
 import com.xinfan.msgbox.http.service.vo.param.UserLinkmanParam;
+import com.xinfan.msgbox.http.service.vo.param.UserReportMessageParam;
 import com.xinfan.msgbox.http.service.vo.param.UserSentParam;
 import com.xinfan.msgbox.http.service.vo.result.BaseResult;
 import com.xinfan.msgbox.http.service.vo.result.ValidCodeResult;
+import com.xinfan.msgbox.service.dao.MessageDao;
+import com.xinfan.msgbox.service.dao.MessageReportedDao;
 import com.xinfan.msgbox.service.dao.UserBalanceDao;
 import com.xinfan.msgbox.service.dao.UserDao;
 import com.xinfan.msgbox.service.dao.UserLinkmanDao;
 import com.xinfan.msgbox.service.dao.UserSentDao;
 import com.xinfan.msgbox.service.dao.UserSetDao;
 import com.xinfan.msgbox.service.dao.UserVipDao;
+import com.xinfan.msgbox.service.dao.entity.Message;
+import com.xinfan.msgbox.service.dao.entity.MessageReported;
 import com.xinfan.msgbox.service.dao.entity.User;
 import com.xinfan.msgbox.service.dao.entity.UserBalance;
 import com.xinfan.msgbox.service.dao.entity.UserExample;
@@ -33,7 +38,7 @@ import com.xinfan.msgbox.service.dao.entity.UserLinkman;
 import com.xinfan.msgbox.service.dao.entity.UserSent;
 import com.xinfan.msgbox.service.dao.entity.UserSet;
 
-public class UserSetService {
+public class UserSetService extends BaseService{
 	@Autowired
 	UserDao userDao;
 	@Autowired
@@ -47,7 +52,9 @@ public class UserSetService {
 	@Autowired
 	UserSentDao userSentDao;
 	@Autowired
-	
+	MessageReportedDao messageReportedDao;
+	@Autowired
+	MessageDao messageDao;
 	/**
 	 * 注册接口
 	 * @param param
@@ -110,7 +117,7 @@ public class UserSetService {
 		return new BaseResult().success("注册成功");
 	}
 	
-	private static final String login_valid_code_key ="_user_login_valid_code";
+	private static final String USER_REGISTER_VALID_CODE_SESSION_KEY ="user_register_valid_code_session";
 	
 	/**
 	 * 注册验证码获取接口
@@ -120,7 +127,7 @@ public class UserSetService {
 	public ValidCodeResult getValidCode(BaseParam param) {
 		ValidCodeResult rs = new ValidCodeResult();
 		String random = new Random().nextInt(9999) + "";
-		ServiceContext.getRequest().getSession().setAttribute(login_valid_code_key,random);
+		ServiceContext.getRequest().getSession().setAttribute(USER_REGISTER_VALID_CODE_SESSION_KEY,random);
 		rs.setValidCode(random);
 		return rs;
 	}
@@ -252,5 +259,43 @@ public class UserSetService {
 		BeanUtils.copyProperties(userSent, param);
 		userSentDao.deleteByPrimaryKey(userSent);
 		return new BaseResult().success("删除用户接收语成功");
+	}
+	
+	/**
+	 * 用户举报信息接口
+	 * @param param
+	 * @return
+	 */
+	public BaseResult reportMessage(UserReportMessageParam param) throws Exception{
+		if(param.getMsgId() == null){
+			return new BaseResult().paramIllgal("消息ID不存在");
+		}
+		if(param.getReportType() == null){
+			return new BaseResult().paramIllgal("举报类型不能为空");
+		}
+		Message message = messageDao.selectByPrimaryKey(param.getMsgId());
+		if(message == null){
+			return new BaseResult().paramIllgal("消息不存在");
+		}
+		
+		MessageReported report = new MessageReported();
+		report.setBeReportedMsgId(param.getMsgId());
+		
+		report.setBeReportedUserId(message.getCreateUserId());
+		report.setContext(param.getContext());
+		report.setCreateTime(new Date());
+		report.setDealStatus(0);
+		report.setReportType(param.getReportType());
+		
+		Long reportedUserId = null;
+		if(param.getUserId() == null){
+			User user = getUserFromSession();
+			if(user != null){
+				reportedUserId = user.getUserId();
+			}
+		}
+		report.setReportUserId(reportedUserId);
+		messageReportedDao.insertSelective(report);
+		return new BaseResult().success("举报成功");
 	}
 }
