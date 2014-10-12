@@ -52,6 +52,10 @@ public class LoginService extends BaseService{
 		}*/
 		
 		User user = userDao.selectByMobile(param.getMobile());
+		if(user ==null ){
+			return new BaseResult().paramIllgal("用户不存在");
+		}
+		
 		if(Md5PwdFactory.getUserMd5PwdEncoder().encodePassword(param.getPasswd()).equals(user.getPasswd())){
 			ServiceContext.getRequest().getSession().setAttribute(USER_SESSION_KEY, user);
 			return new BaseResult().success("登陆成功");
