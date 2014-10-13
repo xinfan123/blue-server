@@ -145,7 +145,7 @@ public class UserGetService {
 		if(!CollectionUtils.isEmpty(list)){
 			for(UserSent us : list){
 				UserSentResult rs = new UserSentResult();
-				BeanUtils.copyProperties(rsList, us);
+				BeanUtils.copyProperties(rs, us);
 				rsList.add(rs);
 			}
 			

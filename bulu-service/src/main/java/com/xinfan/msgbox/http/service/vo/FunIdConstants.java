@@ -53,7 +53,7 @@ public enum FunIdConstants {
 	//获取用户设置
 	GET_USERSET("getUserSet",BaseParam.class,UserSetResult.class),
 	//获取用户主题列表
-	GET_USER_SENT_LIST("BaseParam",BaseParam.class,UserSentListResult.class),
+	GET_USER_SENT_LIST("getUserSentList",BaseParam.class,UserSentListResult.class),
 	//获取用户
 	GET_USER("getUser",BaseParam.class,UserResult.class),
 	
