@@ -29,7 +29,7 @@
 
 	<filter-mapping>
 		<filter-name>encoding</filter-name>
-		<url-pattern>*.html</url-pattern>
+		<url-pattern>/MainService</url-pattern>
 	</filter-mapping>
 
 
