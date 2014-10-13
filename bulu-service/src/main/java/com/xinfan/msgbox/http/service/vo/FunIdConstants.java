@@ -3,6 +3,7 @@ package com.xinfan.msgbox.http.service.vo;
 import com.xinfan.msgbox.http.service.vo.param.BaseParam;
 import com.xinfan.msgbox.http.service.vo.param.ChangePasswdAfterLoginParam;
 import com.xinfan.msgbox.http.service.vo.param.ChangePasswdBeforeLoginParam;
+import com.xinfan.msgbox.http.service.vo.param.ForgetPwdVerifCodeParam;
 import com.xinfan.msgbox.http.service.vo.param.LoginParam;
 import com.xinfan.msgbox.http.service.vo.param.MessageParam;
 import com.xinfan.msgbox.http.service.vo.param.RegisterParam;
@@ -68,7 +69,7 @@ public enum FunIdConstants {
 	//登陆前修改密码
 	CHANGE_PASSWD_BEFORE_LOGIN("changePassWdBeforeLogin",ChangePasswdBeforeLoginParam.class,BaseResult.class),
 	//登陆前修改密码验证码获取
-	GET_CHANGE_PASSWORD_VALID_CODE("getChangePassWordValidCode",BaseParam.class,ValidCodeResult.class),
+	GET_CHANGE_PASSWORD_VALID_CODE("getChangePassWordValidCode",ForgetPwdVerifCodeParam.class,ValidCodeResult.class),
 	
 	
 	/*************消息发送相关部分*************/

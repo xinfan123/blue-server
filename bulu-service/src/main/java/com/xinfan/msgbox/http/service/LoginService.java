@@ -12,6 +12,7 @@ import com.xinfan.msgbox.http.common.ServiceContext;
 import com.xinfan.msgbox.http.service.vo.param.BaseParam;
 import com.xinfan.msgbox.http.service.vo.param.ChangePasswdAfterLoginParam;
 import com.xinfan.msgbox.http.service.vo.param.ChangePasswdBeforeLoginParam;
+import com.xinfan.msgbox.http.service.vo.param.ForgetPwdVerifCodeParam;
 import com.xinfan.msgbox.http.service.vo.param.LoginParam;
 import com.xinfan.msgbox.http.service.vo.param.ValidCodeParam;
 import com.xinfan.msgbox.http.service.vo.result.BaseResult;
@@ -181,11 +182,14 @@ public class LoginService extends BaseService {
 	 * @param param
 	 * @return
 	 */
-	public ValidCodeResult getChangePassWordValidCode(BaseParam param) {
+	public ValidCodeResult getChangePassWordValidCode(ForgetPwdVerifCodeParam param) {
 		ValidCodeResult rs = new ValidCodeResult();
 		String random = new Random().nextInt(9999) + "";
 		ServiceContext.getRequest().getSession().setAttribute(USER_CHANGE_PASS_WORD_SESSION_KEY, random);
 		rs.setValidCode(random);
+		
+		//发送短信代码
+		
 		return rs;
 	}
 
