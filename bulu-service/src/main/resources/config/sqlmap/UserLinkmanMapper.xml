@@ -202,9 +202,9 @@
     <if test="userId != null and userId != ''" >
       and user_id = #{userId}
     </if>
-    limit #{currentRow},#{pageSize}
     <if test="orderBy != null and orderBy != ''" >
       order by ${orderBy}
     </if>
+     limit ${currentRow},${pageSize}
   </select>
 </mapper>
