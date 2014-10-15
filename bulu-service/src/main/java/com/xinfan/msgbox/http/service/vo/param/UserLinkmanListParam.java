@@ -1,13 +1,13 @@
 package com.xinfan.msgbox.http.service.vo.param;
 
 public class UserLinkmanListParam extends BaseParam {
-    private Long userId;
+	private Long userId;
 
-    private int currentRow;
-    
-    private int pageSize;
-    
-    private String orderBy;
+	private int pageNo;
+
+	private int pageSize;
+
+	private String orderBy;
 
 	public Long getUserId() {
 		return userId;
@@ -17,13 +17,12 @@ public class UserLinkmanListParam extends BaseParam {
 		this.userId = userId;
 	}
 
-
-	public int getCurrentRow() {
-		return currentRow;
+	public int getPageNo() {
+		return pageNo;
 	}
 
-	public void setCurrentRow(int currentRow) {
-		this.currentRow = currentRow;
+	public void setPageNo(int pageNo) {
+		this.pageNo = pageNo;
 	}
 
 	public int getPageSize() {
@@ -42,6 +41,4 @@ public class UserLinkmanListParam extends BaseParam {
 		this.orderBy = orderBy;
 	}
 
-    
-    
 }
