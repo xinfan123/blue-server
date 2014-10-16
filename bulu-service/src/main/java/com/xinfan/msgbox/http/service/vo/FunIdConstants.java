@@ -3,13 +3,13 @@ package com.xinfan.msgbox.http.service.vo;
 import com.xinfan.msgbox.http.service.vo.param.BaseParam;
 import com.xinfan.msgbox.http.service.vo.param.ChangePasswdAfterLoginParam;
 import com.xinfan.msgbox.http.service.vo.param.ChangePasswdBeforeLoginParam;
-import com.xinfan.msgbox.http.service.vo.param.ForgetPwdVerifCodeParam;
 import com.xinfan.msgbox.http.service.vo.param.LoginParam;
 import com.xinfan.msgbox.http.service.vo.param.MessageParam;
 import com.xinfan.msgbox.http.service.vo.param.RegisterParam;
 import com.xinfan.msgbox.http.service.vo.param.UserLinkmanListParam;
 import com.xinfan.msgbox.http.service.vo.param.UserLinkmanParam;
 import com.xinfan.msgbox.http.service.vo.param.UserMessageListParam;
+import com.xinfan.msgbox.http.service.vo.param.UserParam;
 import com.xinfan.msgbox.http.service.vo.param.UserReportMessageParam;
 import com.xinfan.msgbox.http.service.vo.param.UserSentParam;
 import com.xinfan.msgbox.http.service.vo.param.UserSetParam;
@@ -17,7 +17,6 @@ import com.xinfan.msgbox.http.service.vo.param.ValidCodeParam;
 import com.xinfan.msgbox.http.service.vo.result.BaseResult;
 import com.xinfan.msgbox.http.service.vo.result.ClientVersionListResult;
 import com.xinfan.msgbox.http.service.vo.result.ConfigListResult;
-import com.xinfan.msgbox.http.service.vo.result.LoginResult;
 import com.xinfan.msgbox.http.service.vo.result.MessageListResult;
 import com.xinfan.msgbox.http.service.vo.result.MessageResult;
 import com.xinfan.msgbox.http.service.vo.result.UserLinkmanListResult;
@@ -46,6 +45,8 @@ public enum FunIdConstants {
 	DELETE_USER_SENT("deleteUserSent",UserSentParam.class,BaseResult.class),
 	//用户举报信息
 	REPORT_MESSAGE("reportMessage",UserReportMessageParam.class,BaseResult.class),
+	//修改用户昵称
+	UPDATE_USER("updateUser",UserParam.class,BaseResult.class),
 	
 	/*************用户信息获取相关部分*************/
 	//获取用户联系人列表
@@ -53,13 +54,13 @@ public enum FunIdConstants {
 	//获取用户设置
 	GET_USERSET("getUserSet",BaseParam.class,UserSetResult.class),
 	//获取用户主题列表
-	GET_USER_SENT_LIST("getUserSentList",BaseParam.class,UserSentListResult.class),
+	GET_USER_SENT_LIST("BaseParam",BaseParam.class,UserSentListResult.class),
 	//获取用户
 	GET_USER("getUser",BaseParam.class,UserResult.class),
 	
 	/*************用户登陆相关部分*************/
 	//登陆
-	LOGIN("login",LoginParam.class,LoginResult.class),
+	LOGIN("login",LoginParam.class,BaseResult.class),
 	//获取登陆验证码
 	GET_LOGIN_VALID_CODE("getLoginValidCode",ValidCodeParam.class,ValidCodeResult.class),
 	//退出
@@ -69,7 +70,7 @@ public enum FunIdConstants {
 	//登陆前修改密码
 	CHANGE_PASSWD_BEFORE_LOGIN("changePassWdBeforeLogin",ChangePasswdBeforeLoginParam.class,BaseResult.class),
 	//登陆前修改密码验证码获取
-	GET_CHANGE_PASSWORD_VALID_CODE("getChangePassWordValidCode",ForgetPwdVerifCodeParam.class,ValidCodeResult.class),
+	GET_CHANGE_PASSWORD_VALID_CODE("getChangePassWordValidCode",BaseParam.class,ValidCodeResult.class),
 	
 	
 	/*************消息发送相关部分*************/

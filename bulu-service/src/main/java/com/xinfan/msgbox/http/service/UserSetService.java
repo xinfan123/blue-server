@@ -13,9 +13,9 @@ import org.springframework.util.CollectionUtils;
 
 import com.xinfan.msgbox.common.security.Md5PwdFactory;
 import com.xinfan.msgbox.http.common.ServiceContext;
-import com.xinfan.msgbox.http.service.vo.param.BaseParam;
 import com.xinfan.msgbox.http.service.vo.param.RegisterParam;
 import com.xinfan.msgbox.http.service.vo.param.UserLinkmanParam;
+import com.xinfan.msgbox.http.service.vo.param.UserParam;
 import com.xinfan.msgbox.http.service.vo.param.UserReportMessageParam;
 import com.xinfan.msgbox.http.service.vo.param.UserSentParam;
 import com.xinfan.msgbox.http.service.vo.param.UserSetParam;
@@ -117,6 +117,41 @@ public class UserSetService extends BaseService{
 		
 		return new BaseResult().success("注册成功");
 	}
+	
+	
+	
+	/**
+	 * 注册接口
+	 * @param param
+	 * @return
+	 */
+	public BaseResult updateUser(UserParam param) {
+		if(param == null){
+			return new BaseResult().paramIllgal("获取参数失败");
+		}
+		
+		User user = getUserFromSession();
+		
+		boolean toUpdate = false;
+		if(StringUtils.isNotEmpty(param.getMobile())){
+			User u = userDao.selectByMobile(param.getMobile());
+			if(u == null){
+				user.setMobile(param.getMobile());
+				toUpdate = true;
+			}
+		}
+		if(StringUtils.isNotEmpty(param.getUserName())){
+			user.setUserName(param.getUserName());
+			toUpdate = true;
+		}
+		
+		if(toUpdate){
+			userDao.updateByPrimaryKey(user);
+		}
+		
+		return new BaseResult().success("修改成功");
+	}
+	
 	
 	private static final String USER_REGISTER_VALID_CODE_SESSION_KEY ="user_register_valid_code_session";
 	
