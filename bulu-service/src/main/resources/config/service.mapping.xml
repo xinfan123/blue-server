@@ -16,7 +16,7 @@
     
     
     
-    
+  
     <!-- 用户信息获取部分 -->
     <service funId="getUserLinkmanList" bean="UserGetService" method="getUserLinkmanList" name="获取用户联系人列表" login="true"/>
     <service funId="getUserSet" bean="UserGetService" method="getUserSet" name="获取用户设置" login="true"/>
@@ -45,7 +45,7 @@
     <!-- 系统相关部分 -->
     <service funId="getConfigList" bean="SysGloableService" method="getConfigList" name="获取系统配置"/>
     <service funId="getClientVersion" bean="SysGloableService" method="getClientVersion" name="获取客户端版本号"/>
-     
-    
+    <service funId="sendAdvice" bean="SysGloableService" method="sendAdvice" name="系统建议"/>
+      
   	<service id="userLogin" bean="LoginService" method="login" name="登录"  />
 </service-map>

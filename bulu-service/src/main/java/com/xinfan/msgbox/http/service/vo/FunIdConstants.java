@@ -1,5 +1,6 @@
 package com.xinfan.msgbox.http.service.vo;
 
+import com.xinfan.msgbox.http.service.vo.param.AdviceParam;
 import com.xinfan.msgbox.http.service.vo.param.BaseParam;
 import com.xinfan.msgbox.http.service.vo.param.ChangePasswdAfterLoginParam;
 import com.xinfan.msgbox.http.service.vo.param.ChangePasswdBeforeLoginParam;
@@ -27,6 +28,7 @@ import com.xinfan.msgbox.http.service.vo.result.UserResult;
 import com.xinfan.msgbox.http.service.vo.result.UserSentListResult;
 import com.xinfan.msgbox.http.service.vo.result.UserSetResult;
 import com.xinfan.msgbox.http.service.vo.result.ValidCodeResult;
+import com.xinfan.msgbox.service.dao.entity.Advice;
 
 public enum FunIdConstants {
 	/************* 用户设置相关部分 *************/
@@ -52,6 +54,9 @@ public enum FunIdConstants {
 	DELETE_USER_SENT("deleteUserSent", UserSentParam.class, BaseResult.class),
 	// 用户举报信息
 	REPORT_MESSAGE("reportMessage", UserReportMessageParam.class, BaseResult.class),
+	
+	//系统建议
+	SEND_ADVICE("sendAdvice", AdviceParam.class, BaseResult.class),
 
 	/************* 用户信息获取相关部分 *************/
 	// 获取用户联系人列表
