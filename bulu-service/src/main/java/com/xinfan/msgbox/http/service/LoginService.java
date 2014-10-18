@@ -64,7 +64,7 @@ public class LoginService extends BaseService {
 			return new LoginResult().paramIllgal("用户不存在");
 		}
 
-		if (!Md5PwdFactory.getUserMd5PwdEncoder().encodePassword(param.getPasswd()).equals(user.getPasswd())) {
+		if (!param.getPasswd().equals(user.getPasswd())) {
 			return new LoginResult().paramIllgal("密码不正确");
 		}
 
@@ -129,9 +129,11 @@ public class LoginService extends BaseService {
 		}
 
 		User user = getUserFromSession();
+		
 		if (!Md5PwdFactory.getUserMd5PwdEncoder().encodePassword(param.getOldPasswd()).equals(user.getPasswd())) {
 			return new BaseResult().paramIllgal("原密码错误");
 		}
+		
 		user.setPasswd(Md5PwdFactory.getUserMd5PwdEncoder().encodePassword(param.getNewPasswd()));
 		userDao.updateByPrimaryKey(user);
 		return new BaseResult().success("密码修改成功");
