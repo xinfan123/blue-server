@@ -1,9 +1,7 @@
 package com.xinfan.msgbox.http.service.vo.param;
 
-import java.io.Serializable;
 
-
-public class BaseParam implements Serializable{
+public class BaseParam implements java.io.Serializable{
 	private String funId;
 	
 	private Long userId;
