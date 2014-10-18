@@ -22,7 +22,7 @@ import com.xinfan.msgbox.common.JSONUtils;
 
 public class HttpUtils {
 
-	public static String httpaddress = "http://localhost:7001/msgbox/MainService";
+	public static String httpaddress = "http://localhost:7001/blue/MainService";
 	
 	public static HttpClient httpclient = new DefaultHttpClient();
 

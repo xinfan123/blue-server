@@ -33,7 +33,7 @@ import com.xinfan.msgbox.service.dao.entity.UserSentExample;
 import com.xinfan.msgbox.service.dao.entity.UserSet;
 import com.xinfan.msgbox.service.dao.entity.UserVip;
 
-public class UserGetService {
+public class UserGetService extends BaseService{
 	@Autowired
 	UserDao userDao;
 	@Autowired
@@ -119,10 +119,7 @@ public class UserGetService {
 	 * @return
 	 */
 	public UserSetResult getUserSet(BaseParam param) throws Exception {
-		if (param.getUserId() == null || param.getUserId() == null) {
-			return new BaseResult().paramIllgal("用户ID不存在");
-		}
-		UserSet userSet = userSetDao.selectByPrimaryKey(param.getUserId());
+		UserSet userSet = userSetDao.selectByPrimaryKey(getUserFromSession().getUserId());
 		if (userSet == null) {
 			return new BaseResult().paramIllgal("用户设置不存在");
 		}

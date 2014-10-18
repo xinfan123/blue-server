@@ -8,38 +8,22 @@ import com.xinfan.msgbox.http.service.vo.FunIdConstants;
 import com.xinfan.msgbox.http.service.vo.param.BaseParam;
 import com.xinfan.msgbox.http.service.vo.param.LoginParam;
 import com.xinfan.msgbox.http.service.vo.param.RegisterParam;
+import com.xinfan.msgbox.http.service.vo.param.UserSetParam;
 import com.xinfan.msgbox.http.service.vo.param.ValidCodeParam;
 import com.xinfan.msgbox.http.service.vo.result.BaseResult;
 import com.xinfan.msgbox.http.service.vo.result.UserResult;
+import com.xinfan.msgbox.http.service.vo.result.UserSetResult;
 import com.xinfan.msgbox.http.service.vo.result.ValidCodeResult;
 import com.xinfan.msgbox.http.util.HttpUtils;
 
-public class HttpTest {
+public class HttpTest extends BaseTest{
 	public static void main(String[] args) throws Exception {
-//		RegisterParam user = new RegisterParam();
-//		user.setSessionId("111111111111");
-//		user.setFunId("userRegister");
-//		
-//		user.setMobile("15116239814");
-//		user.setPasswd("123");
-//		Map map = PropertyUtils.describe(user);
-//		System.out.println(map.toString());
-		
-//		Class<BaseParam> paramClazz = FunIdConstants.GET_USER.getParamClass();
-//		Class<UserResult> resultClazz = FunIdConstants.GET_USER.getResultClass();
-//		BaseParam param = paramClazz.newInstance();
-//		
-//		param.setFunId(FunIdConstants.GET_USER.getFunId());
-//		param.setUserId(4L);
-//		JSONObject jsonObj = HttpUtils.httpInvokerJson(PropertyUtils.describe(param));
-//		System.out.println("return :"+jsonObj.toJSONString());
-//		if("1".equals(jsonObj.getString("result"))){
-//			UserResult rs = MapUtils.toBean(jsonObj,resultClazz);
-//			System.out.println("rs:"+rs);
-//		}
 		
 		login();
-		testGetUser();
+//		testUserRegister();
+//		testGetUser();
+		testSetUserSet();
+		testGetUserSet();
 	}
 	
 	//登陆   OK!!!
@@ -57,7 +41,6 @@ public class HttpTest {
 		System.out.println("return :"+jsonObj.toJSONString());
 		if("0".equals(jsonObj.getString("result"))){
 			ValidCodeResult rs = MapUtils.toBean(jsonObj,resultClazz);
-			System.out.println("rs:"+rs);
 			validCode = rs.getValidCode();
 		}
 		
@@ -130,7 +113,7 @@ public class HttpTest {
 		param_.setPasswd("1");
 		param_.setRegEarea("1");
 		param_.setRegGpsx("1.0");
-		param_.setRegGpsy("2.0");
+		param_.setRegGpsy("姜永霞");
 		param_.setValidCode(validCode);
 		jsonObj = HttpUtils.httpInvokerJson(PropertyUtils.describe(param_));
 		System.out.println("return :"+jsonObj.toJSONString());
@@ -139,4 +122,45 @@ public class HttpTest {
 			System.out.println("rs:"+rs);
 		}
 	}
+	
+	//用户设置  ok!!!!
+	public static BaseResult testSetUserSet()throws Exception{
+		Class<UserSetParam> paramClazz = FunIdConstants.SET_USERSET.getParamClass();
+		Class<BaseResult> resultClazz = FunIdConstants.SET_USERSET.getResultClass();
+		UserSetParam param = paramClazz.newInstance();
+		
+		param.setFunId(FunIdConstants.SET_USERSET.getFunId());
+		param.setMaxCount(0);
+		param.setMinAmmount(0);
+		param.setMinCredit(0);
+		param.setVibrate(0);
+		param.setVoice(0);
+		param.setNewMsgNotify(0);
+		param.setSimilarLevel(0);
+		JSONObject jsonObj = HttpUtils.httpInvokerJson(PropertyUtils.describe(param));
+		System.out.println("return :"+jsonObj.toJSONString());
+		if("0".equals(jsonObj.getString("result"))){
+			BaseResult rs = MapUtils.toBean(jsonObj,resultClazz);
+			System.out.println("rs:"+rs);
+			return rs;
+		}
+		return null;
+	}
+	
+		//获取用户设置  ok!!!!
+		public static BaseResult testGetUserSet()throws Exception{
+			Class<BaseParam> paramClazz = FunIdConstants.GET_USERSET.getParamClass();
+			Class<UserSetResult> resultClazz = FunIdConstants.GET_USERSET.getResultClass();
+			BaseParam param = paramClazz.newInstance();
+			
+			param.setFunId(FunIdConstants.GET_USERSET.getFunId());
+			JSONObject jsonObj = HttpUtils.httpInvokerJson(PropertyUtils.describe(param));
+			System.out.println("return :"+jsonObj.toJSONString());
+			if("0".equals(jsonObj.getString("result"))){
+				UserSetResult rs = MapUtils.toBean(jsonObj,resultClazz);
+				System.out.println("rs:"+rs);
+				return rs;
+			}
+			return null;
+		}
 }

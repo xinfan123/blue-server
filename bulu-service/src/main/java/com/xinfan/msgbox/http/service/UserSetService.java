@@ -13,7 +13,6 @@ import org.springframework.util.CollectionUtils;
 
 import com.xinfan.msgbox.common.security.Md5PwdFactory;
 import com.xinfan.msgbox.http.common.ServiceContext;
-import com.xinfan.msgbox.http.service.vo.param.BaseParam;
 import com.xinfan.msgbox.http.service.vo.param.RegisterParam;
 import com.xinfan.msgbox.http.service.vo.param.UserLinkmanParam;
 import com.xinfan.msgbox.http.service.vo.param.UserReportMessageParam;
@@ -25,6 +24,7 @@ import com.xinfan.msgbox.http.service.vo.result.ValidCodeResult;
 import com.xinfan.msgbox.service.dao.MessageDao;
 import com.xinfan.msgbox.service.dao.MessageReportedDao;
 import com.xinfan.msgbox.service.dao.UserBalanceDao;
+import com.xinfan.msgbox.service.dao.UserBalanceHisDao;
 import com.xinfan.msgbox.service.dao.UserDao;
 import com.xinfan.msgbox.service.dao.UserLinkmanDao;
 import com.xinfan.msgbox.service.dao.UserSentDao;
@@ -34,6 +34,7 @@ import com.xinfan.msgbox.service.dao.entity.Message;
 import com.xinfan.msgbox.service.dao.entity.MessageReported;
 import com.xinfan.msgbox.service.dao.entity.User;
 import com.xinfan.msgbox.service.dao.entity.UserBalance;
+import com.xinfan.msgbox.service.dao.entity.UserBalanceHis;
 import com.xinfan.msgbox.service.dao.entity.UserExample;
 import com.xinfan.msgbox.service.dao.entity.UserLinkman;
 import com.xinfan.msgbox.service.dao.entity.UserSent;
@@ -44,6 +45,8 @@ public class UserSetService extends BaseService{
 	UserDao userDao;
 	@Autowired
 	UserBalanceDao userBalanceDao;
+	@Autowired
+	UserBalanceHisDao userBalanceHisDao;
 	@Autowired
 	UserVipDao userVipDao;
 	@Autowired
@@ -61,7 +64,7 @@ public class UserSetService extends BaseService{
 	 * @param param
 	 * @return
 	 */
-	public BaseResult userRegister(RegisterParam param) {
+	public BaseResult userRegister(RegisterParam param) throws Exception{
 		if(param == null){
 			return new BaseResult().paramIllgal("获取参数失败");
 		}
@@ -115,6 +118,10 @@ public class UserSetService extends BaseService{
 		balance.setUserBalance(0);
 		userBalanceDao.insertSelective(balance);
 		
+		
+		UserBalanceHis balanceHis = new UserBalanceHis();
+		BeanUtils.copyProperties(balanceHis, balance);
+		userBalanceHisDao.insertSelective(balanceHis);
 		return new BaseResult().success("注册成功");
 	}
 	
@@ -144,17 +151,17 @@ public class UserSetService extends BaseService{
 		if(param == null){
 			return new BaseResult().paramIllgal("获取参数失败");
 		}
-		if(param.getUserId() == null || param.getUserId() <= 0){
-			return new BaseResult().paramIllgal("用户ID不存在");
-		}
 		
 		UserSet userSet = new UserSet();
 		PropertyUtils.copyProperties(userSet, param);
 		
-		UserSet u = userSetDao.selectByPrimaryKey(userSet.getUserId());
+		Long userId = getUserFromSession().getUserId();
+		UserSet u = userSetDao.selectByPrimaryKey(userId);
 		if(u == null){
-			userSetDao.insertSelective(u);
+			userSet.setUserId(userId);
+			userSetDao.insertSelective(userSet);
 		}else{
+			userSet.setUserId(userId);
 			userSet.setUpdatetime(new Date());
 			userSetDao.updateByPrimaryKey(userSet);
 		}
