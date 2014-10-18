@@ -95,7 +95,7 @@ public class SysGloableService {
 	/**
 	 * 系统建议
 	 */
-	public ConfigListResult sendAdvice(AdviceParam param) throws Exception {
+	public BaseResult sendAdvice(AdviceParam param) throws Exception {
 
 		if (param.getContent() == null || param.getContent().trim().length() <= 4) {
 			return new BaseResult().paramIllgal("请输入建议内容");
