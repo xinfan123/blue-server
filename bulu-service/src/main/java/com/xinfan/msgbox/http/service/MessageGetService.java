@@ -14,6 +14,7 @@ import com.xinfan.msgbox.http.service.vo.result.BaseResult;
 import com.xinfan.msgbox.http.service.vo.result.MessageListResult;
 import com.xinfan.msgbox.http.service.vo.result.MessageResult;
 import com.xinfan.msgbox.http.service.vo.result.MessageVO;
+import com.xinfan.msgbox.http.util.PageUtils;
 import com.xinfan.msgbox.service.dao.MessageDao;
 import com.xinfan.msgbox.service.dao.MessageReceivedDao;
 import com.xinfan.msgbox.service.dao.MessageSendDao;
@@ -40,6 +41,11 @@ public class MessageGetService {
 		}
 		
 		Map<String,String> map = BeanUtils.describe(param);
+		
+		map.put("orderBy", "create_time");
+
+		PageUtils.calCurrentRow(map);
+		
 		List<MessageSend> list = messageSendDao.selectListForHttpService(map);
 		
 		List<MessageVO> rsList = new ArrayList<MessageVO>();

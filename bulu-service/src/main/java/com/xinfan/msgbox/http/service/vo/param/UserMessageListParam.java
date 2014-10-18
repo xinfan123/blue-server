@@ -1,13 +1,23 @@
 package com.xinfan.msgbox.http.service.vo.param;
 
 public class UserMessageListParam extends BaseParam {
-    private Long userId;
+	private Long userId;
 
-    private int currentRow;
-    
-    private int pageSize;
-    
-    private String orderBy;
+	private int currentRow;
+
+	private int pageSize;
+
+	private int pageNo;
+
+	private String orderBy;
+
+	public int getPageNo() {
+		return pageNo;
+	}
+
+	public void setPageNo(int pageNo) {
+		this.pageNo = pageNo;
+	}
 
 	public Long getUserId() {
 		return userId;
@@ -16,7 +26,6 @@ public class UserMessageListParam extends BaseParam {
 	public void setUserId(Long userId) {
 		this.userId = userId;
 	}
-
 
 	public int getCurrentRow() {
 		return currentRow;
@@ -42,6 +51,4 @@ public class UserMessageListParam extends BaseParam {
 		this.orderBy = orderBy;
 	}
 
-    
-    
 }
