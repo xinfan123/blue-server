@@ -11,6 +11,13 @@
 		<property name="namespace" value="com.xinfan.msgbox.service.dao.AreaMapper" />
 		<property name="sqlSession" ref="sqlSession" />
 	</bean>
+	
+	<bean id="AdviceDao" class="com.xinfan.msgbox.service.dao.AdviceDao">
+		<property name="namespace" value="com.xinfan.msgbox.service.dao.AdviceMapper" />
+		<property name="sqlSession" ref="sqlSession" />
+	</bean>	
+	
+	
 	<bean id="ClientTypeDao" class="com.xinfan.msgbox.service.dao.ClientTypeDao">
 		<property name="namespace" value="com.xinfan.msgbox.service.dao.ClientTypeMapper" />
 		<property name="sqlSession" ref="sqlSession" />
