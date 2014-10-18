@@ -1,16 +1,34 @@
- DELETE FROM user WHERE User="msgbox" and Host="localhost";
- flush privileges;
- drop database msgbox;
+ --DELETE FROM user WHERE User="msgbox" and Host="localhost";
+ --flush privileges;
+ --drop database msgbox;
  
- insert into mysql.user(Host,User,Password) values("localhost","msgbox",password("msgbox"));
+ --insert into mysql.user(Host,User,Password) values("localhost","msgbox",password("msgbox"));
  
- flush privileges;
+ --flush privileges;
  
-  CREATE SCHEMA `msgbox` DEFAULT CHARACTER SET utf8 ;
+  --CREATE SCHEMA `msgbox` DEFAULT CHARACTER SET utf8 ;
  
- grant all privileges on msgbox.* to msgbox@localhost identified by 'msgbox';
- flush privileges;
+ --grant all privileges on msgbox.* to msgbox@localhost identified by 'msgbox';
+ --flush privileges;
  
 
 
+--set FOREIGN_KEY_CHECKS =0;
+
+
+
+
+drop database blue ;
+create database blue  DEFAULT CHARACTER SET utf8 ;
+drop user blue@localhost;
+create user blue@localhost;
+use mysql;
+update user set Password = PASSWORD("1") where user='blue';
+flush privileges;
+ grant all privileges on blue.* to blue@localhost identified by '1';
+ flush privileges;
+ show grants for blue@localhost;
 set FOREIGN_KEY_CHECKS =0;
+
+
+use blue;
