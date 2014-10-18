@@ -9,12 +9,12 @@ public interface SmsService {
 	 * @param validCode
 	 * @return
 	 */
-	public BaseResult<String> sendRegisterValidSms(String mobile,String validCode);
+	public void sendRegisterValidSms(String mobile,String validCode);
 	/**
 	 * 发送修改密码短信验证码
 	 * @param mobile
 	 * @param validCode
 	 * @return
 	 */
-	public BaseResult<String> sendChangePwdValidSms(String mobile,String validCode);
+	public void sendChangePwdValidSms(String mobile,String validCode);
 }
