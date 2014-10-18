@@ -1,7 +1,6 @@
 package com.xinfan.msgbox.http.service.vo.param;
 
 public class ChangePasswdBeforeLoginParam extends BaseParam {
-	private String oldPasswd;
 	private String newPasswd;
 	private String mobile;
 	public String getMobile() {
@@ -12,12 +11,6 @@ public class ChangePasswdBeforeLoginParam extends BaseParam {
 	}
 	private String validCode;
 	
-	public String getOldPasswd() {
-		return oldPasswd;
-	}
-	public void setOldPasswd(String oldPasswd) {
-		this.oldPasswd = oldPasswd;
-	}
 	public String getNewPasswd() {
 		return newPasswd;
 	}

@@ -3,7 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd">
-
+	<!-- http service -->
 	<bean id="UserSetService" class="com.xinfan.msgbox.http.service.UserSetService" />
 	<bean id="UserGetService" class="com.xinfan.msgbox.http.service.UserGetService" />
 	<bean id="LoginService" class="com.xinfan.msgbox.http.service.LoginService" />
@@ -11,4 +11,7 @@
 	<bean id="MessageGetService" class="com.xinfan.msgbox.http.service.MessageGetService" />
 	<bean id="SysGloableService" class="com.xinfan.msgbox.http.service.SysGloableService" />
 
+	
+	<!-- app service -->
+	<bean id="SmsService" class="com.xinfan.msgbox.service.sms.impl.YunPianSmsServiceImpl" />
 </beans>

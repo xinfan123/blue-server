@@ -94,10 +94,10 @@ public class HttpUtils {
 		return null;
 	}
 
-	public static List<NameValuePair> toNameValues(Map map) {
+	public static List<NameValuePair> toNameValues(Map<String,String> map) {
 		List<NameValuePair> formparams = new ArrayList<NameValuePair>();
 
-		Iterator it = map.keySet().iterator();
+		Iterator<String> it = map.keySet().iterator();
 		while (it.hasNext()) {
 			String key = String.valueOf(it.next());
 			String val = String.valueOf(map.get(key));

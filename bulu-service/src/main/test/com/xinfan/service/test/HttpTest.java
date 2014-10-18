@@ -6,6 +6,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.xinfan.msgbox.common.MapUtils;
 import com.xinfan.msgbox.http.service.vo.FunIdConstants;
 import com.xinfan.msgbox.http.service.vo.param.BaseParam;
+import com.xinfan.msgbox.http.service.vo.param.ChangePasswdBeforeLoginParam;
 import com.xinfan.msgbox.http.service.vo.param.LoginParam;
 import com.xinfan.msgbox.http.service.vo.param.RegisterParam;
 import com.xinfan.msgbox.http.service.vo.param.UserSetParam;
@@ -19,31 +20,15 @@ import com.xinfan.msgbox.http.util.HttpUtils;
 public class HttpTest extends BaseTest{
 	public static void main(String[] args) throws Exception {
 		
-		login();
-//		testUserRegister();
+//		login();
+		testUserChangePwdBeforLogin();
 //		testGetUser();
-		testSetUserSet();
-		testGetUserSet();
+//		testSetUserSet();
+//		testGetUserSet();
 	}
 	
 	//登陆   OK!!!
 	public static void login()throws Exception{
-		String validCode = "";
-		
-		//获取登陆
-		Class<ValidCodeParam> paramClazz = FunIdConstants.GET_LOGIN_VALID_CODE.getParamClass();
-		Class<ValidCodeResult> resultClazz = FunIdConstants.GET_LOGIN_VALID_CODE.getResultClass();
-		ValidCodeParam param = paramClazz.newInstance();
-		
-		param.setFunId(FunIdConstants.GET_LOGIN_VALID_CODE.getFunId());
-		param.setMobile("15116239811");
-		JSONObject jsonObj = HttpUtils.httpInvokerJson(PropertyUtils.describe(param));
-		System.out.println("return :"+jsonObj.toJSONString());
-		if("0".equals(jsonObj.getString("result"))){
-			ValidCodeResult rs = MapUtils.toBean(jsonObj,resultClazz);
-			validCode = rs.getValidCode();
-		}
-		
 		
 		//登陆
 		Class<LoginParam> paramClazz_ = FunIdConstants.LOGIN.getParamClass();
@@ -53,8 +38,7 @@ public class HttpTest extends BaseTest{
 		param_.setFunId(FunIdConstants.LOGIN.getFunId());
 		param_.setMobile("15116239811");
 		param_.setPasswd("1");
-		param_.setValidCode(validCode);
-		jsonObj = HttpUtils.httpInvokerJson(PropertyUtils.describe(param_));
+		JSONObject  jsonObj = HttpUtils.httpInvokerJson(PropertyUtils.describe(param_));
 		System.out.println("return :"+jsonObj.toJSONString());
 		if("1".equals(jsonObj.getString("result"))){
 			BaseResult rs = MapUtils.toBean(jsonObj,resultClazz_);
@@ -162,5 +146,46 @@ public class HttpTest extends BaseTest{
 				return rs;
 			}
 			return null;
+		}
+		
+		
+		/**
+		 * 修改密码 ok!!!
+		 * @throws Exception
+		 */
+		public static void testUserChangePwdBeforLogin()throws Exception{
+			String validCode = "";
+			
+			//获取验证码
+			Class<ValidCodeParam> paramClazz = FunIdConstants.GET_CHANGE_PASSWORD_VALID_CODE.getParamClass();
+			Class<ValidCodeResult> resultClazz = FunIdConstants.GET_CHANGE_PASSWORD_VALID_CODE.getResultClass();
+			ValidCodeParam param = paramClazz.newInstance();
+			
+			param.setFunId(FunIdConstants.GET_CHANGE_PASSWORD_VALID_CODE.getFunId());
+			param.setMobile("15116239811");
+			JSONObject jsonObj = HttpUtils.httpInvokerJson(PropertyUtils.describe(param));
+			System.out.println("return :"+jsonObj.toJSONString());
+			if("0".equals(jsonObj.getString("result"))){
+				ValidCodeResult rs = MapUtils.toBean(jsonObj,resultClazz);
+				System.out.println("rs:"+rs);
+				validCode = rs.getValidCode();
+			}
+			
+			
+			//修改密码
+			Class<ChangePasswdBeforeLoginParam> paramClazz_ = FunIdConstants.CHANGE_PASSWD_BEFORE_LOGIN.getParamClass();
+			Class<BaseResult> resultClazz_ = FunIdConstants.CHANGE_PASSWD_BEFORE_LOGIN.getResultClass();
+			ChangePasswdBeforeLoginParam param_ = paramClazz_.newInstance();
+			
+			param_.setFunId(FunIdConstants.CHANGE_PASSWD_BEFORE_LOGIN.getFunId());
+			param_.setMobile("15116239811");
+			param_.setValidCode(validCode);
+			param_.setNewPasswd("234");
+			jsonObj = HttpUtils.httpInvokerJson(PropertyUtils.describe(param_));
+			System.out.println("return :"+jsonObj.toJSONString());
+			if("1".equals(jsonObj.getString("result"))){
+				BaseResult rs = MapUtils.toBean(jsonObj,resultClazz_);
+				System.out.println("rs:"+rs);
+			}
 		}
 }

@@ -11,26 +11,26 @@ import org.springframework.core.io.ClassPathResource;
  * @author cyp
  *
  */
-public class WsFileConfig {
+public class SmsFileConfig {
 	
-	public static WsFileConfig instaince;
+	private static SmsFileConfig instance;
 	
 	private Properties prop;
 	
-	public static WsFileConfig getInstance() {
+	public static SmsFileConfig getInstance() {
 		try {
-			if (instaince == null) {
-				instaince = new WsFileConfig();
-				instaince.prop = new Properties();
+			if (instance == null) {
+				instance = new SmsFileConfig();
+				instance.prop = new Properties();
 				ClassPathResource loader = new ClassPathResource(
-						"/config/application.properties");
-				instaince.prop.load(loader.getInputStream());
+						"/config/sms.properties");
+				instance.prop.load(loader.getInputStream());
 			}
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 
-		return instaince;
+		return instance;
 	}
 	
 	public String getString(String name){
@@ -41,12 +41,12 @@ public class WsFileConfig {
 		return prop.getProperty(name, defaultValue);
 	}
 	
-	public int getInt(String name) {
-		return Integer.parseInt(getString(name));
+	public long getLong(String name) {
+		return Long.parseLong(getString(name));
 	}
 	
 	public static void main(String[] args){
-		String configId = WsFileConfig.getInstance().getString("configId");
+		String configId = SmsFileConfig.getInstance().getString("yunpian_sms_apikey");
 		System.out.println(configId);
 	}
 

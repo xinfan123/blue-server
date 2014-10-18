@@ -8,6 +8,8 @@ import java.util.Random;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 
@@ -40,8 +42,11 @@ import com.xinfan.msgbox.service.dao.entity.UserExample;
 import com.xinfan.msgbox.service.dao.entity.UserLinkman;
 import com.xinfan.msgbox.service.dao.entity.UserSent;
 import com.xinfan.msgbox.service.dao.entity.UserSet;
+import com.xinfan.msgbox.service.sms.SmsService;
 
 public class UserSetService extends BaseService {
+	private static Logger logger = LoggerFactory.getLogger(UserSetService.class);
+	
 	@Autowired
 	UserDao userDao;
 	@Autowired
@@ -60,6 +65,9 @@ public class UserSetService extends BaseService {
 	MessageReportedDao messageReportedDao;
 	@Autowired
 	MessageDao messageDao;
+	
+	@Autowired
+	SmsService smsService;
 
 	/**
 	 * 注册接口
@@ -139,6 +147,11 @@ public class UserSetService extends BaseService {
 		String random = new Random().nextInt(9999) + "";
 		ServiceContext.getRequest().getSession().setAttribute(USER_REGISTER_VALID_CODE_SESSION_KEY, random);
 		rs.setValidCode(random);
+		com.xinfan.msgbox.common.BaseResult<String> ret =  smsService.sendRegisterValidSms(param.getMobile(), random);
+		if(ret.getResult() != 0){
+			logger.error("发送注册短信失败,messge:"+ret.getMessage());
+		}
+		//发送注册短信验证码
 		return rs;
 	}
 

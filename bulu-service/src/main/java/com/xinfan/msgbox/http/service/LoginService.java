@@ -12,7 +12,6 @@ import com.xinfan.msgbox.http.common.ServiceContext;
 import com.xinfan.msgbox.http.service.vo.param.BaseParam;
 import com.xinfan.msgbox.http.service.vo.param.ChangePasswdAfterLoginParam;
 import com.xinfan.msgbox.http.service.vo.param.ChangePasswdBeforeLoginParam;
-import com.xinfan.msgbox.http.service.vo.param.ForgetPwdVerifCodeParam;
 import com.xinfan.msgbox.http.service.vo.param.LoginParam;
 import com.xinfan.msgbox.http.service.vo.param.ValidCodeParam;
 import com.xinfan.msgbox.http.service.vo.result.BaseResult;
@@ -21,6 +20,7 @@ import com.xinfan.msgbox.http.service.vo.result.UserInfoResult;
 import com.xinfan.msgbox.http.service.vo.result.ValidCodeResult;
 import com.xinfan.msgbox.service.dao.UserDao;
 import com.xinfan.msgbox.service.dao.entity.User;
+import com.xinfan.msgbox.service.sms.SmsService;
 
 public class LoginService extends BaseService {
 
@@ -28,9 +28,13 @@ public class LoginService extends BaseService {
 
 	@Autowired
 	UserDao userDao;
+	
+	
+	@Autowired
+	SmsService smsService;
 
-	private final String USER_LOGIN_VALID_CODE_SESSION_KEY = "user_login_valid_code_session";
-	private final String USER_CHANGE_PASS_WORD_SESSION_KEY = "user_change_pass_word_session";
+
+	private final String USER_CHANGE_PASS_WORD_VILIDCODE_SESSION_KEY = "user_change_pass_word_session";
 
 	/**
 	 * 登陆接口
@@ -47,9 +51,6 @@ public class LoginService extends BaseService {
 		}
 		if (StringUtils.isEmpty(param.getPasswd())) {
 			return new LoginResult().paramIllgal("密码为空或不合法");
-		}
-		if (StringUtils.isEmpty(param.getValidCode())) {
-			return new LoginResult().paramIllgal("验证码为空或不合法");
 		}
 
 		// 先注释掉，影响流程
@@ -81,19 +82,6 @@ public class LoginService extends BaseService {
 		return login;
 	}
 
-	/**
-	 * 登陆验证码获取接口
-	 * 
-	 * @param param
-	 * @return
-	 */
-	public ValidCodeResult getLoginValidCode(ValidCodeParam param) {
-		ValidCodeResult rs = new ValidCodeResult();
-		String random = new Random().nextInt(9999) + "";
-		ServiceContext.getRequest().getSession().setAttribute(USER_LOGIN_VALID_CODE_SESSION_KEY, random);
-		rs.setValidCode(random);
-		return rs;
-	}
 
 	/**
 	 * 退出接口
@@ -145,15 +133,12 @@ public class LoginService extends BaseService {
 	 * @param param
 	 * @return
 	 */
-	public UserInfoResult changePassWdBeforeLogin(ChangePasswdBeforeLoginParam param) {
+	public BaseResult changePassWdBeforeLogin(ChangePasswdBeforeLoginParam param) {
 		if (param == null) {
 			return new BaseResult().paramIllgal("获取参数失败");
 		}
 		if (StringUtils.isEmpty(param.getMobile()) || param.getMobile().length() != 11) {
 			return new BaseResult().paramIllgal("手机号为空或不合法");
-		}
-		if (StringUtils.isEmpty(param.getOldPasswd())) {
-			return new BaseResult().paramIllgal("原密码不能为空");
 		}
 		if (StringUtils.isEmpty(param.getNewPasswd())) {
 			return new BaseResult().paramIllgal("新密码不能为空");
@@ -162,16 +147,13 @@ public class LoginService extends BaseService {
 		if (StringUtils.isEmpty(param.getValidCode())) {
 			return new BaseResult().paramIllgal("验证码不能为空");
 		}
-		if (!param.getValidCode().equals(ServiceContext.getRequest().getSession().getAttribute(USER_CHANGE_PASS_WORD_SESSION_KEY))) {
-			return new BaseResult().paramIllgal("验证码不能为空");
+		if (!param.getValidCode().equals(ServiceContext.getRequest().getSession().getAttribute(USER_CHANGE_PASS_WORD_VILIDCODE_SESSION_KEY))) {
+			return new BaseResult().paramIllgal("验证码错误");
 		}
 
 		User user = userDao.selectByMobile(param.getMobile());
 		if (user == null) {
-			return new BaseResult().paramIllgal("用户不存在错误");
-		}
-		if (!Md5PwdFactory.getUserMd5PwdEncoder().encodePassword(param.getOldPasswd()).equals(user.getPasswd())) {
-			return new BaseResult().paramIllgal("原密码错误");
+			return new BaseResult().paramIllgal("用户不存在");
 		}
 		user.setPasswd(Md5PwdFactory.getUserMd5PwdEncoder().encodePassword(param.getNewPasswd()));
 		userDao.updateByPrimaryKey(user);
@@ -184,14 +166,17 @@ public class LoginService extends BaseService {
 	 * @param param
 	 * @return
 	 */
-	public ValidCodeResult getChangePassWordValidCode(ForgetPwdVerifCodeParam param) {
+	public ValidCodeResult getChangePassWordValidCode(ValidCodeParam param) {
 		ValidCodeResult rs = new ValidCodeResult();
 		String random = new Random().nextInt(9999) + "";
-		ServiceContext.getRequest().getSession().setAttribute(USER_CHANGE_PASS_WORD_SESSION_KEY, random);
+		ServiceContext.getRequest().getSession().setAttribute(USER_CHANGE_PASS_WORD_VILIDCODE_SESSION_KEY, random);
 		rs.setValidCode(random);
 		
 		//发送短信代码
-		
+		com.xinfan.msgbox.common.BaseResult<String> ret =  smsService.sendChangePwdValidSms(param.getMobile(), random);
+		if(ret != null && ret.getResult() != 0){
+			logger.error("发送修改密码短信失败,messge:"+ret.getMessage());
+		}
 		return rs;
 	}
 
