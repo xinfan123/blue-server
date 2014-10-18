@@ -2,10 +2,10 @@ package com.xinfan.msgbox.http.service;
 
 import java.util.Date;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.xinfan.msgbox.http.service.util.BeanUtils;
 import com.xinfan.msgbox.http.service.vo.param.MessageParam;
 import com.xinfan.msgbox.http.service.vo.result.BaseResult;
 import com.xinfan.msgbox.service.dao.MessageDao;
@@ -115,7 +115,7 @@ public class MessageSetService {
 		message.getCreateTime();
 		long pieriod = message.getValidTime().getTime() - message.getCreateTime().getTime();
 		message.setValidTime(new Date(new Date().getTime()+pieriod));
-		messageDao.updateByPrimaryKey(message);
+		messageDao.updateByPrimaryKeySelective(message);
 		
 		//新启动线程，推送
 		return new BaseResult().success("信息重发成功");

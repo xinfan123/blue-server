@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 
+import com.xinfan.msgbox.http.service.util.BeanUtils;
 import com.xinfan.msgbox.http.service.vo.param.MessageParam;
 import com.xinfan.msgbox.http.service.vo.param.UserMessageListParam;
 import com.xinfan.msgbox.http.service.vo.result.BaseResult;
@@ -40,7 +40,7 @@ public class MessageGetService {
 			return new BaseResult().paramIllgal("用户ID不存在");
 		}
 		
-		Map<String,String> map = BeanUtils.describe(param);
+		Map<String,String> map = org.apache.commons.beanutils.BeanUtils.describe(param);
 		
 		map.put("orderBy", "create_time");
 
@@ -80,7 +80,7 @@ public class MessageGetService {
 		
 		//pubish_time
 		
-		Map<String,String> map = BeanUtils.describe(param);
+		Map<String,String> map = org.apache.commons.beanutils.BeanUtils.describe(param);
 		
 		map.put("orderBy", "pubish_time");
 

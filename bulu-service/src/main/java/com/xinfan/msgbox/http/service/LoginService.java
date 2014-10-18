@@ -16,7 +16,6 @@ import com.xinfan.msgbox.http.service.vo.param.LoginParam;
 import com.xinfan.msgbox.http.service.vo.param.ValidCodeParam;
 import com.xinfan.msgbox.http.service.vo.result.BaseResult;
 import com.xinfan.msgbox.http.service.vo.result.LoginResult;
-import com.xinfan.msgbox.http.service.vo.result.UserInfoResult;
 import com.xinfan.msgbox.http.service.vo.result.ValidCodeResult;
 import com.xinfan.msgbox.service.dao.UserDao;
 import com.xinfan.msgbox.service.dao.entity.User;
@@ -52,17 +51,18 @@ public class LoginService extends BaseService {
 		}
 
 		// 先注释掉，影响流程
-
-		// if(!param.getValidCode().equals(ServiceContext.getRequest().getSession().getAttribute(USER_LOGIN_VALID_CODE_SESSION_KEY))){
-		// return new BaseResult().paramIllgal("验证码不匹配");
-		// }
+		
+//		if(!param.getValidCode().equals(ServiceContext.getRequest().getSession().getAttribute(USER_LOGIN_VALID_CODE_SESSION_KEY))){
+//			  return new BaseResult().paramIllgal("验证码不匹配"); 
+//		}
+		 
 
 		User user = userDao.selectByMobile(param.getMobile());
 		if (user == null) {
 			return new LoginResult().paramIllgal("用户不存在");
 		}
 
-		if (!param.getPasswd().equals(user.getPasswd())) {
+		if (!Md5PwdFactory.getUserMd5PwdEncoder().encodePassword(param.getPasswd()).equals(user.getPasswd())) {
 			return new LoginResult().paramIllgal("密码不正确");
 		}
 
@@ -113,13 +113,13 @@ public class LoginService extends BaseService {
 		}
 
 		User user = getUserFromSession();
-
+		
 		if (!Md5PwdFactory.getUserMd5PwdEncoder().encodePassword(param.getOldPasswd()).equals(user.getPasswd())) {
 			return new BaseResult().paramIllgal("原密码错误");
 		}
-
+		
 		user.setPasswd(Md5PwdFactory.getUserMd5PwdEncoder().encodePassword(param.getNewPasswd()));
-		userDao.updateByPrimaryKey(user);
+		userDao.updateByPrimaryKeySelective(user);
 		return new BaseResult().success("密码修改成功");
 	}
 
@@ -152,7 +152,7 @@ public class LoginService extends BaseService {
 			return new BaseResult().paramIllgal("用户不存在");
 		}
 		user.setPasswd(Md5PwdFactory.getUserMd5PwdEncoder().encodePassword(param.getNewPasswd()));
-		userDao.updateByPrimaryKey(user);
+		userDao.updateByPrimaryKeySelective(user);
 		return new BaseResult().success("密码修改成功");
 	}
 

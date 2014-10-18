@@ -20,10 +20,11 @@ import com.xinfan.msgbox.http.util.HttpUtils;
 public class HttpTest extends BaseTest{
 	public static void main(String[] args) throws Exception {
 		
-//		login();
-		testUserChangePwdBeforLogin();
+		login();
+//		testUserRegister();
+//		testUserChangePwdBeforLogin();
 //		testGetUser();
-//		testSetUserSet();
+		testSetUserSet();
 //		testGetUserSet();
 	}
 	
@@ -114,13 +115,7 @@ public class HttpTest extends BaseTest{
 		UserSetParam param = paramClazz.newInstance();
 		
 		param.setFunId(FunIdConstants.SET_USERSET.getFunId());
-		param.setMaxCount(0);
-		param.setMinAmmount(0);
-		param.setMinCredit(0);
-		param.setVibrate(0);
-		param.setVoice(0);
-		param.setNewMsgNotify(0);
-		param.setSimilarLevel(0);
+		param.setMaxCount(1000);
 		JSONObject jsonObj = HttpUtils.httpInvokerJson(PropertyUtils.describe(param));
 		System.out.println("return :"+jsonObj.toJSONString());
 		if("0".equals(jsonObj.getString("result"))){

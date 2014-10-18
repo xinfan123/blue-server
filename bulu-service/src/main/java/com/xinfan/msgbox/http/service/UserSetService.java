@@ -5,8 +5,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
-import org.apache.commons.beanutils.BeanUtils;
-import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +13,7 @@ import org.springframework.util.CollectionUtils;
 
 import com.xinfan.msgbox.common.security.Md5PwdFactory;
 import com.xinfan.msgbox.http.common.ServiceContext;
+import com.xinfan.msgbox.http.service.util.BeanUtils;
 import com.xinfan.msgbox.http.service.vo.param.RegisterParam;
 import com.xinfan.msgbox.http.service.vo.param.UserLinkmanParam;
 import com.xinfan.msgbox.http.service.vo.param.UserParam;
@@ -129,7 +128,7 @@ public class UserSetService extends BaseService {
 		userBalanceDao.insertSelective(balance);
 
 		UserBalanceHis balanceHis = new UserBalanceHis();
-		BeanUtils.copyProperties(balanceHis, balance);
+		BeanUtils.copyProperties(balanceHis,balance);
 		userBalanceHisDao.insertSelective(balanceHis);
 		return new BaseResult().success("注册成功");
 	}
@@ -167,7 +166,7 @@ public class UserSetService extends BaseService {
 		}
 
 		UserSet userSet = new UserSet();
-		PropertyUtils.copyProperties(userSet, param);
+		BeanUtils.copyProperties(userSet, param);
 
 		Long userId = getUserFromSession().getUserId();
 		UserSet u = userSetDao.selectByPrimaryKey(userId);
@@ -177,7 +176,7 @@ public class UserSetService extends BaseService {
 		} else {
 			userSet.setUserId(userId);
 			userSet.setUpdatetime(new Date());
-			userSetDao.updateByPrimaryKey(userSet);
+			userSetDao.updateByPrimaryKeySelective(userSet);
 		}
 		return new BaseResult().success("设置成功");
 	}
@@ -218,13 +217,12 @@ public class UserSetService extends BaseService {
 		}
 
 		UserLinkman linkMan = new UserLinkman();
-		BeanUtils.copyProperties(linkMan, param);
 		UserLinkman l = userLinkmanDao.selectByPrimaryKey(linkMan);
 		if (l == null) {
 			return new BaseResult().paramIllgal("联系用户ID不存在");
 		}
 		BeanUtils.copyProperties(linkMan, param);
-		userLinkmanDao.updateByPrimaryKey(linkMan);
+		userLinkmanDao.updateByPrimaryKeySelective(linkMan);
 		return new BaseResult().success("修改联系人成功");
 	}
 
