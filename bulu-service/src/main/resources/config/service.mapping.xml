@@ -30,6 +30,7 @@
     <service funId="changePassWdAfterLogin" bean="LoginService" method="changePassWdAfterLogin" name="登陆后修改密码" login="true"/>
     <service funId="changePassWdBeforeLogin" bean="LoginService" method="changePassWdBeforeLogin" name="登陆前修改密码"/>
     <service funId="getChangePassWordValidCode" bean="LoginService" method="getChangePassWordValidCode" name="修改密码验证码获取接口"/>
+    <service funId="validPwdcodeBeforeLogin" bean="LoginService" method="validPwdcodeBeforeLogin" name="验证验证码"/>
     
     
     <!-- 消息设置相关部分 -->

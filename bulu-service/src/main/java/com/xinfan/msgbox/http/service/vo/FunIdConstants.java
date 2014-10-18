@@ -78,6 +78,9 @@ public enum FunIdConstants {
 	CHANGE_PASSWD_BEFORE_LOGIN("changePassWdBeforeLogin", ChangePasswdBeforeLoginParam.class, BaseResult.class),
 	// 登陆前修改密码验证码获取
 	GET_CHANGE_PASSWORD_VALID_CODE("getChangePassWordValidCode", ValidCodeParam.class, ValidCodeResult.class),
+	
+	VALID_PWDCODE_BEFORE_LOGIN("validPwdcodeBeforeLogin", ChangePasswdBeforeLoginParam.class, BaseResult.class),
+	
 
 	/************* 消息发送相关部分 *************/
 	// 发送消息

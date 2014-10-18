@@ -28,11 +28,9 @@ public class LoginService extends BaseService {
 
 	@Autowired
 	UserDao userDao;
-	
-	
+
 	@Autowired
 	SmsService smsService;
-
 
 	private final String USER_CHANGE_PASS_WORD_VILIDCODE_SESSION_KEY = "user_change_pass_word_session";
 
@@ -54,11 +52,10 @@ public class LoginService extends BaseService {
 		}
 
 		// 先注释掉，影响流程
-		
-//		if(!param.getValidCode().equals(ServiceContext.getRequest().getSession().getAttribute(USER_LOGIN_VALID_CODE_SESSION_KEY))){
-//			  return new BaseResult().paramIllgal("验证码不匹配"); 
-//		}
-		 
+
+		// if(!param.getValidCode().equals(ServiceContext.getRequest().getSession().getAttribute(USER_LOGIN_VALID_CODE_SESSION_KEY))){
+		// return new BaseResult().paramIllgal("验证码不匹配");
+		// }
 
 		User user = userDao.selectByMobile(param.getMobile());
 		if (user == null) {
@@ -81,7 +78,6 @@ public class LoginService extends BaseService {
 
 		return login;
 	}
-
 
 	/**
 	 * 退出接口
@@ -117,11 +113,11 @@ public class LoginService extends BaseService {
 		}
 
 		User user = getUserFromSession();
-		
+
 		if (!Md5PwdFactory.getUserMd5PwdEncoder().encodePassword(param.getOldPasswd()).equals(user.getPasswd())) {
 			return new BaseResult().paramIllgal("原密码错误");
 		}
-		
+
 		user.setPasswd(Md5PwdFactory.getUserMd5PwdEncoder().encodePassword(param.getNewPasswd()));
 		userDao.updateByPrimaryKey(user);
 		return new BaseResult().success("密码修改成功");
@@ -160,6 +156,23 @@ public class LoginService extends BaseService {
 		return new BaseResult().success("密码修改成功");
 	}
 
+	public BaseResult validPwdcodeBeforeLogin(ChangePasswdBeforeLoginParam param) {
+		
+		if (param == null) {
+			return new BaseResult().paramIllgal("获取参数失败");
+		}
+
+		if (StringUtils.isEmpty(param.getMobile()) || param.getMobile().length() != 11) {
+			return new BaseResult().paramIllgal("手机号为空或不合法");
+		}
+
+		if (!param.getValidCode().equals(ServiceContext.getRequest().getSession().getAttribute(USER_CHANGE_PASS_WORD_VILIDCODE_SESSION_KEY))) {
+			return new BaseResult().paramIllgal("验证码错误");
+		}
+
+		return new BaseResult().success("验证成功");
+	}
+
 	/**
 	 * 修改密码验证码获取接口
 	 * 
@@ -171,11 +184,11 @@ public class LoginService extends BaseService {
 		String random = new Random().nextInt(9999) + "";
 		ServiceContext.getRequest().getSession().setAttribute(USER_CHANGE_PASS_WORD_VILIDCODE_SESSION_KEY, random);
 		rs.setValidCode(random);
-		
-		//发送短信代码
-		com.xinfan.msgbox.common.BaseResult<String> ret =  smsService.sendChangePwdValidSms(param.getMobile(), random);
-		if(ret != null && ret.getResult() != 0){
-			logger.error("发送修改密码短信失败,messge:"+ret.getMessage());
+
+		// 发送短信代码
+		com.xinfan.msgbox.common.BaseResult<String> ret = smsService.sendChangePwdValidSms(param.getMobile(), random);
+		if (ret != null && ret.getResult() != 0) {
+			logger.error("发送修改密码短信失败,messge:" + ret.getMessage());
 		}
 		return rs;
 	}
