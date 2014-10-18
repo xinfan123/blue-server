@@ -3,6 +3,7 @@ package com.xinfan.msgbox.http.service.vo;
 import com.xinfan.msgbox.http.service.vo.param.BaseParam;
 import com.xinfan.msgbox.http.service.vo.param.ChangePasswdAfterLoginParam;
 import com.xinfan.msgbox.http.service.vo.param.ChangePasswdBeforeLoginParam;
+import com.xinfan.msgbox.http.service.vo.param.ClientVersionParam;
 import com.xinfan.msgbox.http.service.vo.param.ForgetPwdVerifCodeParam;
 import com.xinfan.msgbox.http.service.vo.param.LoginParam;
 import com.xinfan.msgbox.http.service.vo.param.MessageParam;
@@ -15,7 +16,7 @@ import com.xinfan.msgbox.http.service.vo.param.UserSentParam;
 import com.xinfan.msgbox.http.service.vo.param.UserSetParam;
 import com.xinfan.msgbox.http.service.vo.param.ValidCodeParam;
 import com.xinfan.msgbox.http.service.vo.result.BaseResult;
-import com.xinfan.msgbox.http.service.vo.result.ClientVersionListResult;
+import com.xinfan.msgbox.http.service.vo.result.ClientVersionResult;
 import com.xinfan.msgbox.http.service.vo.result.ConfigListResult;
 import com.xinfan.msgbox.http.service.vo.result.LoginResult;
 import com.xinfan.msgbox.http.service.vo.result.MessageListResult;
@@ -92,7 +93,7 @@ public enum FunIdConstants {
 	//获取用户发信列表
 	GET_CONFIG_LIST("getConfigList",BaseParam.class,ConfigListResult.class),
 	//获取用户收信列表
-	GET_CLIENTVERSION_LIST("getClientVersionList",BaseParam.class,ClientVersionListResult.class),
+	GET_CLIENTVERSION("getClientVersion",ClientVersionParam.class,ClientVersionResult.class),
 	;
 	
 	private FunIdConstants(String funId, Class paramClass, Class resultClass) {

@@ -27,60 +27,62 @@ public class SysGloableService {
 	ConfigDao configDao;
 	@Autowired
 	ClientVersionDao clientVersionDao;
+
 	/**
 	 * 获取系统配置接口
 	 */
-	public ConfigListResult getConfigList(BaseParam param)throws Exception {
+	public ConfigListResult getConfigList(BaseParam param) throws Exception {
 		ConfigExample example = new ConfigExample();
 		List<Config> list = configDao.selectByExample(example);
-		
+
 		List<ConfigResult> rsList = new ArrayList<ConfigResult>();
-		if(!CollectionUtils.isEmpty(list)){
-			for(Config config : list){
-				ConfigResult cr  = new ConfigResult();
+		if (!CollectionUtils.isEmpty(list)) {
+			for (Config config : list) {
+				ConfigResult cr = new ConfigResult();
 				PropertyUtils.copyProperties(cr, config);
 				rsList.add(cr);
 			}
 		}
-		
+
 		ConfigListResult rs = new ConfigListResult();
 		rs.setList(rsList);
 		return rs;
 	}
-	
-	
-	
+
 	/**
 	 * 获取版本信息接口
+	 * 
 	 * @param param
 	 * @return
 	 */
-	public ClientVersionListResult getClientVersionList(ClientVersionParam param) throws Exception{
-		if(StringUtils.isEmpty(param.getClientCode())){
+	public ClientVersionResult getClientVersion(ClientVersionParam param) throws Exception {
+		if (StringUtils.isEmpty(param.getClientCode())) {
 			return new ClientVersionListResult().paramIllgal("客户端编号不能为空");
 		}
+
+		ClientVersionResult result = new ClientVersionResult();
+
 		ClientVersionExample example = new ClientVersionExample();
-		Criteria c = example.createCriteria().andClientCodeEqualTo(param.getClientCode());
-		if(StringUtils.isNotEmpty(param.getCurrentVersion())){
-			c.andVersionGreaterThan(param.getCurrentVersion());
+		Criteria c = example.createCriteria().andClientCodeEqualTo(param.getClientCode()).andIsNewestEqualTo("1");
+		c.andVersionGreaterThan(param.getCurrentVersion());
+		example.setOrderByClause("version desc ");
+
+		List<ClientVersion> list = clientVersionDao.selectByExample(example);
+
+		// APP都全量升级，不需要增量升级
+		if (!CollectionUtils.isEmpty(list)) {
+			ClientVersion version = list.get(0);
+			result.setCode(version.getClientCode());
+			result.setCurrentVersion(version.getVersion());
+			result.setFullDownloadUrl(version.getFullDownloadUrl());
+			result.setIntroduceUrl(version.getIntroduceUrl());
+
+			result.setMsg("查询成功");
+		} else {
+			result.setMsg("查询失败");
 		}
-		
-		List<ClientVersion> list =  clientVersionDao.selectByExample(example);
-		ClientVersionListResult rs = new ClientVersionListResult();
-		
-		List<ClientVersionResult> rsList = new ArrayList<ClientVersionResult>();
-		if(!CollectionUtils.isEmpty(list)){
-			for(ClientVersion cv : list){
-				ClientVersionResult cvr = new ClientVersionResult();
-				PropertyUtils.copyProperties(cvr, cv);
-				rsList.add(cvr);
-			}
-			rs.setList(rsList);
-			rs.setMsg("有需要更新的版本，一共"+list.size()+"个");
-		}else{
-			rs.setMsg("没有需要更新的版本");
-		}
-		return rs;
+
+		return result;
 	}
-	
+
 }

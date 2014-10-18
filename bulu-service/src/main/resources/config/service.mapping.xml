@@ -40,7 +40,7 @@
     
     <!-- 系统相关部分 -->
     <service funId="getConfigList" bean="SysGloableService" method="getConfigList" name="获取系统配置"/>
-    <service funId="getClientVersionList" bean="SysGloableService" method="getClientVersionList" name="获取客户端版本号"/>
+    <service funId="getClientVersionList" bean="SysGloableService" method="getClientVersion" name="获取客户端版本号"/>
      
     
   	<service id="userLogin" bean="LoginService" method="login" name="登录"  />

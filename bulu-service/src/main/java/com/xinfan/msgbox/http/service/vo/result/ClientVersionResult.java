@@ -1,86 +1,55 @@
 package com.xinfan.msgbox.http.service.vo.result;
 
-public class ClientVersionResult {
-	  private Long id;
+public class ClientVersionResult  extends BaseResult{
 
-	    private String clientCode;
+	private String clientCode;
 
-	    private String version;
+	private String clientName;
 
-	    private String isNewest;
+	private String currentVersion;
 
-	    private String incrDownloadUrl;
+	private String fullDownloadUrl;
 
-	    private String fullDownloadUrl;
+	private String introduceUrl;
 
-	    private String introduceUrl;
+	public String getCode() {
+		return clientCode;
+	}
 
-	    private String remark;
+	public void setCode(String code) {
+		this.clientCode = code;
+	}
 
-		public Long getId() {
-			return id;
-		}
+	public String getName() {
+		return clientName;
+	}
 
-		public void setId(Long id) {
-			this.id = id;
-		}
+	public void setName(String name) {
+		this.clientName = name;
+	}
 
-		public String getClientCode() {
-			return clientCode;
-		}
+	public String getCurrentVersion() {
+		return currentVersion;
+	}
 
-		public void setClientCode(String clientCode) {
-			this.clientCode = clientCode;
-		}
+	public void setCurrentVersion(String currentVersion) {
+		this.currentVersion = currentVersion;
+	}
 
-		public String getVersion() {
-			return version;
-		}
+	public String getFullDownloadUrl() {
+		return fullDownloadUrl;
+	}
 
-		public void setVersion(String version) {
-			this.version = version;
-		}
+	public void setFullDownloadUrl(String fullDownloadUrl) {
+		this.fullDownloadUrl = fullDownloadUrl;
+	}
 
-		public String getIsNewest() {
-			return isNewest;
-		}
+	public String getIntroduceUrl() {
+		return introduceUrl;
+	}
 
-		public void setIsNewest(String isNewest) {
-			this.isNewest = isNewest;
-		}
+	public void setIntroduceUrl(String introduceUrl) {
+		this.introduceUrl = introduceUrl;
+	}
 
-		public String getIncrDownloadUrl() {
-			return incrDownloadUrl;
-		}
-
-		public void setIncrDownloadUrl(String incrDownloadUrl) {
-			this.incrDownloadUrl = incrDownloadUrl;
-		}
-
-		public String getFullDownloadUrl() {
-			return fullDownloadUrl;
-		}
-
-		public void setFullDownloadUrl(String fullDownloadUrl) {
-			this.fullDownloadUrl = fullDownloadUrl;
-		}
-
-		public String getIntroduceUrl() {
-			return introduceUrl;
-		}
-
-		public void setIntroduceUrl(String introduceUrl) {
-			this.introduceUrl = introduceUrl;
-		}
-
-		public String getRemark() {
-			return remark;
-		}
-
-		public void setRemark(String remark) {
-			this.remark = remark;
-		}
-
-	    
-	    
 }
