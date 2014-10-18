@@ -78,7 +78,14 @@ public class MessageGetService {
 			return new BaseResult().paramIllgal("用户ID不存在");
 		}
 		
+		//pubish_time
+		
 		Map<String,String> map = BeanUtils.describe(param);
+		
+		map.put("orderBy", "pubish_time");
+
+		PageUtils.calCurrentRow(map);
+		
 		List<MessageSend> list = messageReceivedDao.selectListForHttpService(map);
 		
 		List<MessageVO> rsList = new ArrayList<MessageVO>();

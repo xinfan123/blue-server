@@ -1,353 +1,376 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.xinfan.msgbox.service.dao.MessageSendMapper" >
-  <resultMap id="BaseResultMap" type="com.xinfan.msgbox.service.dao.entity.MessageSend" >
-    <id column="MSG_ID" property="msgId" jdbcType="BIGINT" />
-    <result column="SEND_USER_ID" property="sendUserId" jdbcType="BIGINT" />
-    <result column="PUBLISH_STATUS" property="publishStatus" jdbcType="INTEGER" />
-    <result column="PUBLISH_TIME" property="publishTime" jdbcType="TIMESTAMP" />
-    <result column="PUBLISH_COUNT" property="publishCount" jdbcType="INTEGER" />
-    <result column="READ_COUNT" property="readCount" jdbcType="INTEGER" />
-    <result column="PUBLISH_TYPE" property="publishType" jdbcType="INTEGER" />
-    <result column="SEND_TIME" property="sendTime" jdbcType="TIMESTAMP" />
-    <result column="SEND_CURRENT_CREDIT" property="sendCurrentCredit" jdbcType="INTEGER" />
-    <result column="NEW_REPLY_FOR_SEND" property="newReplyForSend" jdbcType="INTEGER" />
-    <result column="MSG_STATUS" property="msgStatus" jdbcType="INTEGER" />
-    <result column="PUBLISH_TO" property="publishTo" jdbcType="VARCHAR" />
-    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
-  </resultMap>
-  <sql id="Example_Where_Clause" >
-    <where >
-      <foreach collection="oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue" >
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue" >
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue" >
-                  and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Update_By_Example_Where_Clause" >
-    <where >
-      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue" >
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue" >
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue" >
-                  and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Base_Column_List" >
-    MSG_ID, SEND_USER_ID, PUBLISH_STATUS, PUBLISH_TIME, PUBLISH_COUNT, READ_COUNT, PUBLISH_TYPE, 
-    SEND_TIME, SEND_CURRENT_CREDIT, NEW_REPLY_FOR_SEND, MSG_STATUS, PUBLISH_TO, CREATE_TIME
-  </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xinfan.msgbox.service.dao.entity.MessageSendExample" >
-    select
-    <if test="distinct" >
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    from t_message_send
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
-    </if>
-  </select>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    select 
-    <include refid="Base_Column_List" />
-    from t_message_send
-    where MSG_ID = #{msgId,jdbcType=BIGINT}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
-    delete from t_message_send
-    where MSG_ID = #{msgId,jdbcType=BIGINT}
-  </delete>
-  <delete id="deleteByExample" parameterType="com.xinfan.msgbox.service.dao.entity.MessageSendExample" >
-    delete from t_message_send
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-  </delete>
-  <insert id="insert" parameterType="com.xinfan.msgbox.service.dao.entity.MessageSend" >
-    insert into t_message_send (MSG_ID, SEND_USER_ID, PUBLISH_STATUS, 
-      PUBLISH_TIME, PUBLISH_COUNT, READ_COUNT, 
-      PUBLISH_TYPE, SEND_TIME, SEND_CURRENT_CREDIT, 
-      NEW_REPLY_FOR_SEND, MSG_STATUS, PUBLISH_TO, 
-      CREATE_TIME)
-    values (#{msgId,jdbcType=BIGINT}, #{sendUserId,jdbcType=BIGINT}, #{publishStatus,jdbcType=INTEGER}, 
-      #{publishTime,jdbcType=TIMESTAMP}, #{publishCount,jdbcType=INTEGER}, #{readCount,jdbcType=INTEGER}, 
-      #{publishType,jdbcType=INTEGER}, #{sendTime,jdbcType=TIMESTAMP}, #{sendCurrentCredit,jdbcType=INTEGER}, 
-      #{newReplyForSend,jdbcType=INTEGER}, #{msgStatus,jdbcType=INTEGER}, #{publishTo,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP})
-  </insert>
-  <insert id="insertSelective" parameterType="com.xinfan.msgbox.service.dao.entity.MessageSend" >
-    insert into t_message_send
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="msgId != null" >
-        MSG_ID,
-      </if>
-      <if test="sendUserId != null" >
-        SEND_USER_ID,
-      </if>
-      <if test="publishStatus != null" >
-        PUBLISH_STATUS,
-      </if>
-      <if test="publishTime != null" >
-        PUBLISH_TIME,
-      </if>
-      <if test="publishCount != null" >
-        PUBLISH_COUNT,
-      </if>
-      <if test="readCount != null" >
-        READ_COUNT,
-      </if>
-      <if test="publishType != null" >
-        PUBLISH_TYPE,
-      </if>
-      <if test="sendTime != null" >
-        SEND_TIME,
-      </if>
-      <if test="sendCurrentCredit != null" >
-        SEND_CURRENT_CREDIT,
-      </if>
-      <if test="newReplyForSend != null" >
-        NEW_REPLY_FOR_SEND,
-      </if>
-      <if test="msgStatus != null" >
-        MSG_STATUS,
-      </if>
-      <if test="publishTo != null" >
-        PUBLISH_TO,
-      </if>
-      <if test="createTime != null" >
-        CREATE_TIME,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="msgId != null" >
-        #{msgId,jdbcType=BIGINT},
-      </if>
-      <if test="sendUserId != null" >
-        #{sendUserId,jdbcType=BIGINT},
-      </if>
-      <if test="publishStatus != null" >
-        #{publishStatus,jdbcType=INTEGER},
-      </if>
-      <if test="publishTime != null" >
-        #{publishTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="publishCount != null" >
-        #{publishCount,jdbcType=INTEGER},
-      </if>
-      <if test="readCount != null" >
-        #{readCount,jdbcType=INTEGER},
-      </if>
-      <if test="publishType != null" >
-        #{publishType,jdbcType=INTEGER},
-      </if>
-      <if test="sendTime != null" >
-        #{sendTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="sendCurrentCredit != null" >
-        #{sendCurrentCredit,jdbcType=INTEGER},
-      </if>
-      <if test="newReplyForSend != null" >
-        #{newReplyForSend,jdbcType=INTEGER},
-      </if>
-      <if test="msgStatus != null" >
-        #{msgStatus,jdbcType=INTEGER},
-      </if>
-      <if test="publishTo != null" >
-        #{publishTo,jdbcType=VARCHAR},
-      </if>
-      <if test="createTime != null" >
-        #{createTime,jdbcType=TIMESTAMP},
-      </if>
-    </trim>
-  </insert>
-  <select id="countByExample" parameterType="com.xinfan.msgbox.service.dao.entity.MessageSendExample" resultType="java.lang.Integer" >
-    select count(*) from t_message_send
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-  </select>
-  <update id="updateByExampleSelective" parameterType="map" >
-    update t_message_send
-    <set >
-      <if test="record.msgId != null" >
-        MSG_ID = #{record.msgId,jdbcType=BIGINT},
-      </if>
-      <if test="record.sendUserId != null" >
-        SEND_USER_ID = #{record.sendUserId,jdbcType=BIGINT},
-      </if>
-      <if test="record.publishStatus != null" >
-        PUBLISH_STATUS = #{record.publishStatus,jdbcType=INTEGER},
-      </if>
-      <if test="record.publishTime != null" >
-        PUBLISH_TIME = #{record.publishTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.publishCount != null" >
-        PUBLISH_COUNT = #{record.publishCount,jdbcType=INTEGER},
-      </if>
-      <if test="record.readCount != null" >
-        READ_COUNT = #{record.readCount,jdbcType=INTEGER},
-      </if>
-      <if test="record.publishType != null" >
-        PUBLISH_TYPE = #{record.publishType,jdbcType=INTEGER},
-      </if>
-      <if test="record.sendTime != null" >
-        SEND_TIME = #{record.sendTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.sendCurrentCredit != null" >
-        SEND_CURRENT_CREDIT = #{record.sendCurrentCredit,jdbcType=INTEGER},
-      </if>
-      <if test="record.newReplyForSend != null" >
-        NEW_REPLY_FOR_SEND = #{record.newReplyForSend,jdbcType=INTEGER},
-      </if>
-      <if test="record.msgStatus != null" >
-        MSG_STATUS = #{record.msgStatus,jdbcType=INTEGER},
-      </if>
-      <if test="record.publishTo != null" >
-        PUBLISH_TO = #{record.publishTo,jdbcType=VARCHAR},
-      </if>
-      <if test="record.createTime != null" >
-        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
-      </if>
-    </set>
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExample" parameterType="map" >
-    update t_message_send
-    set MSG_ID = #{record.msgId,jdbcType=BIGINT},
-      SEND_USER_ID = #{record.sendUserId,jdbcType=BIGINT},
-      PUBLISH_STATUS = #{record.publishStatus,jdbcType=INTEGER},
-      PUBLISH_TIME = #{record.publishTime,jdbcType=TIMESTAMP},
-      PUBLISH_COUNT = #{record.publishCount,jdbcType=INTEGER},
-      READ_COUNT = #{record.readCount,jdbcType=INTEGER},
-      PUBLISH_TYPE = #{record.publishType,jdbcType=INTEGER},
-      SEND_TIME = #{record.sendTime,jdbcType=TIMESTAMP},
-      SEND_CURRENT_CREDIT = #{record.sendCurrentCredit,jdbcType=INTEGER},
-      NEW_REPLY_FOR_SEND = #{record.newReplyForSend,jdbcType=INTEGER},
-      MSG_STATUS = #{record.msgStatus,jdbcType=INTEGER},
-      PUBLISH_TO = #{record.publishTo,jdbcType=VARCHAR},
-      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP}
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.xinfan.msgbox.service.dao.entity.MessageSend" >
-    update t_message_send
-    <set >
-      <if test="sendUserId != null" >
-        SEND_USER_ID = #{sendUserId,jdbcType=BIGINT},
-      </if>
-      <if test="publishStatus != null" >
-        PUBLISH_STATUS = #{publishStatus,jdbcType=INTEGER},
-      </if>
-      <if test="publishTime != null" >
-        PUBLISH_TIME = #{publishTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="publishCount != null" >
-        PUBLISH_COUNT = #{publishCount,jdbcType=INTEGER},
-      </if>
-      <if test="readCount != null" >
-        READ_COUNT = #{readCount,jdbcType=INTEGER},
-      </if>
-      <if test="publishType != null" >
-        PUBLISH_TYPE = #{publishType,jdbcType=INTEGER},
-      </if>
-      <if test="sendTime != null" >
-        SEND_TIME = #{sendTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="sendCurrentCredit != null" >
-        SEND_CURRENT_CREDIT = #{sendCurrentCredit,jdbcType=INTEGER},
-      </if>
-      <if test="newReplyForSend != null" >
-        NEW_REPLY_FOR_SEND = #{newReplyForSend,jdbcType=INTEGER},
-      </if>
-      <if test="msgStatus != null" >
-        MSG_STATUS = #{msgStatus,jdbcType=INTEGER},
-      </if>
-      <if test="publishTo != null" >
-        PUBLISH_TO = #{publishTo,jdbcType=VARCHAR},
-      </if>
-      <if test="createTime != null" >
-        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
-      </if>
-    </set>
-    where MSG_ID = #{msgId,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.xinfan.msgbox.service.dao.entity.MessageSend" >
-    update t_message_send
-    set SEND_USER_ID = #{sendUserId,jdbcType=BIGINT},
-      PUBLISH_STATUS = #{publishStatus,jdbcType=INTEGER},
-      PUBLISH_TIME = #{publishTime,jdbcType=TIMESTAMP},
-      PUBLISH_COUNT = #{publishCount,jdbcType=INTEGER},
-      READ_COUNT = #{readCount,jdbcType=INTEGER},
-      PUBLISH_TYPE = #{publishType,jdbcType=INTEGER},
-      SEND_TIME = #{sendTime,jdbcType=TIMESTAMP},
-      SEND_CURRENT_CREDIT = #{sendCurrentCredit,jdbcType=INTEGER},
-      NEW_REPLY_FOR_SEND = #{newReplyForSend,jdbcType=INTEGER},
-      MSG_STATUS = #{msgStatus,jdbcType=INTEGER},
-      PUBLISH_TO = #{publishTo,jdbcType=VARCHAR},
-      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
-    where MSG_ID = #{msgId,jdbcType=BIGINT}
-  </update>
-  
-  
-    <select id="selectListForHttpService" resultMap="BaseResultMap" parameterType="com.xinfan.msgbox.service.dao.entity.UserLinkmanExample" >
-    select
-    <include refid="Base_Column_List" />
-    from t_message_send where 1=1
-    <if test="userId != null and userId != ''" >
-      and user_id = #{userId}
-    </if>
-    limit #{currentRow},#{pageSize}
-    <if test="orderBy != null and orderBy != ''" >
-      order by ${orderBy}
-    </if>
-  </select>
-  
+<mapper namespace="com.xinfan.msgbox.service.dao.MessageSendMapper">
+	<resultMap id="BaseResultMap"
+		type="com.xinfan.msgbox.service.dao.entity.MessageSend">
+		<id column="MSG_ID" property="msgId" jdbcType="BIGINT" />
+		<result column="SEND_USER_ID" property="sendUserId" jdbcType="BIGINT" />
+		<result column="PUBLISH_STATUS" property="publishStatus"
+			jdbcType="INTEGER" />
+		<result column="PUBLISH_TIME" property="publishTime" jdbcType="TIMESTAMP" />
+		<result column="PUBLISH_COUNT" property="publishCount"
+			jdbcType="INTEGER" />
+		<result column="READ_COUNT" property="readCount" jdbcType="INTEGER" />
+		<result column="PUBLISH_TYPE" property="publishType" jdbcType="INTEGER" />
+		<result column="SEND_TIME" property="sendTime" jdbcType="TIMESTAMP" />
+		<result column="SEND_CURRENT_CREDIT" property="sendCurrentCredit"
+			jdbcType="INTEGER" />
+		<result column="NEW_REPLY_FOR_SEND" property="newReplyForSend"
+			jdbcType="INTEGER" />
+		<result column="MSG_STATUS" property="msgStatus" jdbcType="INTEGER" />
+		<result column="PUBLISH_TO" property="publishTo" jdbcType="VARCHAR" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria" separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value} and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Update_By_Example_Where_Clause">
+		<where>
+			<foreach collection="example.oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value} and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Base_Column_List">
+		MSG_ID, SEND_USER_ID, PUBLISH_STATUS, PUBLISH_TIME, PUBLISH_COUNT,
+		READ_COUNT, PUBLISH_TYPE,
+		SEND_TIME, SEND_CURRENT_CREDIT, NEW_REPLY_FOR_SEND, MSG_STATUS, PUBLISH_TO,
+		CREATE_TIME
+	</sql>
+	<select id="selectByExample" resultMap="BaseResultMap"
+		parameterType="com.xinfan.msgbox.service.dao.entity.MessageSendExample">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		from t_message_send
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from t_message_send
+		where MSG_ID = #{msgId,jdbcType=BIGINT}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from t_message_send
+		where MSG_ID = #{msgId,jdbcType=BIGINT}
+	</delete>
+	<delete id="deleteByExample"
+		parameterType="com.xinfan.msgbox.service.dao.entity.MessageSendExample">
+		delete from t_message_send
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</delete>
+	<insert id="insert" parameterType="com.xinfan.msgbox.service.dao.entity.MessageSend">
+		insert into t_message_send (MSG_ID, SEND_USER_ID, PUBLISH_STATUS,
+		PUBLISH_TIME, PUBLISH_COUNT, READ_COUNT,
+		PUBLISH_TYPE, SEND_TIME, SEND_CURRENT_CREDIT,
+		NEW_REPLY_FOR_SEND, MSG_STATUS, PUBLISH_TO,
+		CREATE_TIME)
+		values (#{msgId,jdbcType=BIGINT}, #{sendUserId,jdbcType=BIGINT},
+		#{publishStatus,jdbcType=INTEGER},
+		#{publishTime,jdbcType=TIMESTAMP}, #{publishCount,jdbcType=INTEGER}, #{readCount,jdbcType=INTEGER},
+		#{publishType,jdbcType=INTEGER}, #{sendTime,jdbcType=TIMESTAMP},
+		#{sendCurrentCredit,jdbcType=INTEGER},
+		#{newReplyForSend,jdbcType=INTEGER}, #{msgStatus,jdbcType=INTEGER},
+		#{publishTo,jdbcType=VARCHAR},
+		#{createTime,jdbcType=TIMESTAMP})
+	</insert>
+	<insert id="insertSelective" parameterType="com.xinfan.msgbox.service.dao.entity.MessageSend">
+		insert into t_message_send
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="msgId != null">
+				MSG_ID,
+			</if>
+			<if test="sendUserId != null">
+				SEND_USER_ID,
+			</if>
+			<if test="publishStatus != null">
+				PUBLISH_STATUS,
+			</if>
+			<if test="publishTime != null">
+				PUBLISH_TIME,
+			</if>
+			<if test="publishCount != null">
+				PUBLISH_COUNT,
+			</if>
+			<if test="readCount != null">
+				READ_COUNT,
+			</if>
+			<if test="publishType != null">
+				PUBLISH_TYPE,
+			</if>
+			<if test="sendTime != null">
+				SEND_TIME,
+			</if>
+			<if test="sendCurrentCredit != null">
+				SEND_CURRENT_CREDIT,
+			</if>
+			<if test="newReplyForSend != null">
+				NEW_REPLY_FOR_SEND,
+			</if>
+			<if test="msgStatus != null">
+				MSG_STATUS,
+			</if>
+			<if test="publishTo != null">
+				PUBLISH_TO,
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="msgId != null">
+				#{msgId,jdbcType=BIGINT},
+			</if>
+			<if test="sendUserId != null">
+				#{sendUserId,jdbcType=BIGINT},
+			</if>
+			<if test="publishStatus != null">
+				#{publishStatus,jdbcType=INTEGER},
+			</if>
+			<if test="publishTime != null">
+				#{publishTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="publishCount != null">
+				#{publishCount,jdbcType=INTEGER},
+			</if>
+			<if test="readCount != null">
+				#{readCount,jdbcType=INTEGER},
+			</if>
+			<if test="publishType != null">
+				#{publishType,jdbcType=INTEGER},
+			</if>
+			<if test="sendTime != null">
+				#{sendTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="sendCurrentCredit != null">
+				#{sendCurrentCredit,jdbcType=INTEGER},
+			</if>
+			<if test="newReplyForSend != null">
+				#{newReplyForSend,jdbcType=INTEGER},
+			</if>
+			<if test="msgStatus != null">
+				#{msgStatus,jdbcType=INTEGER},
+			</if>
+			<if test="publishTo != null">
+				#{publishTo,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<select id="countByExample"
+		parameterType="com.xinfan.msgbox.service.dao.entity.MessageSendExample"
+		resultType="java.lang.Integer">
+		select count(*) from t_message_send
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+	<update id="updateByExampleSelective" parameterType="map">
+		update t_message_send
+		<set>
+			<if test="record.msgId != null">
+				MSG_ID = #{record.msgId,jdbcType=BIGINT},
+			</if>
+			<if test="record.sendUserId != null">
+				SEND_USER_ID = #{record.sendUserId,jdbcType=BIGINT},
+			</if>
+			<if test="record.publishStatus != null">
+				PUBLISH_STATUS = #{record.publishStatus,jdbcType=INTEGER},
+			</if>
+			<if test="record.publishTime != null">
+				PUBLISH_TIME = #{record.publishTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.publishCount != null">
+				PUBLISH_COUNT = #{record.publishCount,jdbcType=INTEGER},
+			</if>
+			<if test="record.readCount != null">
+				READ_COUNT = #{record.readCount,jdbcType=INTEGER},
+			</if>
+			<if test="record.publishType != null">
+				PUBLISH_TYPE = #{record.publishType,jdbcType=INTEGER},
+			</if>
+			<if test="record.sendTime != null">
+				SEND_TIME = #{record.sendTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.sendCurrentCredit != null">
+				SEND_CURRENT_CREDIT = #{record.sendCurrentCredit,jdbcType=INTEGER},
+			</if>
+			<if test="record.newReplyForSend != null">
+				NEW_REPLY_FOR_SEND = #{record.newReplyForSend,jdbcType=INTEGER},
+			</if>
+			<if test="record.msgStatus != null">
+				MSG_STATUS = #{record.msgStatus,jdbcType=INTEGER},
+			</if>
+			<if test="record.publishTo != null">
+				PUBLISH_TO = #{record.publishTo,jdbcType=VARCHAR},
+			</if>
+			<if test="record.createTime != null">
+				CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExample" parameterType="map">
+		update t_message_send
+		set MSG_ID = #{record.msgId,jdbcType=BIGINT},
+		SEND_USER_ID = #{record.sendUserId,jdbcType=BIGINT},
+		PUBLISH_STATUS = #{record.publishStatus,jdbcType=INTEGER},
+		PUBLISH_TIME = #{record.publishTime,jdbcType=TIMESTAMP},
+		PUBLISH_COUNT = #{record.publishCount,jdbcType=INTEGER},
+		READ_COUNT = #{record.readCount,jdbcType=INTEGER},
+		PUBLISH_TYPE = #{record.publishType,jdbcType=INTEGER},
+		SEND_TIME = #{record.sendTime,jdbcType=TIMESTAMP},
+		SEND_CURRENT_CREDIT = #{record.sendCurrentCredit,jdbcType=INTEGER},
+		NEW_REPLY_FOR_SEND = #{record.newReplyForSend,jdbcType=INTEGER},
+		MSG_STATUS = #{record.msgStatus,jdbcType=INTEGER},
+		PUBLISH_TO = #{record.publishTo,jdbcType=VARCHAR},
+		CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByPrimaryKeySelective" parameterType="com.xinfan.msgbox.service.dao.entity.MessageSend">
+		update t_message_send
+		<set>
+			<if test="sendUserId != null">
+				SEND_USER_ID = #{sendUserId,jdbcType=BIGINT},
+			</if>
+			<if test="publishStatus != null">
+				PUBLISH_STATUS = #{publishStatus,jdbcType=INTEGER},
+			</if>
+			<if test="publishTime != null">
+				PUBLISH_TIME = #{publishTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="publishCount != null">
+				PUBLISH_COUNT = #{publishCount,jdbcType=INTEGER},
+			</if>
+			<if test="readCount != null">
+				READ_COUNT = #{readCount,jdbcType=INTEGER},
+			</if>
+			<if test="publishType != null">
+				PUBLISH_TYPE = #{publishType,jdbcType=INTEGER},
+			</if>
+			<if test="sendTime != null">
+				SEND_TIME = #{sendTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="sendCurrentCredit != null">
+				SEND_CURRENT_CREDIT = #{sendCurrentCredit,jdbcType=INTEGER},
+			</if>
+			<if test="newReplyForSend != null">
+				NEW_REPLY_FOR_SEND = #{newReplyForSend,jdbcType=INTEGER},
+			</if>
+			<if test="msgStatus != null">
+				MSG_STATUS = #{msgStatus,jdbcType=INTEGER},
+			</if>
+			<if test="publishTo != null">
+				PUBLISH_TO = #{publishTo,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime != null">
+				CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where MSG_ID = #{msgId,jdbcType=BIGINT}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.xinfan.msgbox.service.dao.entity.MessageSend">
+		update t_message_send
+		set SEND_USER_ID = #{sendUserId,jdbcType=BIGINT},
+		PUBLISH_STATUS = #{publishStatus,jdbcType=INTEGER},
+		PUBLISH_TIME = #{publishTime,jdbcType=TIMESTAMP},
+		PUBLISH_COUNT = #{publishCount,jdbcType=INTEGER},
+		READ_COUNT = #{readCount,jdbcType=INTEGER},
+		PUBLISH_TYPE = #{publishType,jdbcType=INTEGER},
+		SEND_TIME = #{sendTime,jdbcType=TIMESTAMP},
+		SEND_CURRENT_CREDIT = #{sendCurrentCredit,jdbcType=INTEGER},
+		NEW_REPLY_FOR_SEND = #{newReplyForSend,jdbcType=INTEGER},
+		MSG_STATUS = #{msgStatus,jdbcType=INTEGER},
+		PUBLISH_TO = #{publishTo,jdbcType=VARCHAR},
+		CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+		where MSG_ID = #{msgId,jdbcType=BIGINT}
+	</update>
+
+
+	<select id="selectListForHttpService" resultMap="BaseResultMap"
+		parameterType="com.xinfan.msgbox.service.dao.entity.UserLinkmanExample">
+		select
+		<include refid="Base_Column_List" />
+		from t_message_send where msg_status !=4
+		<if test="userId != null and userId != ''">
+			and send_user_id = ${userId}
+		</if>
+
+		<if test="orderBy != null and orderBy != ''">
+			order by ${orderBy}
+		</if>
+		limit ${currentRow},${pageSize}
+
+	</select>
+
 </mapper>
