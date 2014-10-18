@@ -165,6 +165,11 @@ public class LoginService extends BaseService {
 		if (StringUtils.isEmpty(param.getMobile()) || param.getMobile().length() != 11) {
 			return new BaseResult().paramIllgal("手机号为空或不合法");
 		}
+		
+		User user = userDao.selectByMobile(param.getMobile());
+		if(user == null){
+			return new BaseResult().paramIllgal("此手机号尚未注册");
+		}
 
 		if (!param.getValidCode().equals(ServiceContext.getRequest().getSession().getAttribute(USER_CHANGE_PASS_WORD_VILIDCODE_SESSION_KEY))) {
 			return new BaseResult().paramIllgal("验证码错误");
