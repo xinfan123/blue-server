@@ -191,10 +191,7 @@ public class LoginService extends BaseService {
 		rs.setValidCode(random);
 
 		// 发送短信代码
-		com.xinfan.msgbox.common.BaseResult<String> ret = smsService.sendChangePwdValidSms(param.getMobile(), random);
-		if (ret != null && ret.getResult() != 0) {
-			logger.error("发送修改密码短信失败,messge:" + ret.getMessage());
-		}
+		smsService.sendChangePwdValidSms(param.getMobile(), random);
 		return rs;
 	}
 

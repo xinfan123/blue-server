@@ -146,10 +146,7 @@ public class UserSetService extends BaseService {
 		String random = new Random().nextInt(9999) + "";
 		ServiceContext.getRequest().getSession().setAttribute(USER_REGISTER_VALID_CODE_SESSION_KEY, random);
 		rs.setValidCode(random);
-		com.xinfan.msgbox.common.BaseResult<String> ret =  smsService.sendRegisterValidSms(param.getMobile(), random);
-		if(ret.getResult() != 0){
-			logger.error("发送注册短信失败,messge:"+ret.getMessage());
-		}
+		smsService.sendRegisterValidSms(param.getMobile(), random);
 		//发送注册短信验证码
 		return rs;
 	}
