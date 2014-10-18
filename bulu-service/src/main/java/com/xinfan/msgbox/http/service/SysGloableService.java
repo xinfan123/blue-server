@@ -64,7 +64,6 @@ public class SysGloableService {
 
 		ClientVersionExample example = new ClientVersionExample();
 		Criteria c = example.createCriteria().andClientCodeEqualTo(param.getClientCode()).andIsNewestEqualTo("1");
-		c.andVersionGreaterThan(param.getCurrentVersion());
 		example.setOrderByClause("version desc ");
 
 		List<ClientVersion> list = clientVersionDao.selectByExample(example);

@@ -4,7 +4,7 @@ import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
 
-public class BaseResult {
+public class BaseResult implements java.io.Serializable{
 	/**
 	 * 服务器未知异常
 	 */
