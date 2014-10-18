@@ -41,17 +41,22 @@ public class YunPianSmsServiceImpl implements SmsService{
 	
 	@Override
 	public void sendChangePwdValidSms(final String mobile,final String validCode) {
-		try{
-			String rs = YunpianSmsBean.tplSendSms(YunpianSmsBean.CHANGE_PASSWORD_TPL_ID, "#code#="+validCode, mobile);
-			JSONObject json = JSONObject.parseObject(rs);
-			if(json != null && "0".equals(json.getString("code"))){
-				logger.info("发送修改密码验证码成功,"+rs);
-			}else{
-				logger.error("发送修改密码验证码失败,"+rs);
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				try{
+					String rs = YunpianSmsBean.tplSendSms(YunpianSmsBean.CHANGE_PASSWORD_TPL_ID, "#code#="+validCode, mobile);
+					JSONObject json = JSONObject.parseObject(rs);
+					if(json != null && "0".equals(json.getString("code"))){
+						logger.info("发送修改密码验证码成功,"+rs);
+					}else{
+						logger.error("发送修改密码验证码失败,"+rs);
+					}
+				} catch (IOException e) {
+					e.printStackTrace();
+					logger.error("发送修改密码短信异常",e);
+				}
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
-			logger.error("发送修改密码短信异常",e);
-		}
+		});
 	}
 }
