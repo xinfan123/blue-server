@@ -4,6 +4,8 @@
 	<!-- 用户设置部分 -->
     <service funId="userRegister" bean="UserSetService" method="userRegister" name="用户注册"/>
     <service funId="getUserRegisterValidCode" bean="UserSetService" method="getUserRegisterValidCode" name="获取注册验证码"  />
+    <service funId="validUserRegisterValidCode" bean="UserSetService" method="validUserRegisterValidCode" name="检验用户注册验证码"  />
+      
     <service funId="getUserInfo" bean="UserSetService" method="getUserInfo" name="获取用户基本信息"  />
     <service funId="setUserSet" bean="UserSetService" method="setUserSet" name="设置用户设置"  login="true"/>
     <service funId="addUserLinkman" bean="UserSetService" method="addUserLinkman" name="增加用户联系人"  login="true"/>
@@ -30,7 +32,7 @@
     <service funId="changePassWdAfterLogin" bean="LoginService" method="changePassWdAfterLogin" name="登陆后修改密码" login="true"/>
     <service funId="changePassWdBeforeLogin" bean="LoginService" method="changePassWdBeforeLogin" name="登陆前修改密码"/>
     <service funId="getChangePassWordValidCode" bean="LoginService" method="getChangePassWordValidCode" name="修改密码验证码获取接口"/>
-    <service funId="validPwdcodeBeforeLogin" bean="LoginService" method="validPwdcodeBeforeLogin" name="验证验证码"/>
+    <service funId="validPwdcodeBeforeLogin" bean="LoginService" method="validPwdcodeBeforeLogin" name="验证修改密码的验证码"/>
     
     
     <!-- 消息设置相关部分 -->

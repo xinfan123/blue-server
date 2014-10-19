@@ -31,8 +31,6 @@ public class LoginService extends BaseService {
 	@Autowired
 	SmsService smsService;
 
-	private final String USER_CHANGE_PASS_WORD_VILIDCODE_SESSION_KEY = "user_change_pass_word_session";
-
 	/**
 	 * 登陆接口
 	 * 
@@ -51,11 +49,10 @@ public class LoginService extends BaseService {
 		}
 
 		// 先注释掉，影响流程
-		
-//		if(!param.getValidCode().equals(ServiceContext.getRequest().getSession().getAttribute(USER_LOGIN_VALID_CODE_SESSION_KEY))){
-//			  return new BaseResult().paramIllgal("验证码不匹配"); 
-//		}
-		 
+
+		// if(!param.getValidCode().equals(ServiceContext.getRequest().getSession().getAttribute(USER_LOGIN_VALID_CODE_SESSION_KEY))){
+		// return new BaseResult().paramIllgal("验证码不匹配");
+		// }
 
 		User user = userDao.selectByMobile(param.getMobile());
 		if (user == null) {
@@ -113,11 +110,11 @@ public class LoginService extends BaseService {
 		}
 
 		User user = getUserFromSession();
-		
+
 		if (!Md5PwdFactory.getUserMd5PwdEncoder().encodePassword(param.getOldPasswd()).equals(user.getPasswd())) {
 			return new BaseResult().paramIllgal("原密码错误");
 		}
-		
+
 		user.setPasswd(Md5PwdFactory.getUserMd5PwdEncoder().encodePassword(param.getNewPasswd()));
 		userDao.updateByPrimaryKeySelective(user);
 		return new BaseResult().success("密码修改成功");
@@ -143,8 +140,16 @@ public class LoginService extends BaseService {
 		if (StringUtils.isEmpty(param.getValidCode())) {
 			return new BaseResult().paramIllgal("验证码不能为空");
 		}
-		if (!param.getValidCode().equals(ServiceContext.getRequest().getSession().getAttribute(USER_CHANGE_PASS_WORD_VILIDCODE_SESSION_KEY))) {
+
+		String sessionMobile = String.valueOf(ServiceContext.getRequest().getSession().getAttribute(BizConstants.USER_CHANGE_PASS_WORD_MOBILE));
+		String sessionValidCode = String.valueOf(ServiceContext.getRequest().getSession().getAttribute(BizConstants.USER_CHANGE_PASS_WORD_VILIDCODE_SESSION_KEY));
+
+		if (!param.getValidCode().equals(sessionValidCode)) {
 			return new BaseResult().paramIllgal("验证码错误");
+		}
+
+		if (!param.getMobile().equals(sessionMobile)) {
+			return new BaseResult().paramIllgal("验证手机号码不比配");
 		}
 
 		User user = userDao.selectByMobile(param.getMobile());
@@ -157,7 +162,7 @@ public class LoginService extends BaseService {
 	}
 
 	public BaseResult validPwdcodeBeforeLogin(ChangePasswdBeforeLoginParam param) {
-		
+
 		if (param == null) {
 			return new BaseResult().paramIllgal("获取参数失败");
 		}
@@ -165,14 +170,21 @@ public class LoginService extends BaseService {
 		if (StringUtils.isEmpty(param.getMobile()) || param.getMobile().length() != 11) {
 			return new BaseResult().paramIllgal("手机号为空或不合法");
 		}
-		
+
 		User user = userDao.selectByMobile(param.getMobile());
-		if(user == null){
+		if (user == null) {
 			return new BaseResult().paramIllgal("此手机号尚未注册");
 		}
 
-		if (!param.getValidCode().equals(ServiceContext.getRequest().getSession().getAttribute(USER_CHANGE_PASS_WORD_VILIDCODE_SESSION_KEY))) {
+		String sessionMobile = String.valueOf(ServiceContext.getRequest().getSession().getAttribute(BizConstants.USER_CHANGE_PASS_WORD_MOBILE));
+		String sessionValidCode = String.valueOf(ServiceContext.getRequest().getSession().getAttribute(BizConstants.USER_CHANGE_PASS_WORD_VILIDCODE_SESSION_KEY));
+
+		if (!param.getValidCode().equals(sessionValidCode)) {
 			return new BaseResult().paramIllgal("验证码错误");
+		}
+
+		if (!param.getMobile().equals(sessionMobile)) {
+			return new BaseResult().paramIllgal("验证手机号码不比配");
 		}
 
 		return new BaseResult().success("验证成功");
@@ -185,9 +197,15 @@ public class LoginService extends BaseService {
 	 * @return
 	 */
 	public ValidCodeResult getChangePassWordValidCode(ValidCodeParam param) {
+
+		if (param.getMobile() == null || param.getMobile().length() == 0) {
+			return new BaseResult().paramIllgal("手机号码不能空");
+		}
+
 		ValidCodeResult rs = new ValidCodeResult();
 		String random = new Random().nextInt(9999) + "";
-		ServiceContext.getRequest().getSession().setAttribute(USER_CHANGE_PASS_WORD_VILIDCODE_SESSION_KEY, random);
+		ServiceContext.getRequest().getSession().setAttribute(BizConstants.USER_CHANGE_PASS_WORD_VILIDCODE_SESSION_KEY, random);
+		ServiceContext.getRequest().getSession().setAttribute(BizConstants.USER_CHANGE_PASS_WORD_MOBILE, param.getMobile());
 		rs.setValidCode(random);
 
 		// 发送短信代码

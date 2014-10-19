@@ -33,6 +33,10 @@ public enum FunIdConstants {
 	/************* 用户设置相关部分 *************/
 	// 获取用户注册验证码
 	GET_USERREGISTER_VALIDCODE("getUserRegisterValidCode", ValidCodeParam.class, ValidCodeResult.class),
+	
+	//注册前检查用户验证码
+	VALID_USER_REGISTER_VALIDCODE("validUserRegisterValidCode", ValidCodeParam.class, ValidCodeResult.class),
+	
 	// 用户注册
 	USER_REGISTER("userRegister", RegisterParam.class, BaseResult.class),
 	// 设置用户设置
@@ -79,6 +83,7 @@ public enum FunIdConstants {
 	// 登陆前修改密码验证码获取
 	GET_CHANGE_PASSWORD_VALID_CODE("getChangePassWordValidCode", ValidCodeParam.class, ValidCodeResult.class),
 	
+	//修改密码前检查验证码
 	VALID_PWDCODE_BEFORE_LOGIN("validPwdcodeBeforeLogin", ChangePasswdBeforeLoginParam.class, BaseResult.class),
 	
 

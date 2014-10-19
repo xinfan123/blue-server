@@ -45,7 +45,7 @@ import com.xinfan.msgbox.service.sms.SmsService;
 
 public class UserSetService extends BaseService {
 	private static Logger logger = LoggerFactory.getLogger(UserSetService.class);
-	
+
 	@Autowired
 	UserDao userDao;
 	@Autowired
@@ -64,7 +64,7 @@ public class UserSetService extends BaseService {
 	MessageReportedDao messageReportedDao;
 	@Autowired
 	MessageDao messageDao;
-	
+
 	@Autowired
 	SmsService smsService;
 
@@ -85,9 +85,17 @@ public class UserSetService extends BaseService {
 			return new BaseResult().paramIllgal("密码为空或不合法");
 		}
 
-		if (StringUtils.isEmpty(param.getValidCode()) || !param.getValidCode().equals(ServiceContext.getRequest().getSession().getAttribute(USER_REGISTER_VALID_CODE_SESSION_KEY))) {
-			return new BaseResult().paramIllgal("验证码为空或不匹配");
+		String sessionMobile = String.valueOf(ServiceContext.getRequest().getSession().getAttribute(BizConstants.USER_REGISTER_VALID_CODE_MOBILE));
+		String sessionValidCode = String.valueOf(ServiceContext.getRequest().getSession().getAttribute(BizConstants.USER_REGISTER_VALID_CODE_SESSION_KEY));
+
+		if (!param.getValidCode().equals(sessionValidCode)) {
+			return new BaseResult().paramIllgal("验证码错误");
 		}
+
+		if (!param.getMobile().equals(sessionMobile)) {
+			return new BaseResult().paramIllgal("验证手机号码不比配");
+		}
+
 		UserExample example = new UserExample();
 		example.createCriteria().andMobileEqualTo(param.getMobile());
 		List<User> userList = userDao.selectByExample(example);
@@ -128,12 +136,10 @@ public class UserSetService extends BaseService {
 		userBalanceDao.insertSelective(balance);
 
 		UserBalanceHis balanceHis = new UserBalanceHis();
-		BeanUtils.copyProperties(balanceHis,balance);
+		BeanUtils.copyProperties(balanceHis, balance);
 		userBalanceHisDao.insertSelective(balanceHis);
 		return new BaseResult().success("注册成功");
 	}
-
-	private static final String USER_REGISTER_VALID_CODE_SESSION_KEY = "user_register_valid_code_session";
 
 	/**
 	 * 注册验证码获取接口
@@ -142,13 +148,51 @@ public class UserSetService extends BaseService {
 	 * @return
 	 */
 	public ValidCodeResult getUserRegisterValidCode(ValidCodeParam param) {
+
+		if (param.getMobile() == null || param.getMobile().length() == 0) {
+			return new BaseResult().paramIllgal("手机号码为空");
+		}
+
 		ValidCodeResult rs = new ValidCodeResult();
 		String random = new Random().nextInt(9999) + "";
-		ServiceContext.getRequest().getSession().setAttribute(USER_REGISTER_VALID_CODE_SESSION_KEY, random);
+
+		ServiceContext.getRequest().getSession().setAttribute(BizConstants.USER_REGISTER_VALID_CODE_SESSION_KEY, random);
+		ServiceContext.getRequest().getSession().setAttribute(BizConstants.USER_REGISTER_VALID_CODE_MOBILE, param.getMobile());
+
 		rs.setValidCode(random);
+
 		smsService.sendRegisterValidSms(param.getMobile(), random);
-		//发送注册短信验证码
+		// 发送注册短信验证码
 		return rs;
+	}
+
+	public ValidCodeResult validUserRegisterValidCode(ValidCodeParam param) {
+
+		if (param.getMobile() == null || param.getMobile().length() == 0) {
+			return new BaseResult().paramIllgal("手机号码为空");
+		}
+
+		if (param.getValidCode() == null || param.getValidCode().length() == 0) {
+			return new BaseResult().paramIllgal("验证码为空");
+		}
+
+		ValidCodeResult rs = new ValidCodeResult();
+
+		String sessionMobile = String.valueOf(ServiceContext.getRequest().getSession().getAttribute(BizConstants.USER_REGISTER_VALID_CODE_MOBILE));
+		String sessionValidCode = String.valueOf(ServiceContext.getRequest().getSession().getAttribute(BizConstants.USER_REGISTER_VALID_CODE_SESSION_KEY));
+
+		if (!param.getValidCode().equals(sessionValidCode)) {
+			return new BaseResult().paramIllgal("验证码错误");
+		}
+
+		if (!param.getMobile().equals(sessionMobile)) {
+			return new BaseResult().paramIllgal("验证手机号码不比配");
+		}
+
+		rs.setMsg("验证成功");
+
+		return rs;
+
 	}
 
 	/**

@@ -3,7 +3,7 @@
 <generatorConfiguration>
 
 	<classPathEntry
-		location="E:\xinfan\svn\mbox-server\msgbox-parent\msgbox-lib\mysql-connector-java-5.1.33.jar" />
+		location="D:\jar\mysql-connector-java-5.1.33.jar" />
 
 	<context id="msgbox" targetRuntime="MyBatis3">
 		<commentGenerator>
@@ -11,7 +11,7 @@
 		</commentGenerator>
 		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
 			connectionURL="jdbc:mysql://127.0.0.1:3306/msgbox?useUnicode=true&amp;characterEncoding=UTF-8"
-			userId="msgbox" password="msgbox">
+			userId="root" password="">
 		</jdbcConnection>
 
 		<javaTypeResolver>
@@ -19,19 +19,19 @@
 		</javaTypeResolver>
 
 		<javaModelGenerator targetPackage="com.xinfan.msgbox.service.dao.entity"
-			targetProject="msgbox-service">
+			targetProject="bulu-service">
 			<property name="enableSubPackages" value="true" />
 			<property name="trimStrings" value="true" />
 		</javaModelGenerator>
 
 		<!-- -->
 		<sqlMapGenerator targetPackage="com.xinfan.msgbox.service.dao"
-			targetProject="msgbox-service">
+			targetProject="bulu-service">
 			<property name="enableSubPackages" value="true" />
 		</sqlMapGenerator>
 
 		<javaClientGenerator type="XMLMAPPER"
-			targetPackage="com.xinfan.msgbox.service.dao" targetProject="msgbox-service">
+			targetPackage="com.xinfan.msgbox.service.dao" targetProject="bulu-service">
 			<property name="enableSubPackages" value="true" />
 		</javaClientGenerator>
 
@@ -43,7 +43,7 @@
 		
 <!-- 		<table tableName="t_message" domainObjectName="Message"/> -->
 <!-- 		<table tableName="t_message_received" domainObjectName="MessageReceived"/> -->
- 		<table tableName="t_message_send" domainObjectName="MessageSend"/> 
+ 		<table tableName="t_advice" domainObjectName="Advice"/> 
 <!-- 		<table tableName="t_message_reply" domainObjectName="MessageReply"/> -->
 <!-- 		<table tableName="t_message_reported" domainObjectName="MessageReported"/> -->
 		
