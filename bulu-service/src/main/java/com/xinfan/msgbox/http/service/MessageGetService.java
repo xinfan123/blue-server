@@ -36,6 +36,7 @@ public class MessageGetService {
 	 * @return
 	 */
 	public MessageListResult getUserSendMessageList(UserMessageListParam param) throws Exception{
+		
 		if(param.getUserId() == null || param.getUserId() == null){
 			return new BaseResult().paramIllgal("用户ID不存在");
 		}

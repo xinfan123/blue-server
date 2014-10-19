@@ -1,12 +1,8 @@
-package com.xinfan.msgbox.http.service.vo.param;
+package com.xinfan.msgbox.http.service.vo.result;
 
 import java.util.Date;
 
-public class MessageParam extends BaseParam {
-	// 推送类型
-	private Integer publishType;
-	// 点对点或行业推送的id
-	private String publishTo;
+public class MessageSendDetailVO {
 
 	private Long msgId;
 
@@ -38,12 +34,34 @@ public class MessageParam extends BaseParam {
 
 	private String reginCode;
 
-	public Integer getDurationTime() {
-		return durationTime;
+	private Date createTime;
+
+	private Long sendUserId;
+
+	private Integer publishStatus;
+
+	private Date publishTime;
+
+	private Integer publishCount;
+
+	private Integer readCount;
+
+	private Integer publishType;
+
+	private Date sendTime;
+
+	private Integer sendCurrentCredit;
+
+	private Integer newReplyForSend;
+
+	private String publishTo;
+
+	public Long getMsgId() {
+		return msgId;
 	}
 
-	public void setDurationTime(Integer durationTime) {
-		this.durationTime = durationTime;
+	public void setMsgId(Long msgId) {
+		this.msgId = msgId;
 	}
 
 	public String getTitle() {
@@ -68,6 +86,14 @@ public class MessageParam extends BaseParam {
 
 	public void setValidTime(Date validTime) {
 		this.validTime = validTime;
+	}
+
+	public Integer getDurationTime() {
+		return durationTime;
+	}
+
+	public void setDurationTime(Integer durationTime) {
+		this.durationTime = durationTime;
 	}
 
 	public Integer getSendType() {
@@ -150,6 +176,54 @@ public class MessageParam extends BaseParam {
 		this.reginCode = reginCode;
 	}
 
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+
+	public Long getSendUserId() {
+		return sendUserId;
+	}
+
+	public void setSendUserId(Long sendUserId) {
+		this.sendUserId = sendUserId;
+	}
+
+	public Integer getPublishStatus() {
+		return publishStatus;
+	}
+
+	public void setPublishStatus(Integer publishStatus) {
+		this.publishStatus = publishStatus;
+	}
+
+	public Date getPublishTime() {
+		return publishTime;
+	}
+
+	public void setPublishTime(Date publishTime) {
+		this.publishTime = publishTime;
+	}
+
+	public Integer getPublishCount() {
+		return publishCount;
+	}
+
+	public void setPublishCount(Integer publishCount) {
+		this.publishCount = publishCount;
+	}
+
+	public Integer getReadCount() {
+		return readCount;
+	}
+
+	public void setReadCount(Integer readCount) {
+		this.readCount = readCount;
+	}
+
 	public Integer getPublishType() {
 		return publishType;
 	}
@@ -158,20 +232,36 @@ public class MessageParam extends BaseParam {
 		this.publishType = publishType;
 	}
 
+	public Date getSendTime() {
+		return sendTime;
+	}
+
+	public void setSendTime(Date sendTime) {
+		this.sendTime = sendTime;
+	}
+
+	public Integer getSendCurrentCredit() {
+		return sendCurrentCredit;
+	}
+
+	public void setSendCurrentCredit(Integer sendCurrentCredit) {
+		this.sendCurrentCredit = sendCurrentCredit;
+	}
+
+	public Integer getNewReplyForSend() {
+		return newReplyForSend;
+	}
+
+	public void setNewReplyForSend(Integer newReplyForSend) {
+		this.newReplyForSend = newReplyForSend;
+	}
+
 	public String getPublishTo() {
 		return publishTo;
 	}
 
 	public void setPublishTo(String publishTo) {
 		this.publishTo = publishTo;
-	}
-
-	public Long getMsgId() {
-		return msgId;
-	}
-
-	public void setMsgId(Long msgId) {
-		this.msgId = msgId;
 	}
 
 }

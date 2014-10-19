@@ -18,16 +18,19 @@ import com.xinfan.msgbox.service.dao.entity.MessageSend;
 import com.xinfan.msgbox.service.dao.entity.UserBalance;
 
 public class MessageSetService {
+	
 	@Autowired
 	UserDao userDao;
+	
 	@Autowired
 	UserBalanceDao userBalanceDao;
+	
 	@Autowired
 	UserVipDao userVipDao;
 	
-	
 	@Autowired
 	MessageDao messageDao;
+	
 	@Autowired
 	MessageSendDao messageSendDao;
 	
@@ -37,12 +40,14 @@ public class MessageSetService {
 	 * @return
 	 */
 	public BaseResult sendMessage(MessageParam param) throws Exception{
+		
 		if(param.getCreateUserId() == null || param.getCreateUserId() < 0){
 			return new BaseResult().paramIllgal("创建用户ID不能为空");
 		}
 		if(StringUtils.isEmpty(param.getTitle())){
 			return new BaseResult().paramIllgal("信息标题不能为空");
 		}
+		
 		//写入信息表
 		Message msg = new Message();
 		BeanUtils.copyProperties(msg, param);
@@ -55,6 +60,7 @@ public class MessageSetService {
 		send.setCreateTime(msg.getCreateTime());
 		send.setMsgId(msg.getMsgId());
 		send.setMsgStatus(msg.getMsgStatus());
+		
 		send.setNewReplyForSend(0);
 		send.setPublishType(param.getPublishType() == null ? 1:param.getPublishType());
 		send.setPublishTo(param.getPublishTo());

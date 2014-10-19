@@ -6,6 +6,7 @@
     <result column="TITLE" property="title" jdbcType="VARCHAR" />
     <result column="CONTEXT" property="context" jdbcType="VARCHAR" />
     <result column="VALID_TIME" property="validTime" jdbcType="TIMESTAMP" />
+    <result column="DURATION_TIME" property="durationTime" jdbcType="INTEGER" />
     <result column="SEND_TYPE" property="sendType" jdbcType="INTEGER" />
     <result column="SEND_AREA" property="sendArea" jdbcType="VARCHAR" />
     <result column="SEND_DISTANCE" property="sendDistance" jdbcType="VARCHAR" />
@@ -77,8 +78,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    MSG_ID, TITLE, CONTEXT, VALID_TIME, SEND_TYPE, SEND_AREA, SEND_DISTANCE, AMOUNT_STATUS, 
-    AMOUNT, MSG_STATUS, CREATE_USER_ID, GPSY, GPSX, REGIN_CODE, CREATE_TIME
+    MSG_ID, TITLE, CONTEXT, VALID_TIME, DURATION_TIME, SEND_TYPE, SEND_AREA, SEND_DISTANCE, 
+    AMOUNT_STATUS, AMOUNT, MSG_STATUS, CREATE_USER_ID, GPSY, GPSX, REGIN_CODE, CREATE_TIME
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xinfan.msgbox.service.dao.entity.MessageExample" >
     select
@@ -112,17 +113,17 @@
   </delete>
   <insert id="insert" parameterType="com.xinfan.msgbox.service.dao.entity.Message" >
     insert into t_message (MSG_ID, TITLE, CONTEXT, 
-      VALID_TIME, SEND_TYPE, SEND_AREA, 
-      SEND_DISTANCE, AMOUNT_STATUS, AMOUNT, 
-      MSG_STATUS, CREATE_USER_ID, GPSY, 
-      GPSX, REGIN_CODE, CREATE_TIME
-      )
+      VALID_TIME, DURATION_TIME, SEND_TYPE, 
+      SEND_AREA, SEND_DISTANCE, AMOUNT_STATUS, 
+      AMOUNT, MSG_STATUS, CREATE_USER_ID, 
+      GPSY, GPSX, REGIN_CODE, 
+      CREATE_TIME)
     values (#{msgId,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR}, #{context,jdbcType=VARCHAR}, 
-      #{validTime,jdbcType=TIMESTAMP}, #{sendType,jdbcType=INTEGER}, #{sendArea,jdbcType=VARCHAR}, 
-      #{sendDistance,jdbcType=VARCHAR}, #{amountStatus,jdbcType=INTEGER}, #{amount,jdbcType=DECIMAL}, 
-      #{msgStatus,jdbcType=INTEGER}, #{createUserId,jdbcType=BIGINT}, #{gpsy,jdbcType=VARCHAR}, 
-      #{gpsx,jdbcType=VARCHAR}, #{reginCode,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
-      )
+      #{validTime,jdbcType=TIMESTAMP}, #{durationTime,jdbcType=INTEGER}, #{sendType,jdbcType=INTEGER}, 
+      #{sendArea,jdbcType=VARCHAR}, #{sendDistance,jdbcType=VARCHAR}, #{amountStatus,jdbcType=INTEGER}, 
+      #{amount,jdbcType=DECIMAL}, #{msgStatus,jdbcType=INTEGER}, #{createUserId,jdbcType=BIGINT}, 
+      #{gpsy,jdbcType=VARCHAR}, #{gpsx,jdbcType=VARCHAR}, #{reginCode,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.xinfan.msgbox.service.dao.entity.Message" >
     insert into t_message
@@ -138,6 +139,9 @@
       </if>
       <if test="validTime != null" >
         VALID_TIME,
+      </if>
+      <if test="durationTime != null" >
+        DURATION_TIME,
       </if>
       <if test="sendType != null" >
         SEND_TYPE,
@@ -185,6 +189,9 @@
       </if>
       <if test="validTime != null" >
         #{validTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="durationTime != null" >
+        #{durationTime,jdbcType=INTEGER},
       </if>
       <if test="sendType != null" >
         #{sendType,jdbcType=INTEGER},
@@ -242,6 +249,9 @@
       <if test="record.validTime != null" >
         VALID_TIME = #{record.validTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.durationTime != null" >
+        DURATION_TIME = #{record.durationTime,jdbcType=INTEGER},
+      </if>
       <if test="record.sendType != null" >
         SEND_TYPE = #{record.sendType,jdbcType=INTEGER},
       </if>
@@ -286,6 +296,7 @@
       TITLE = #{record.title,jdbcType=VARCHAR},
       CONTEXT = #{record.context,jdbcType=VARCHAR},
       VALID_TIME = #{record.validTime,jdbcType=TIMESTAMP},
+      DURATION_TIME = #{record.durationTime,jdbcType=INTEGER},
       SEND_TYPE = #{record.sendType,jdbcType=INTEGER},
       SEND_AREA = #{record.sendArea,jdbcType=VARCHAR},
       SEND_DISTANCE = #{record.sendDistance,jdbcType=VARCHAR},
@@ -312,6 +323,9 @@
       </if>
       <if test="validTime != null" >
         VALID_TIME = #{validTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="durationTime != null" >
+        DURATION_TIME = #{durationTime,jdbcType=INTEGER},
       </if>
       <if test="sendType != null" >
         SEND_TYPE = #{sendType,jdbcType=INTEGER},
@@ -354,6 +368,7 @@
     set TITLE = #{title,jdbcType=VARCHAR},
       CONTEXT = #{context,jdbcType=VARCHAR},
       VALID_TIME = #{validTime,jdbcType=TIMESTAMP},
+      DURATION_TIME = #{durationTime,jdbcType=INTEGER},
       SEND_TYPE = #{sendType,jdbcType=INTEGER},
       SEND_AREA = #{sendArea,jdbcType=VARCHAR},
       SEND_DISTANCE = #{sendDistance,jdbcType=VARCHAR},
