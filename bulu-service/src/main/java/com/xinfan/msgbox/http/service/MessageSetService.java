@@ -6,7 +6,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.xinfan.msgbox.http.service.util.BeanUtils;
-import com.xinfan.msgbox.http.service.vo.param.MessageParam;
+import com.xinfan.msgbox.http.service.vo.param.SendMessageParam;
 import com.xinfan.msgbox.http.service.vo.result.BaseResult;
 import com.xinfan.msgbox.service.dao.MessageDao;
 import com.xinfan.msgbox.service.dao.MessageSendDao;
@@ -39,7 +39,7 @@ public class MessageSetService {
 	 * @param param
 	 * @return
 	 */
-	public BaseResult sendMessage(MessageParam param) throws Exception{
+	public BaseResult sendMessage(SendMessageParam param) throws Exception{
 		
 		if(param.getCreateUserId() == null || param.getCreateUserId() < 0){
 			return new BaseResult().paramIllgal("创建用户ID不能为空");
@@ -82,7 +82,7 @@ public class MessageSetService {
 	 * @param param
 	 * @return
 	 */
-	public BaseResult deleteMessage(MessageParam param) {
+	public BaseResult deleteMessage(SendMessageParam param) {
 		if(param.getMsgId() == null || param.getMsgId() <= 0){
 			return new BaseResult().paramIllgal("信息编号不能为空");
 		}
@@ -108,7 +108,7 @@ public class MessageSetService {
 	 * @param param
 	 * @return
 	 */
-	public BaseResult reSendMessage(MessageParam param) {
+	public BaseResult reSendMessage(SendMessageParam param) {
 		if(param.getMsgId() == null || param.getMsgId() <= 0){
 			return new BaseResult().paramIllgal("信息编号不能为空");
 		}

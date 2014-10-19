@@ -2,7 +2,7 @@ package com.xinfan.msgbox.http.service.vo.param;
 
 import java.util.Date;
 
-public class MessageParam extends BaseParam {
+public class SendMessageParam extends BaseParam {
 	// 推送类型
 	private Integer publishType;
 	// 点对点或行业推送的id

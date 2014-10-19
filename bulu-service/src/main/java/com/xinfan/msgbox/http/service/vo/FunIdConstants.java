@@ -6,7 +6,7 @@ import com.xinfan.msgbox.http.service.vo.param.ChangePasswdAfterLoginParam;
 import com.xinfan.msgbox.http.service.vo.param.ChangePasswdBeforeLoginParam;
 import com.xinfan.msgbox.http.service.vo.param.ClientVersionParam;
 import com.xinfan.msgbox.http.service.vo.param.LoginParam;
-import com.xinfan.msgbox.http.service.vo.param.MessageParam;
+import com.xinfan.msgbox.http.service.vo.param.SendMessageParam;
 import com.xinfan.msgbox.http.service.vo.param.RegisterParam;
 import com.xinfan.msgbox.http.service.vo.param.UserLinkmanListParam;
 import com.xinfan.msgbox.http.service.vo.param.UserLinkmanParam;
@@ -22,12 +22,12 @@ import com.xinfan.msgbox.http.service.vo.result.ConfigListResult;
 import com.xinfan.msgbox.http.service.vo.result.LoginResult;
 import com.xinfan.msgbox.http.service.vo.result.MessageListResult;
 import com.xinfan.msgbox.http.service.vo.result.MessageResult;
+import com.xinfan.msgbox.http.service.vo.result.MessageSendListResult;
 import com.xinfan.msgbox.http.service.vo.result.UserLinkmanListResult;
 import com.xinfan.msgbox.http.service.vo.result.UserResult;
 import com.xinfan.msgbox.http.service.vo.result.UserSentListResult;
 import com.xinfan.msgbox.http.service.vo.result.UserSetResult;
 import com.xinfan.msgbox.http.service.vo.result.ValidCodeResult;
-import com.xinfan.msgbox.service.dao.entity.Advice;
 
 public enum FunIdConstants {
 	/************* 用户设置相关部分 *************/
@@ -89,19 +89,19 @@ public enum FunIdConstants {
 
 	/************* 消息发送相关部分 *************/
 	// 发送消息
-	SEND_MESSAGE("sendMessage", MessageParam.class, BaseResult.class),
+	SEND_MESSAGE("sendMessage", SendMessageParam.class, BaseResult.class),
 	// 删除消息
-	DELETE_MESSAGE("deleteMessage", MessageParam.class, BaseResult.class),
+	DELETE_MESSAGE("deleteMessage", SendMessageParam.class, BaseResult.class),
 	// 重发消息
-	RESEND_MESSAGE("reSendMessage", MessageParam.class, BaseResult.class),
+	RESEND_MESSAGE("reSendMessage", SendMessageParam.class, BaseResult.class),
 
 	/************* 消息获取相关部分 *************/
 	// 获取用户发信列表
-	GET_USER_SEND_MESSAGE_LIST("getUserSendMessageList", UserMessageListParam.class, MessageListResult.class),
+	GET_USER_SEND_MESSAGE_LIST("getUserSendMessageList", UserMessageListParam.class, MessageSendListResult.class),
 	// 获取用户收信列表
 	GET_USER_RECIEVED_MESSAGE_LIST("getUserRecievedMessageList", UserMessageListParam.class, MessageListResult.class),
 	// 获取指定信息
-	GET_MESSAGE("getMessage", MessageParam.class, MessageResult.class),
+	GET_MESSAGE("getMessage", SendMessageParam.class, MessageResult.class),
 
 	/************* 系统配置相关部分 *************/
 	// 获取用户发信列表
