@@ -62,7 +62,7 @@ public class LoginService extends BaseService {
 			return new LoginResult().paramIllgal("用户不存在");
 		}
 
-		if (!Md5PwdFactory.getUserMd5PwdEncoder().encodePassword(param.getPasswd()).equals(user.getPasswd())) {
+		if (!param.getPasswd().equals(user.getPasswd())) {
 			return new LoginResult().paramIllgal("密码不正确");
 		}
 

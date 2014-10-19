@@ -57,6 +57,6 @@ public class YunPianSmsServiceImpl implements SmsService{
 					logger.error("发送修改密码短信异常",e);
 				}
 			}
-		});
+		}).start();
 	}
 }
