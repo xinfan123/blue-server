@@ -109,6 +109,7 @@ public class UserSetService extends BaseService {
 		user.setRegEarea(param.getRegEarea());
 		user.setRegGpsx(param.getRegGpsx());
 		user.setRegGpsy(param.getRegGpsy());
+		user.setUserName(param.getUserName());
 
 		user.setPasswd(Md5PwdFactory.getUserMd5PwdEncoder().encodePassword(param.getPasswd()));
 		user.setRegTime(new Date());
