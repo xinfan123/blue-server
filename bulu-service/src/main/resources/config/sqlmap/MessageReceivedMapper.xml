@@ -1,308 +1,332 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.xinfan.msgbox.service.dao.MessageReceivedMapper" >
-  <resultMap id="BaseResultMap" type="com.xinfan.msgbox.service.dao.entity.MessageReceived" >
-    <id column="PUBLISH_ID" property="publishId" jdbcType="BIGINT" />
-    <result column="MSG_ID" property="msgId" jdbcType="BIGINT" />
-    <result column="RECEIVED_USERID" property="receivedUserid" jdbcType="BIGINT" />
-    <result column="SEND_USERID" property="sendUserid" jdbcType="BIGINT" />
-    <result column="SEND_NEW_REPLY" property="sendNewReply" jdbcType="INTEGER" />
-    <result column="RECEIVED_NEW_REPLY" property="receivedNewReply" jdbcType="INTEGER" />
-    <result column="RECEIVED_STAUS" property="receivedStaus" jdbcType="INTEGER" />
-    <result column="READ_TIME" property="readTime" jdbcType="TIMESTAMP" />
-    <result column="DELETE_TIME" property="deleteTime" jdbcType="TIMESTAMP" />
-    <result column="PUBISH_TIME" property="pubishTime" jdbcType="TIMESTAMP" />
-  </resultMap>
-  <sql id="Example_Where_Clause" >
-    <where >
-      <foreach collection="oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue" >
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue" >
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue" >
-                  and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Update_By_Example_Where_Clause" >
-    <where >
-      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue" >
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue" >
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue" >
-                  and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Base_Column_List" >
-    PUBLISH_ID, MSG_ID, RECEIVED_USERID, SEND_USERID, SEND_NEW_REPLY, RECEIVED_NEW_REPLY, 
-    RECEIVED_STAUS, READ_TIME, DELETE_TIME, PUBISH_TIME
-  </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xinfan.msgbox.service.dao.entity.MessageReceivedExample" >
-    select
-    <if test="distinct" >
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    from t_message_received
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
-    </if>
-  </select>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    select 
-    <include refid="Base_Column_List" />
-    from t_message_received
-    where PUBLISH_ID = #{publishId,jdbcType=BIGINT}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
-    delete from t_message_received
-    where PUBLISH_ID = #{publishId,jdbcType=BIGINT}
-  </delete>
-  <delete id="deleteByExample" parameterType="com.xinfan.msgbox.service.dao.entity.MessageReceivedExample" >
-    delete from t_message_received
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-  </delete>
-  <insert id="insert" parameterType="com.xinfan.msgbox.service.dao.entity.MessageReceived" >
-    insert into t_message_received (PUBLISH_ID, MSG_ID, RECEIVED_USERID, 
-      SEND_USERID, SEND_NEW_REPLY, RECEIVED_NEW_REPLY, 
-      RECEIVED_STAUS, READ_TIME, DELETE_TIME, 
-      PUBISH_TIME)
-    values (#{publishId,jdbcType=BIGINT}, #{msgId,jdbcType=BIGINT}, #{receivedUserid,jdbcType=BIGINT}, 
-      #{sendUserid,jdbcType=BIGINT}, #{sendNewReply,jdbcType=INTEGER}, #{receivedNewReply,jdbcType=INTEGER}, 
-      #{receivedStaus,jdbcType=INTEGER}, #{readTime,jdbcType=TIMESTAMP}, #{deleteTime,jdbcType=TIMESTAMP}, 
-      #{pubishTime,jdbcType=TIMESTAMP})
-  </insert>
-  <insert id="insertSelective" parameterType="com.xinfan.msgbox.service.dao.entity.MessageReceived" >
-    insert into t_message_received
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="publishId != null" >
-        PUBLISH_ID,
-      </if>
-      <if test="msgId != null" >
-        MSG_ID,
-      </if>
-      <if test="receivedUserid != null" >
-        RECEIVED_USERID,
-      </if>
-      <if test="sendUserid != null" >
-        SEND_USERID,
-      </if>
-      <if test="sendNewReply != null" >
-        SEND_NEW_REPLY,
-      </if>
-      <if test="receivedNewReply != null" >
-        RECEIVED_NEW_REPLY,
-      </if>
-      <if test="receivedStaus != null" >
-        RECEIVED_STAUS,
-      </if>
-      <if test="readTime != null" >
-        READ_TIME,
-      </if>
-      <if test="deleteTime != null" >
-        DELETE_TIME,
-      </if>
-      <if test="pubishTime != null" >
-        PUBISH_TIME,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="publishId != null" >
-        #{publishId,jdbcType=BIGINT},
-      </if>
-      <if test="msgId != null" >
-        #{msgId,jdbcType=BIGINT},
-      </if>
-      <if test="receivedUserid != null" >
-        #{receivedUserid,jdbcType=BIGINT},
-      </if>
-      <if test="sendUserid != null" >
-        #{sendUserid,jdbcType=BIGINT},
-      </if>
-      <if test="sendNewReply != null" >
-        #{sendNewReply,jdbcType=INTEGER},
-      </if>
-      <if test="receivedNewReply != null" >
-        #{receivedNewReply,jdbcType=INTEGER},
-      </if>
-      <if test="receivedStaus != null" >
-        #{receivedStaus,jdbcType=INTEGER},
-      </if>
-      <if test="readTime != null" >
-        #{readTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="deleteTime != null" >
-        #{deleteTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="pubishTime != null" >
-        #{pubishTime,jdbcType=TIMESTAMP},
-      </if>
-    </trim>
-  </insert>
-  <select id="countByExample" parameterType="com.xinfan.msgbox.service.dao.entity.MessageReceivedExample" resultType="java.lang.Integer" >
-    select count(*) from t_message_received
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-  </select>
-  <update id="updateByExampleSelective" parameterType="map" >
-    update t_message_received
-    <set >
-      <if test="record.publishId != null" >
-        PUBLISH_ID = #{record.publishId,jdbcType=BIGINT},
-      </if>
-      <if test="record.msgId != null" >
-        MSG_ID = #{record.msgId,jdbcType=BIGINT},
-      </if>
-      <if test="record.receivedUserid != null" >
-        RECEIVED_USERID = #{record.receivedUserid,jdbcType=BIGINT},
-      </if>
-      <if test="record.sendUserid != null" >
-        SEND_USERID = #{record.sendUserid,jdbcType=BIGINT},
-      </if>
-      <if test="record.sendNewReply != null" >
-        SEND_NEW_REPLY = #{record.sendNewReply,jdbcType=INTEGER},
-      </if>
-      <if test="record.receivedNewReply != null" >
-        RECEIVED_NEW_REPLY = #{record.receivedNewReply,jdbcType=INTEGER},
-      </if>
-      <if test="record.receivedStaus != null" >
-        RECEIVED_STAUS = #{record.receivedStaus,jdbcType=INTEGER},
-      </if>
-      <if test="record.readTime != null" >
-        READ_TIME = #{record.readTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.deleteTime != null" >
-        DELETE_TIME = #{record.deleteTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.pubishTime != null" >
-        PUBISH_TIME = #{record.pubishTime,jdbcType=TIMESTAMP},
-      </if>
-    </set>
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExample" parameterType="map" >
-    update t_message_received
-    set PUBLISH_ID = #{record.publishId,jdbcType=BIGINT},
-      MSG_ID = #{record.msgId,jdbcType=BIGINT},
-      RECEIVED_USERID = #{record.receivedUserid,jdbcType=BIGINT},
-      SEND_USERID = #{record.sendUserid,jdbcType=BIGINT},
-      SEND_NEW_REPLY = #{record.sendNewReply,jdbcType=INTEGER},
-      RECEIVED_NEW_REPLY = #{record.receivedNewReply,jdbcType=INTEGER},
-      RECEIVED_STAUS = #{record.receivedStaus,jdbcType=INTEGER},
-      READ_TIME = #{record.readTime,jdbcType=TIMESTAMP},
-      DELETE_TIME = #{record.deleteTime,jdbcType=TIMESTAMP},
-      PUBISH_TIME = #{record.pubishTime,jdbcType=TIMESTAMP}
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.xinfan.msgbox.service.dao.entity.MessageReceived" >
-    update t_message_received
-    <set >
-      <if test="msgId != null" >
-        MSG_ID = #{msgId,jdbcType=BIGINT},
-      </if>
-      <if test="receivedUserid != null" >
-        RECEIVED_USERID = #{receivedUserid,jdbcType=BIGINT},
-      </if>
-      <if test="sendUserid != null" >
-        SEND_USERID = #{sendUserid,jdbcType=BIGINT},
-      </if>
-      <if test="sendNewReply != null" >
-        SEND_NEW_REPLY = #{sendNewReply,jdbcType=INTEGER},
-      </if>
-      <if test="receivedNewReply != null" >
-        RECEIVED_NEW_REPLY = #{receivedNewReply,jdbcType=INTEGER},
-      </if>
-      <if test="receivedStaus != null" >
-        RECEIVED_STAUS = #{receivedStaus,jdbcType=INTEGER},
-      </if>
-      <if test="readTime != null" >
-        READ_TIME = #{readTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="deleteTime != null" >
-        DELETE_TIME = #{deleteTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="pubishTime != null" >
-        PUBISH_TIME = #{pubishTime,jdbcType=TIMESTAMP},
-      </if>
-    </set>
-    where PUBLISH_ID = #{publishId,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.xinfan.msgbox.service.dao.entity.MessageReceived" >
-    update t_message_received
-    set MSG_ID = #{msgId,jdbcType=BIGINT},
-      RECEIVED_USERID = #{receivedUserid,jdbcType=BIGINT},
-      SEND_USERID = #{sendUserid,jdbcType=BIGINT},
-      SEND_NEW_REPLY = #{sendNewReply,jdbcType=INTEGER},
-      RECEIVED_NEW_REPLY = #{receivedNewReply,jdbcType=INTEGER},
-      RECEIVED_STAUS = #{receivedStaus,jdbcType=INTEGER},
-      READ_TIME = #{readTime,jdbcType=TIMESTAMP},
-      DELETE_TIME = #{deleteTime,jdbcType=TIMESTAMP},
-      PUBISH_TIME = #{pubishTime,jdbcType=TIMESTAMP}
-    where PUBLISH_ID = #{publishId,jdbcType=BIGINT}
-  </update>
-  
-  
-      <select id="selectListForHttpService" resultMap="BaseResultMap" parameterType="com.xinfan.msgbox.service.dao.entity.MessageReceivedExample" >
-    select
-    <include refid="Base_Column_List" />
-    from t_message_received where 1=1
-    <if test="userId != null and userId != ''" >
-      and received_userid = #{userId}
-    </if>
-    
-     <if test="orderBy != null and orderBy != ''" >
-      order by ${orderBy}
-    </if>
-    
-    limit #{currentRow},#{pageSize}
+<mapper namespace="com.xinfan.msgbox.service.dao.MessageReceivedMapper">
+	<resultMap id="BaseResultMap"
+		type="com.xinfan.msgbox.service.dao.entity.MessageReceived">
+		<id column="PUBLISH_ID" property="publishId" jdbcType="BIGINT" />
+		<result column="MSG_ID" property="msgId" jdbcType="BIGINT" />
+		<result column="RECEIVED_USERID" property="receivedUserid"
+			jdbcType="BIGINT" />
+		<result column="SEND_USERID" property="sendUserid" jdbcType="BIGINT" />
+		<result column="SEND_NEW_REPLY" property="sendNewReply"
+			jdbcType="INTEGER" />
+		<result column="RECEIVED_NEW_REPLY" property="receivedNewReply"
+			jdbcType="INTEGER" />
+		<result column="RECEIVED_STAUS" property="receivedStaus"
+			jdbcType="INTEGER" />
+		<result column="READ_TIME" property="readTime" jdbcType="TIMESTAMP" />
+		<result column="DELETE_TIME" property="deleteTime" jdbcType="TIMESTAMP" />
+		<result column="PUBISH_TIME" property="pubishTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria" separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value} and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Update_By_Example_Where_Clause">
+		<where>
+			<foreach collection="example.oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value} and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Base_Column_List">
+		PUBLISH_ID, MSG_ID, RECEIVED_USERID, SEND_USERID, SEND_NEW_REPLY,
+		RECEIVED_NEW_REPLY,
+		RECEIVED_STAUS, READ_TIME, DELETE_TIME, PUBISH_TIME
+	</sql>
+	<select id="selectByExample" resultMap="BaseResultMap"
+		parameterType="com.xinfan.msgbox.service.dao.entity.MessageReceivedExample">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		from t_message_received
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from t_message_received
+		where PUBLISH_ID = #{publishId,jdbcType=BIGINT}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from t_message_received
+		where PUBLISH_ID = #{publishId,jdbcType=BIGINT}
+	</delete>
+	<delete id="deleteByExample"
+		parameterType="com.xinfan.msgbox.service.dao.entity.MessageReceivedExample">
+		delete from t_message_received
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</delete>
+	<insert id="insert"
+		parameterType="com.xinfan.msgbox.service.dao.entity.MessageReceived">
+		insert into t_message_received (PUBLISH_ID, MSG_ID, RECEIVED_USERID,
+		SEND_USERID, SEND_NEW_REPLY, RECEIVED_NEW_REPLY,
+		RECEIVED_STAUS, READ_TIME, DELETE_TIME,
+		PUBISH_TIME)
+		values (#{publishId,jdbcType=BIGINT}, #{msgId,jdbcType=BIGINT},
+		#{receivedUserid,jdbcType=BIGINT},
+		#{sendUserid,jdbcType=BIGINT}, #{sendNewReply,jdbcType=INTEGER},
+		#{receivedNewReply,jdbcType=INTEGER},
+		#{receivedStaus,jdbcType=INTEGER}, #{readTime,jdbcType=TIMESTAMP},
+		#{deleteTime,jdbcType=TIMESTAMP},
+		#{pubishTime,jdbcType=TIMESTAMP})
+	</insert>
+	<insert id="insertSelective"
+		parameterType="com.xinfan.msgbox.service.dao.entity.MessageReceived">
+		insert into t_message_received
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="publishId != null">
+				PUBLISH_ID,
+			</if>
+			<if test="msgId != null">
+				MSG_ID,
+			</if>
+			<if test="receivedUserid != null">
+				RECEIVED_USERID,
+			</if>
+			<if test="sendUserid != null">
+				SEND_USERID,
+			</if>
+			<if test="sendNewReply != null">
+				SEND_NEW_REPLY,
+			</if>
+			<if test="receivedNewReply != null">
+				RECEIVED_NEW_REPLY,
+			</if>
+			<if test="receivedStaus != null">
+				RECEIVED_STAUS,
+			</if>
+			<if test="readTime != null">
+				READ_TIME,
+			</if>
+			<if test="deleteTime != null">
+				DELETE_TIME,
+			</if>
+			<if test="pubishTime != null">
+				PUBISH_TIME,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="publishId != null">
+				#{publishId,jdbcType=BIGINT},
+			</if>
+			<if test="msgId != null">
+				#{msgId,jdbcType=BIGINT},
+			</if>
+			<if test="receivedUserid != null">
+				#{receivedUserid,jdbcType=BIGINT},
+			</if>
+			<if test="sendUserid != null">
+				#{sendUserid,jdbcType=BIGINT},
+			</if>
+			<if test="sendNewReply != null">
+				#{sendNewReply,jdbcType=INTEGER},
+			</if>
+			<if test="receivedNewReply != null">
+				#{receivedNewReply,jdbcType=INTEGER},
+			</if>
+			<if test="receivedStaus != null">
+				#{receivedStaus,jdbcType=INTEGER},
+			</if>
+			<if test="readTime != null">
+				#{readTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="deleteTime != null">
+				#{deleteTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="pubishTime != null">
+				#{pubishTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<select id="countByExample"
+		parameterType="com.xinfan.msgbox.service.dao.entity.MessageReceivedExample"
+		resultType="java.lang.Integer">
+		select count(*) from t_message_received
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+	<update id="updateByExampleSelective" parameterType="map">
+		update t_message_received
+		<set>
+			<if test="record.publishId != null">
+				PUBLISH_ID = #{record.publishId,jdbcType=BIGINT},
+			</if>
+			<if test="record.msgId != null">
+				MSG_ID = #{record.msgId,jdbcType=BIGINT},
+			</if>
+			<if test="record.receivedUserid != null">
+				RECEIVED_USERID = #{record.receivedUserid,jdbcType=BIGINT},
+			</if>
+			<if test="record.sendUserid != null">
+				SEND_USERID = #{record.sendUserid,jdbcType=BIGINT},
+			</if>
+			<if test="record.sendNewReply != null">
+				SEND_NEW_REPLY = #{record.sendNewReply,jdbcType=INTEGER},
+			</if>
+			<if test="record.receivedNewReply != null">
+				RECEIVED_NEW_REPLY = #{record.receivedNewReply,jdbcType=INTEGER},
+			</if>
+			<if test="record.receivedStaus != null">
+				RECEIVED_STAUS = #{record.receivedStaus,jdbcType=INTEGER},
+			</if>
+			<if test="record.readTime != null">
+				READ_TIME = #{record.readTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.deleteTime != null">
+				DELETE_TIME = #{record.deleteTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.pubishTime != null">
+				PUBISH_TIME = #{record.pubishTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExample" parameterType="map">
+		update t_message_received
+		set PUBLISH_ID = #{record.publishId,jdbcType=BIGINT},
+		MSG_ID = #{record.msgId,jdbcType=BIGINT},
+		RECEIVED_USERID = #{record.receivedUserid,jdbcType=BIGINT},
+		SEND_USERID = #{record.sendUserid,jdbcType=BIGINT},
+		SEND_NEW_REPLY = #{record.sendNewReply,jdbcType=INTEGER},
+		RECEIVED_NEW_REPLY = #{record.receivedNewReply,jdbcType=INTEGER},
+		RECEIVED_STAUS = #{record.receivedStaus,jdbcType=INTEGER},
+		READ_TIME = #{record.readTime,jdbcType=TIMESTAMP},
+		DELETE_TIME = #{record.deleteTime,jdbcType=TIMESTAMP},
+		PUBISH_TIME = #{record.pubishTime,jdbcType=TIMESTAMP}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByPrimaryKeySelective"
+		parameterType="com.xinfan.msgbox.service.dao.entity.MessageReceived">
+		update t_message_received
+		<set>
+			<if test="msgId != null">
+				MSG_ID = #{msgId,jdbcType=BIGINT},
+			</if>
+			<if test="receivedUserid != null">
+				RECEIVED_USERID = #{receivedUserid,jdbcType=BIGINT},
+			</if>
+			<if test="sendUserid != null">
+				SEND_USERID = #{sendUserid,jdbcType=BIGINT},
+			</if>
+			<if test="sendNewReply != null">
+				SEND_NEW_REPLY = #{sendNewReply,jdbcType=INTEGER},
+			</if>
+			<if test="receivedNewReply != null">
+				RECEIVED_NEW_REPLY = #{receivedNewReply,jdbcType=INTEGER},
+			</if>
+			<if test="receivedStaus != null">
+				RECEIVED_STAUS = #{receivedStaus,jdbcType=INTEGER},
+			</if>
+			<if test="readTime != null">
+				READ_TIME = #{readTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="deleteTime != null">
+				DELETE_TIME = #{deleteTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="pubishTime != null">
+				PUBISH_TIME = #{pubishTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where PUBLISH_ID = #{publishId,jdbcType=BIGINT}
+	</update>
+	<update id="updateByPrimaryKey"
+		parameterType="com.xinfan.msgbox.service.dao.entity.MessageReceived">
+		update t_message_received
+		set MSG_ID = #{msgId,jdbcType=BIGINT},
+		RECEIVED_USERID = #{receivedUserid,jdbcType=BIGINT},
+		SEND_USERID = #{sendUserid,jdbcType=BIGINT},
+		SEND_NEW_REPLY = #{sendNewReply,jdbcType=INTEGER},
+		RECEIVED_NEW_REPLY = #{receivedNewReply,jdbcType=INTEGER},
+		RECEIVED_STAUS = #{receivedStaus,jdbcType=INTEGER},
+		READ_TIME = #{readTime,jdbcType=TIMESTAMP},
+		DELETE_TIME = #{deleteTime,jdbcType=TIMESTAMP},
+		PUBISH_TIME = #{pubishTime,jdbcType=TIMESTAMP}
+		where PUBLISH_ID = #{publishId,jdbcType=BIGINT}
+	</update>
 
-  </select>
+
+	<select id="selectListForHttpService" resultMap="BaseResultMap"
+		parameterType="com.xinfan.msgbox.service.dao.entity.MessageReceivedExample">
+		select
+		<include refid="Base_Column_List" />
+		from t_message_received where 1=1
+		<if test="userId != null and userId != ''">
+			and received_userid = ${userId}
+		</if>
+
+		<if test="orderBy != null and orderBy != ''">
+			order by ${orderBy}
+		</if>
+
+		limit ${currentRow},${pageSize}
+
+	</select>
 </mapper>
