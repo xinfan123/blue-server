@@ -120,6 +120,9 @@ public class Md5PwdEncoder{
 	
 	public static void main(String[] args){
 		Md5PwdEncoder pe = new Md5PwdEncoder();
-		System.out.println(pe.encodePassword("zhy11111"));
+		System.out.println(pe.encodePassword("1"));
+		System.out.println("e3f01fd8ddd359d225e2275ba62d69b1");
+		
+		System.out.println(Md5PwdFactory.getUserMd5PwdEncoder().encodePassword("1"));
 	}
 }
