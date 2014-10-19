@@ -188,6 +188,14 @@ public class UserSetService extends BaseService {
 		if (!param.getMobile().equals(sessionMobile)) {
 			return new BaseResult().paramIllgal("验证手机号码不比配");
 		}
+		
+
+		UserExample example = new UserExample();
+		example.createCriteria().andMobileEqualTo(param.getMobile());
+		List<User> userList = userDao.selectByExample(example);
+		if (!CollectionUtils.isEmpty(userList)) {
+			return new BaseResult().paramIllgal("手机号已被注册");
+		}
 
 		rs.setMsg("验证成功");
 
