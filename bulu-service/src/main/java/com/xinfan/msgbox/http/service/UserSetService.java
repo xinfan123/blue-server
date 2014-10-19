@@ -194,7 +194,7 @@ public class UserSetService extends BaseService {
 		example.createCriteria().andMobileEqualTo(param.getMobile());
 		List<User> userList = userDao.selectByExample(example);
 		if (!CollectionUtils.isEmpty(userList)) {
-			return new BaseResult().paramIllgal("手机号已被注册");
+			return new ValidCodeResult().paramIllgal("手机号已被注册");
 		}
 
 		rs.setMsg("验证成功");
