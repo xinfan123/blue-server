@@ -249,7 +249,7 @@
 <!-- 					<webappDirectory>WebRoot</webappDirectory> -->
 <!-- 					<warSourceDirectory>WebRoot</warSourceDirectory> -->
 <!-- 				</configuration> -->
-<!-- 			</plugin> -->
+<!-- 			</plugin> --> 
 		</plugins>
 	</build>
 </project>
