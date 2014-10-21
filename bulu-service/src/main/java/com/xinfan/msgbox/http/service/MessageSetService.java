@@ -68,6 +68,11 @@ public class MessageSetService {
 		send.setSendCurrentCredit(userBalance.getUserCredit());
 		send.setSendTime(msg.getCreateTime());
 		send.setSendUserId(msg.getCreateUserId());
+		
+		
+		send.setPublishCount(0);
+		send.setReadCount(0);
+		
 		messageSendDao.insertSelective(send);
 		
 		//新启动线程，推送
