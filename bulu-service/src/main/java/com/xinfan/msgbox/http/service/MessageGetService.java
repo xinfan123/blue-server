@@ -130,7 +130,7 @@ public class MessageGetService {
 		BeanUtils.copyProperties(messageVO, message);
 		MessageSend send = messageSendDao.selectByPrimaryKey(param.getMsgId());
 		if (send != null) {
-			BeanUtils.copyProperties(messageVO, message);
+			BeanUtils.copyProperties(messageVO, send);
 		}
 /*		MessageReceived recived = messageReceivedDao.selectByPrimaryKey(param.getMsgId());
 		if (recived != null) {

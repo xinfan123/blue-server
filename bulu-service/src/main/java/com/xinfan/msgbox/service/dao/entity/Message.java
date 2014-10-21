@@ -35,6 +35,10 @@ public class Message {
 
 	private Date createTime;
 
+	private Date refreshTime;
+
+	private Integer refreshCount;
+
 	public Long getMsgId() {
 		return msgId;
 	}
@@ -161,6 +165,22 @@ public class Message {
 
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
+	}
+
+	public Date getRefreshTime() {
+		return refreshTime;
+	}
+
+	public void setRefreshTime(Date refreshTime) {
+		this.refreshTime = refreshTime;
+	}
+
+	public Integer getRefreshCount() {
+		return refreshCount;
+	}
+
+	public void setRefreshCount(Integer refreshCount) {
+		this.refreshCount = refreshCount;
 	}
 
 }

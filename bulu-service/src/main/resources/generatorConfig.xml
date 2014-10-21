@@ -10,8 +10,8 @@
 			<property name="suppressAllComments" value="true" />
 		</commentGenerator>
 		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
-			connectionURL="jdbc:mysql://127.0.0.1:3306/msgbox?useUnicode=true&amp;characterEncoding=UTF-8"
-			userId="root" password="">
+			connectionURL="jdbc:mysql://112.124.37.233:3306/bulu??useUnicode=true&amp;characterEncoding=UTF-8"
+			userId="root" password="passw0rD">
 		</jdbcConnection>
 
 		<javaTypeResolver>
@@ -43,7 +43,7 @@
 		
 <!-- 		<table tableName="t_message" domainObjectName="Message"/> -->
 <!-- 		<table tableName="t_message_received" domainObjectName="MessageReceived"/> -->
- 		<table tableName="t_advice" domainObjectName="Advice"/> 
+ 			<table tableName="t_message" domainObjectName="Message"/> 
 <!-- 		<table tableName="t_message_reply" domainObjectName="MessageReply"/> -->
 <!-- 		<table tableName="t_message_reported" domainObjectName="MessageReported"/> -->
 		

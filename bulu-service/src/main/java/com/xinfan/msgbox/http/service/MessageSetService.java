@@ -53,6 +53,9 @@ public class MessageSetService {
 		BeanUtils.copyProperties(msg, param);
 		msg.setCreateTime(new Date());
 		msg.setMsgStatus(2);
+		msg.setRefreshCount(1);
+		msg.setRefreshTime(new Date());
+		
 		messageDao.insertSelective(msg);
 		
 		//写入发信表
@@ -126,6 +129,9 @@ public class MessageSetService {
 		message.getCreateTime();
 		long pieriod = message.getValidTime().getTime() - message.getCreateTime().getTime();
 		message.setValidTime(new Date(new Date().getTime()+pieriod));
+		message.setRefreshCount(message.getRefreshCount()+1);
+		message.setRefreshTime(new Date());
+		
 		messageDao.updateByPrimaryKeySelective(message);
 		
 		//新启动线程，推送

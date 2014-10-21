@@ -1134,6 +1134,126 @@ public class MessageExample {
 			addCriterion("CREATE_TIME not between", value1, value2, "createTime");
 			return (Criteria) this;
 		}
+
+		public Criteria andRefreshTimeIsNull() {
+			addCriterion("refresh_time is null");
+			return (Criteria) this;
+		}
+
+		public Criteria andRefreshTimeIsNotNull() {
+			addCriterion("refresh_time is not null");
+			return (Criteria) this;
+		}
+
+		public Criteria andRefreshTimeEqualTo(Date value) {
+			addCriterion("refresh_time =", value, "refreshTime");
+			return (Criteria) this;
+		}
+
+		public Criteria andRefreshTimeNotEqualTo(Date value) {
+			addCriterion("refresh_time <>", value, "refreshTime");
+			return (Criteria) this;
+		}
+
+		public Criteria andRefreshTimeGreaterThan(Date value) {
+			addCriterion("refresh_time >", value, "refreshTime");
+			return (Criteria) this;
+		}
+
+		public Criteria andRefreshTimeGreaterThanOrEqualTo(Date value) {
+			addCriterion("refresh_time >=", value, "refreshTime");
+			return (Criteria) this;
+		}
+
+		public Criteria andRefreshTimeLessThan(Date value) {
+			addCriterion("refresh_time <", value, "refreshTime");
+			return (Criteria) this;
+		}
+
+		public Criteria andRefreshTimeLessThanOrEqualTo(Date value) {
+			addCriterion("refresh_time <=", value, "refreshTime");
+			return (Criteria) this;
+		}
+
+		public Criteria andRefreshTimeIn(List<Date> values) {
+			addCriterion("refresh_time in", values, "refreshTime");
+			return (Criteria) this;
+		}
+
+		public Criteria andRefreshTimeNotIn(List<Date> values) {
+			addCriterion("refresh_time not in", values, "refreshTime");
+			return (Criteria) this;
+		}
+
+		public Criteria andRefreshTimeBetween(Date value1, Date value2) {
+			addCriterion("refresh_time between", value1, value2, "refreshTime");
+			return (Criteria) this;
+		}
+
+		public Criteria andRefreshTimeNotBetween(Date value1, Date value2) {
+			addCriterion("refresh_time not between", value1, value2, "refreshTime");
+			return (Criteria) this;
+		}
+
+		public Criteria andRefreshCountIsNull() {
+			addCriterion("refresh_count is null");
+			return (Criteria) this;
+		}
+
+		public Criteria andRefreshCountIsNotNull() {
+			addCriterion("refresh_count is not null");
+			return (Criteria) this;
+		}
+
+		public Criteria andRefreshCountEqualTo(Integer value) {
+			addCriterion("refresh_count =", value, "refreshCount");
+			return (Criteria) this;
+		}
+
+		public Criteria andRefreshCountNotEqualTo(Integer value) {
+			addCriterion("refresh_count <>", value, "refreshCount");
+			return (Criteria) this;
+		}
+
+		public Criteria andRefreshCountGreaterThan(Integer value) {
+			addCriterion("refresh_count >", value, "refreshCount");
+			return (Criteria) this;
+		}
+
+		public Criteria andRefreshCountGreaterThanOrEqualTo(Integer value) {
+			addCriterion("refresh_count >=", value, "refreshCount");
+			return (Criteria) this;
+		}
+
+		public Criteria andRefreshCountLessThan(Integer value) {
+			addCriterion("refresh_count <", value, "refreshCount");
+			return (Criteria) this;
+		}
+
+		public Criteria andRefreshCountLessThanOrEqualTo(Integer value) {
+			addCriterion("refresh_count <=", value, "refreshCount");
+			return (Criteria) this;
+		}
+
+		public Criteria andRefreshCountIn(List<Integer> values) {
+			addCriterion("refresh_count in", values, "refreshCount");
+			return (Criteria) this;
+		}
+
+		public Criteria andRefreshCountNotIn(List<Integer> values) {
+			addCriterion("refresh_count not in", values, "refreshCount");
+			return (Criteria) this;
+		}
+
+		public Criteria andRefreshCountBetween(Integer value1, Integer value2) {
+			addCriterion("refresh_count between", value1, value2, "refreshCount");
+			return (Criteria) this;
+		}
+
+		public Criteria andRefreshCountNotBetween(Integer value1, Integer value2) {
+			addCriterion("refresh_count not between", value1, value2, "refreshCount");
+			return (Criteria) this;
+		}
 	}
 
 	public static class Criteria extends GeneratedCriteria {
@@ -1220,5 +1340,6 @@ public class MessageExample {
 			this(condition, value, secondValue, null);
 		}
 	}
+
 
 }

@@ -56,6 +56,26 @@ public class MessageSendDetailVO {
 
 	private String publishTo;
 
+	private Date refreshTime;
+
+	private Integer refreshCount;
+
+	public Date getRefreshTime() {
+		return refreshTime;
+	}
+
+	public void setRefreshTime(Date refreshTime) {
+		this.refreshTime = refreshTime;
+	}
+
+	public Integer getRefreshCount() {
+		return refreshCount;
+	}
+
+	public void setRefreshCount(Integer refreshCount) {
+		this.refreshCount = refreshCount;
+	}
+
 	public Long getMsgId() {
 		return msgId;
 	}
