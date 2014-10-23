@@ -317,7 +317,7 @@
 		parameterType="com.xinfan.msgbox.service.dao.entity.MessageReceivedExample">
 		select
 		<include refid="Base_Column_List" />
-		from t_message_received where 1=1
+		from t_message_received where received_staus !=2
 		<if test="userId != null and userId != ''">
 			and received_userid = ${userId}
 		</if>

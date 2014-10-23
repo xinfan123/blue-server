@@ -11,9 +11,9 @@ import com.xinfan.msgbox.http.service.util.BeanUtils;
 import com.xinfan.msgbox.http.service.vo.param.SendMessageParam;
 import com.xinfan.msgbox.http.service.vo.param.UserMessageListParam;
 import com.xinfan.msgbox.http.service.vo.result.BaseResult;
-import com.xinfan.msgbox.http.service.vo.result.MessageListResult;
 import com.xinfan.msgbox.http.service.vo.result.MessageResult;
-import com.xinfan.msgbox.http.service.vo.result.MessageSendDetailVO;
+import com.xinfan.msgbox.http.service.vo.result.MessageRevListResult;
+import com.xinfan.msgbox.http.service.vo.result.MessageRevSummaryVO;
 import com.xinfan.msgbox.http.service.vo.result.MessageSendListResult;
 import com.xinfan.msgbox.http.service.vo.result.MessageSendSummaryVO;
 import com.xinfan.msgbox.http.service.vo.result.MessageVO;
@@ -78,9 +78,9 @@ public class MessageGetService {
 	 * @param param
 	 * @return
 	 */
-	public MessageListResult getUserRecievedMessageList(UserMessageListParam param) throws Exception {
+	public MessageRevListResult getUserRecievedMessageList(UserMessageListParam param) throws Exception {
 		if (param.getUserId() == null || param.getUserId() == null) {
-			return new BaseResult().paramIllgal("用户ID不存在");
+			return new MessageRevListResult().paramIllgal("用户ID不存在");
 		}
 
 		// pubish_time
@@ -91,12 +91,12 @@ public class MessageGetService {
 
 		PageUtils.calCurrentRow(map);
 
-		List<MessageSend> list = messageReceivedDao.selectListForHttpService(map);
+		List<MessageReceived> list = messageReceivedDao.selectListForHttpService(map);
 
-		List<MessageVO> rsList = new ArrayList<MessageVO>();
+		List<MessageRevSummaryVO> rsList = new ArrayList<MessageRevSummaryVO>();
 		if (!CollectionUtils.isEmpty(list)) {
-			for (MessageSend ms : list) {
-				MessageVO rrs = new MessageVO();
+			for (MessageReceived ms : list) {
+				MessageRevSummaryVO rrs = new MessageRevSummaryVO();
 				BeanUtils.copyProperties(rrs, ms);
 				Message message = messageDao.selectByPrimaryKey(ms.getMsgId());
 				if (message != null) {
@@ -105,7 +105,7 @@ public class MessageGetService {
 				rsList.add(rrs);
 			}
 		}
-		MessageListResult rs = new MessageListResult();
+		MessageRevListResult rs = new MessageRevListResult();
 		rs.setList(rsList);
 		rs.setResult(BaseResult.SUCCESS);
 		return rs;

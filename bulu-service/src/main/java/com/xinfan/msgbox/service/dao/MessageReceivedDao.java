@@ -9,7 +9,7 @@ import com.xinfan.msgbox.service.dao.entity.MessageSend;
 
 public class MessageReceivedDao extends BaseDao<MessageReceived,MessageReceivedExample>{
 
-	public List<MessageSend> selectListForHttpService(Map<String, String> map) {
+	public List<MessageReceived> selectListForHttpService(Map<String, String> map) {
 		return this.getSqlSession().selectList(wrapCommand("selectListForHttpService"), map);
 	}
 }

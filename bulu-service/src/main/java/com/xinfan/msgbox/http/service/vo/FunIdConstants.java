@@ -6,8 +6,8 @@ import com.xinfan.msgbox.http.service.vo.param.ChangePasswdAfterLoginParam;
 import com.xinfan.msgbox.http.service.vo.param.ChangePasswdBeforeLoginParam;
 import com.xinfan.msgbox.http.service.vo.param.ClientVersionParam;
 import com.xinfan.msgbox.http.service.vo.param.LoginParam;
-import com.xinfan.msgbox.http.service.vo.param.SendMessageParam;
 import com.xinfan.msgbox.http.service.vo.param.RegisterParam;
+import com.xinfan.msgbox.http.service.vo.param.SendMessageParam;
 import com.xinfan.msgbox.http.service.vo.param.UserLinkmanListParam;
 import com.xinfan.msgbox.http.service.vo.param.UserLinkmanParam;
 import com.xinfan.msgbox.http.service.vo.param.UserMessageListParam;
@@ -20,8 +20,8 @@ import com.xinfan.msgbox.http.service.vo.result.BaseResult;
 import com.xinfan.msgbox.http.service.vo.result.ClientVersionResult;
 import com.xinfan.msgbox.http.service.vo.result.ConfigListResult;
 import com.xinfan.msgbox.http.service.vo.result.LoginResult;
-import com.xinfan.msgbox.http.service.vo.result.MessageListResult;
 import com.xinfan.msgbox.http.service.vo.result.MessageResult;
+import com.xinfan.msgbox.http.service.vo.result.MessageRevListResult;
 import com.xinfan.msgbox.http.service.vo.result.MessageSendListResult;
 import com.xinfan.msgbox.http.service.vo.result.UserLinkmanListResult;
 import com.xinfan.msgbox.http.service.vo.result.UserResult;
@@ -99,7 +99,7 @@ public enum FunIdConstants {
 	// 获取用户发信列表
 	GET_USER_SEND_MESSAGE_LIST("getUserSendMessageList", UserMessageListParam.class, MessageSendListResult.class),
 	// 获取用户收信列表
-	GET_USER_RECIEVED_MESSAGE_LIST("getUserRecievedMessageList", UserMessageListParam.class, MessageListResult.class),
+	GET_USER_RECIEVED_MESSAGE_LIST("getUserRecievedMessageList", UserMessageListParam.class, MessageRevListResult.class),
 	// 获取指定信息
 	GET_MESSAGE("getMessage", SendMessageParam.class, MessageResult.class),
 

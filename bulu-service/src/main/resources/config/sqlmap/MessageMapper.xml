@@ -114,7 +114,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.xinfan.msgbox.service.dao.entity.Message" >
+  <insert id="insert" parameterType="com.xinfan.msgbox.service.dao.entity.Message"  useGeneratedKeys="true" keyProperty="msgId" >
     insert into t_message (MSG_ID, TITLE, CONTEXT, 
       VALID_TIME, DURATION_TIME, SEND_TYPE, 
       SEND_AREA, SEND_DISTANCE, AMOUNT_STATUS, 
@@ -130,7 +130,7 @@
       #{createTime,jdbcType=TIMESTAMP}, #{refreshTime,jdbcType=TIMESTAMP}, #{refreshCount,jdbcType=INTEGER}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.xinfan.msgbox.service.dao.entity.Message" >
+  <insert id="insertSelective" parameterType="com.xinfan.msgbox.service.dao.entity.Message"  useGeneratedKeys="true" keyProperty="msgId" >
     insert into t_message
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="msgId != null" >
