@@ -8,11 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 
 import com.xinfan.msgbox.http.service.util.BeanUtils;
+import com.xinfan.msgbox.http.service.vo.param.MessageRevParam;
 import com.xinfan.msgbox.http.service.vo.param.SendMessageParam;
 import com.xinfan.msgbox.http.service.vo.param.UserMessageListParam;
 import com.xinfan.msgbox.http.service.vo.result.BaseResult;
 import com.xinfan.msgbox.http.service.vo.result.MessageResult;
+import com.xinfan.msgbox.http.service.vo.result.MessageRevDetailVO;
 import com.xinfan.msgbox.http.service.vo.result.MessageRevListResult;
+import com.xinfan.msgbox.http.service.vo.result.MessageRevResult;
 import com.xinfan.msgbox.http.service.vo.result.MessageRevSummaryVO;
 import com.xinfan.msgbox.http.service.vo.result.MessageSendListResult;
 import com.xinfan.msgbox.http.service.vo.result.MessageSendSummaryVO;
@@ -21,9 +24,11 @@ import com.xinfan.msgbox.http.util.PageUtils;
 import com.xinfan.msgbox.service.dao.MessageDao;
 import com.xinfan.msgbox.service.dao.MessageReceivedDao;
 import com.xinfan.msgbox.service.dao.MessageSendDao;
+import com.xinfan.msgbox.service.dao.UserDao;
 import com.xinfan.msgbox.service.dao.entity.Message;
 import com.xinfan.msgbox.service.dao.entity.MessageReceived;
 import com.xinfan.msgbox.service.dao.entity.MessageSend;
+import com.xinfan.msgbox.service.dao.entity.User;
 
 public class MessageGetService {
 	@Autowired
@@ -32,6 +37,9 @@ public class MessageGetService {
 	MessageDao messageDao;
 	@Autowired
 	MessageSendDao messageSendDao;
+
+	@Autowired
+	UserDao userDao;
 
 	/**
 	 * 用户发信列表获取接口
@@ -132,12 +140,46 @@ public class MessageGetService {
 		if (send != null) {
 			BeanUtils.copyProperties(messageVO, send);
 		}
-/*		MessageReceived recived = messageReceivedDao.selectByPrimaryKey(param.getMsgId());
-		if (recived != null) {
-			BeanUtils.copyProperties(messageVO, recived);
-		}*/
+		/*
+		 * MessageReceived recived =
+		 * messageReceivedDao.selectByPrimaryKey(param.getMsgId()); if (recived
+		 * != null) { BeanUtils.copyProperties(messageVO, recived); }
+		 */
 
 		MessageResult rs = new MessageResult();
+		rs.setMessage(messageVO);
+		rs.setMsg("获取消息成功");
+		return rs;
+	}
+
+	public MessageRevResult getRevMessage(MessageRevParam param) throws Exception {
+		if (param.getMsgId() == null || param.getMsgId() == null) {
+			return new MessageRevResult().paramIllgal("用户ID不存在");
+		}
+
+		MessageRevDetailVO messageVO = new MessageRevDetailVO();
+		Message message = messageDao.selectByPrimaryKey(param.getMsgId());
+		if (message == null) {
+			return new MessageRevResult().paramIllgal("信息不存在");
+		}
+		BeanUtils.copyProperties(messageVO, message);
+		MessageSend send = messageSendDao.selectByPrimaryKey(param.getMsgId());
+		if (send != null) {
+			BeanUtils.copyProperties(messageVO, send);
+		}
+
+		User user = userDao.selectByPrimaryKey(message.getCreateUserId());
+		if (user != null) {
+			messageVO.setSendUserName(user.getUserName());
+		}
+
+		/*
+		 * MessageReceived recived =
+		 * messageReceivedDao.selectByPrimaryKey(param.getMsgId()); if (recived
+		 * != null) { BeanUtils.copyProperties(messageVO, recived); }
+		 */
+
+		MessageRevResult rs = new MessageRevResult();
 		rs.setMessage(messageVO);
 		rs.setMsg("获取消息成功");
 		return rs;
