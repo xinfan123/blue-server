@@ -44,6 +44,7 @@
     <service funId="getUserSendMessageList" bean="MessageGetService" method="getUserSendMessageList" name="获取发信列表" login="true"/>
     <service funId="getUserRecievedMessageList" bean="MessageGetService" method="getUserRecievedMessageList" name="获取收信列表" login="true"/>
     <service funId="getMessage" bean="MessageGetService" method="getMessage" name="获取指定消息" login="true"/>
+     <service funId="getRevMessage" bean="MessageGetService" method="getRevMessage" name="获取收消息人详细信息" login="true"/>
     
     <!-- 系统相关部分 -->
     <service funId="getConfigList" bean="SysGloableService" method="getConfigList" name="获取系统配置"/>

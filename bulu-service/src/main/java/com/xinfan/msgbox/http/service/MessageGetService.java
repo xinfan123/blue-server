@@ -24,11 +24,13 @@ import com.xinfan.msgbox.http.util.PageUtils;
 import com.xinfan.msgbox.service.dao.MessageDao;
 import com.xinfan.msgbox.service.dao.MessageReceivedDao;
 import com.xinfan.msgbox.service.dao.MessageSendDao;
+import com.xinfan.msgbox.service.dao.UserBalanceDao;
 import com.xinfan.msgbox.service.dao.UserDao;
 import com.xinfan.msgbox.service.dao.entity.Message;
 import com.xinfan.msgbox.service.dao.entity.MessageReceived;
 import com.xinfan.msgbox.service.dao.entity.MessageSend;
 import com.xinfan.msgbox.service.dao.entity.User;
+import com.xinfan.msgbox.service.dao.entity.UserBalance;
 
 public class MessageGetService {
 	@Autowired
@@ -40,6 +42,9 @@ public class MessageGetService {
 
 	@Autowired
 	UserDao userDao;
+
+	@Autowired
+	UserBalanceDao userBalanceDao;
 
 	/**
 	 * 用户发信列表获取接口
@@ -171,6 +176,11 @@ public class MessageGetService {
 		User user = userDao.selectByPrimaryKey(message.getCreateUserId());
 		if (user != null) {
 			messageVO.setSendUserName(user.getUserName());
+		}
+
+		UserBalance balance = userBalanceDao.selectByPrimaryKey(user.getUserId());
+		if (balance != null) {
+			messageVO.setSendUserCredit(balance.getUserCredit());
 		}
 
 		/*

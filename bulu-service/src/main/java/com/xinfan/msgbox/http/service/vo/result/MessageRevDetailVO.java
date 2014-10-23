@@ -61,6 +61,16 @@ public class MessageRevDetailVO {
 
 	private String sendUserName;
 
+	private Integer sendUserCredit;
+
+	public Integer getSendUserCredit() {
+		return sendUserCredit;
+	}
+
+	public void setSendUserCredit(Integer sendUserCredit) {
+		this.sendUserCredit = sendUserCredit;
+	}
+
 	public String getSendUserName() {
 		return sendUserName;
 	}
