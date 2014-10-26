@@ -371,6 +371,7 @@ public class UserSetService extends BaseService {
 	 * @return
 	 */
 	public BaseResult reportMessage(UserReportMessageParam param) throws Exception {
+		
 		if (param.getMsgId() == null) {
 			return new BaseResult().paramIllgal("消息ID不存在");
 		}
