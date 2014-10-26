@@ -3,6 +3,8 @@
 	
 	<!-- 用户设置部分 -->
     <service funId="userRegister" bean="UserSetService" method="userRegister" name="用户注册"/>
+    <service funId="updateUserCID" bean="UserSetService" method="updateUserCID" name="更新用户的CID"/>
+     
     <service funId="getUserRegisterValidCode" bean="UserSetService" method="getUserRegisterValidCode" name="获取注册验证码"  />
     <service funId="validUserRegisterValidCode" bean="UserSetService" method="validUserRegisterValidCode" name="检验用户注册验证码"  />
       

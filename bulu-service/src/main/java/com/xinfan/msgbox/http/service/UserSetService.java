@@ -15,6 +15,7 @@ import com.xinfan.msgbox.common.security.Md5PwdFactory;
 import com.xinfan.msgbox.http.common.ServiceContext;
 import com.xinfan.msgbox.http.service.util.BeanUtils;
 import com.xinfan.msgbox.http.service.vo.param.RegisterParam;
+import com.xinfan.msgbox.http.service.vo.param.UserCIDParam;
 import com.xinfan.msgbox.http.service.vo.param.UserLinkmanParam;
 import com.xinfan.msgbox.http.service.vo.param.UserParam;
 import com.xinfan.msgbox.http.service.vo.param.UserReportMessageParam;
@@ -115,6 +116,12 @@ public class UserSetService extends BaseService {
 		user.setRegTime(new Date());
 		user.setUserState(1);
 		user.setVip(0);
+
+		user.setCid("");
+		user.setCidTime(new Date());
+		user.setLoginTime(new Date());
+		user.setOnline(0);
+
 		userDao.insertSelective(user);
 
 		// 写用户设置
@@ -140,6 +147,26 @@ public class UserSetService extends BaseService {
 		BeanUtils.copyProperties(balanceHis, balance);
 		userBalanceHisDao.insertSelective(balanceHis);
 		return new BaseResult().success("注册成功");
+	}
+
+	public BaseResult updateUserCID(UserCIDParam param) throws Exception {
+
+		if (param.getCid() == null || param.getCid().length() == 0) {
+			return new BaseResult().success("cid参数为空");
+		}
+
+		User userSession = this.getUserFromSession();
+
+		User user = userDao.selectByPrimaryKey(userSession.getUserId());
+
+		User update = new User();
+		update.setUserId(userSession.getUserId());
+		update.setCid(param.getCid());
+		update.setCidTime(new Date());
+
+		userDao.updateByPrimaryKeySelective(update);
+
+		return new BaseResult().success("更新成功");
 	}
 
 	/**
@@ -189,7 +216,6 @@ public class UserSetService extends BaseService {
 		if (!param.getMobile().equals(sessionMobile)) {
 			return new BaseResult().paramIllgal("验证手机号码不比配");
 		}
-		
 
 		UserExample example = new UserExample();
 		example.createCriteria().andMobileEqualTo(param.getMobile());

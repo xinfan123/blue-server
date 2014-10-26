@@ -5,101 +5,142 @@ import java.util.Date;
 public class User {
     private Long userId;
 
-    private String userName;
+	private String userName;
 
-    private String mobile;
+	private String mobile;
 
-    private Integer userState;
+	private Integer userState;
 
-    private String passwd;
+	private String passwd;
 
-    private String regGpsy;
+	private String regGpsy;
 
-    private String regGpsx;
+	private String regGpsx;
 
-    private String regEarea;
+	private String regEarea;
 
-    private Integer vip;
+	private Integer vip;
 
-    private Date regTime;
+	private Date regTime;
 
-    public Long getUserId() {
-        return userId;
-    }
+	private String cid;
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
+	private Date cidTime;
 
-    public String getUserName() {
-        return userName;
-    }
+	private Date loginTime;
 
-    public void setUserName(String userName) {
-        this.userName = userName == null ? null : userName.trim();
-    }
+	private Integer online;
 
-    public String getMobile() {
-        return mobile;
-    }
+	public Long getUserId() {
+		return userId;
+	}
 
-    public void setMobile(String mobile) {
-        this.mobile = mobile == null ? null : mobile.trim();
-    }
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	}
 
-    public Integer getUserState() {
-        return userState;
-    }
+	public String getUserName() {
+		return userName;
+	}
 
-    public void setUserState(Integer userState) {
-        this.userState = userState;
-    }
+	public void setUserName(String userName) {
+		this.userName = userName == null ? null : userName.trim();
+	}
 
-    public String getPasswd() {
-        return passwd;
-    }
+	public String getMobile() {
+		return mobile;
+	}
 
-    public void setPasswd(String passwd) {
-        this.passwd = passwd == null ? null : passwd.trim();
-    }
+	public void setMobile(String mobile) {
+		this.mobile = mobile == null ? null : mobile.trim();
+	}
 
-    public String getRegGpsy() {
-        return regGpsy;
-    }
+	public Integer getUserState() {
+		return userState;
+	}
 
-    public void setRegGpsy(String regGpsy) {
-        this.regGpsy = regGpsy == null ? null : regGpsy.trim();
-    }
+	public void setUserState(Integer userState) {
+		this.userState = userState;
+	}
 
-    public String getRegGpsx() {
-        return regGpsx;
-    }
+	public String getPasswd() {
+		return passwd;
+	}
 
-    public void setRegGpsx(String regGpsx) {
-        this.regGpsx = regGpsx == null ? null : regGpsx.trim();
-    }
+	public void setPasswd(String passwd) {
+		this.passwd = passwd == null ? null : passwd.trim();
+	}
 
-    public String getRegEarea() {
-        return regEarea;
-    }
+	public String getRegGpsy() {
+		return regGpsy;
+	}
 
-    public void setRegEarea(String regEarea) {
-        this.regEarea = regEarea == null ? null : regEarea.trim();
-    }
+	public void setRegGpsy(String regGpsy) {
+		this.regGpsy = regGpsy == null ? null : regGpsy.trim();
+	}
 
-    public Integer getVip() {
-        return vip;
-    }
+	public String getRegGpsx() {
+		return regGpsx;
+	}
 
-    public void setVip(Integer vip) {
-        this.vip = vip;
-    }
+	public void setRegGpsx(String regGpsx) {
+		this.regGpsx = regGpsx == null ? null : regGpsx.trim();
+	}
 
-    public Date getRegTime() {
-        return regTime;
-    }
+	public String getRegEarea() {
+		return regEarea;
+	}
 
-    public void setRegTime(Date regTime) {
-        this.regTime = regTime;
-    }
+	public void setRegEarea(String regEarea) {
+		this.regEarea = regEarea == null ? null : regEarea.trim();
+	}
+
+	public Integer getVip() {
+		return vip;
+	}
+
+	public void setVip(Integer vip) {
+		this.vip = vip;
+	}
+
+	public Date getRegTime() {
+		return regTime;
+	}
+
+	public void setRegTime(Date regTime) {
+		this.regTime = regTime;
+	}
+
+	public String getCid() {
+		return cid;
+	}
+
+	public void setCid(String cid) {
+		this.cid = cid == null ? null : cid.trim();
+	}
+
+	public Date getCidTime() {
+		return cidTime;
+	}
+
+	public void setCidTime(Date cidTime) {
+		this.cidTime = cidTime;
+	}
+
+	public Date getLoginTime() {
+		return loginTime;
+	}
+
+	public void setLoginTime(Date loginTime) {
+		this.loginTime = loginTime;
+	}
+
+	public Integer getOnline() {
+		return online;
+	}
+
+	public void setOnline(Integer online) {
+		this.online = online;
+	}
+
 }

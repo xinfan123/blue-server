@@ -20,6 +20,16 @@ public class LoginResult extends BaseResult {
 
 	private Date regTime;
 
+	private String cid;
+
+	public String getCid() {
+		return cid;
+	}
+
+	public void setCid(String cid) {
+		this.cid = cid;
+	}
+
 	public Long getUserId() {
 		return userId;
 	}

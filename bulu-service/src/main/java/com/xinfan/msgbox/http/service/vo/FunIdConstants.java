@@ -9,6 +9,7 @@ import com.xinfan.msgbox.http.service.vo.param.LoginParam;
 import com.xinfan.msgbox.http.service.vo.param.MessageRevParam;
 import com.xinfan.msgbox.http.service.vo.param.RegisterParam;
 import com.xinfan.msgbox.http.service.vo.param.SendMessageParam;
+import com.xinfan.msgbox.http.service.vo.param.UserCIDParam;
 import com.xinfan.msgbox.http.service.vo.param.UserLinkmanListParam;
 import com.xinfan.msgbox.http.service.vo.param.UserLinkmanParam;
 import com.xinfan.msgbox.http.service.vo.param.UserMessageListParam;
@@ -41,6 +42,11 @@ public enum FunIdConstants {
 	
 	// 用户注册
 	USER_REGISTER("userRegister", RegisterParam.class, BaseResult.class),
+	
+	//更新用户CID
+	USER_UPDATE_CID("updateUserCID", UserCIDParam.class, BaseResult.class),
+	
+	
 	// 设置用户设置
 	SET_USERSET("setUserSet", UserSetParam.class, BaseResult.class),
 
