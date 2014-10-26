@@ -71,6 +71,11 @@ public abstract class MessageCacheSupport implements MessageCacheCenter{
 		return getMessageByIds(msgIds);
 	}
 
+	public boolean addMessageDirectlly(List<CachedMessage> msgs)
+	{
+		return true;
+	}
+	
 	@Override
 	public boolean addMessage(CachedMessage msg) {
 		return addQueue.offer(msg);
