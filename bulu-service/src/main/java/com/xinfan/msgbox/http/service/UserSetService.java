@@ -276,7 +276,7 @@ public class UserSetService extends BaseService {
 		UserLinkman l = userLinkmanDao.selectByPrimaryKey(linkMan);
 		
 		if (l != null) {
-			return new BaseResult().paramIllgal("联系用户ID已存在");
+			return new BaseResult().success("联系用户ID已存在");
 		}
 		
 		linkMan.setCreateTime(new Date());
