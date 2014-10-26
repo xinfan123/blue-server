@@ -272,11 +272,15 @@ public class UserSetService extends BaseService {
 
 		UserLinkman linkMan = new UserLinkman();
 		BeanUtils.copyProperties(linkMan, param);
+		
 		UserLinkman l = userLinkmanDao.selectByPrimaryKey(linkMan);
+		
 		if (l != null) {
 			return new BaseResult().paramIllgal("联系用户ID已存在");
 		}
+		
 		linkMan.setCreateTime(new Date());
+		
 		userLinkmanDao.insertSelective(linkMan);
 		return new BaseResult().success("新增联系人成功");
 	}

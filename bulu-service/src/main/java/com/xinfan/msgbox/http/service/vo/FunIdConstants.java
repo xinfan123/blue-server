@@ -6,6 +6,7 @@ import com.xinfan.msgbox.http.service.vo.param.ChangePasswdAfterLoginParam;
 import com.xinfan.msgbox.http.service.vo.param.ChangePasswdBeforeLoginParam;
 import com.xinfan.msgbox.http.service.vo.param.ClientVersionParam;
 import com.xinfan.msgbox.http.service.vo.param.LoginParam;
+import com.xinfan.msgbox.http.service.vo.param.MessageRevDelParam;
 import com.xinfan.msgbox.http.service.vo.param.MessageRevParam;
 import com.xinfan.msgbox.http.service.vo.param.RegisterParam;
 import com.xinfan.msgbox.http.service.vo.param.SendMessageParam;
@@ -102,6 +103,10 @@ public enum FunIdConstants {
 	DELETE_MESSAGE("deleteMessage", SendMessageParam.class, BaseResult.class),
 	// 重发消息
 	RESEND_MESSAGE("reSendMessage", SendMessageParam.class, BaseResult.class),
+	
+	// 删除收信信息
+	DELETE_REV_MESSAGE("deleteRevMessage", MessageRevDelParam.class, BaseResult.class),
+	
 
 	/************* 消息获取相关部分 *************/
 	// 获取用户发信列表

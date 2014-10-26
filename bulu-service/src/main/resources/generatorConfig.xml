@@ -43,7 +43,7 @@
 		
 <!-- 		<table tableName="t_message" domainObjectName="Message"/> -->
 <!-- 		<table tableName="t_message_received" domainObjectName="MessageReceived"/> -->
- 			<table tableName="t_message" domainObjectName="Message"/> 
+ 			<table tableName="t_user" domainObjectName="User"/> 
 <!-- 		<table tableName="t_message_reply" domainObjectName="MessageReply"/> -->
 <!-- 		<table tableName="t_message_reported" domainObjectName="MessageReported"/> -->
 		

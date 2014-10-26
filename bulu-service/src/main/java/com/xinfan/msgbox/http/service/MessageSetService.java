@@ -6,6 +6,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.xinfan.msgbox.http.service.util.BeanUtils;
+import com.xinfan.msgbox.http.service.vo.param.MessageRevDelParam;
 import com.xinfan.msgbox.http.service.vo.param.SendMessageParam;
 import com.xinfan.msgbox.http.service.vo.result.BaseResult;
 import com.xinfan.msgbox.service.dao.MessageDao;
@@ -126,6 +127,28 @@ public class MessageSetService {
 		send.setMsgId(message.getMsgId());
 		send.setMsgStatus(4);
 		messageSendDao.updateByPrimaryKeySelective(send);
+		return new BaseResult().success("信息删除成功");
+	}
+	
+	/**
+	 * 删除信息接口
+	 * 
+	 * @param param
+	 * @return
+	 */
+	public BaseResult deleteRevMessage(MessageRevDelParam param) {
+		
+		if (param.getPublishId() == null || param.getPublishId() <= 0) {
+			return new BaseResult().paramIllgal("信息编号不能为空");
+		}
+		
+		MessageReceived update = new MessageReceived();
+		update.setPublishId(param.getPublishId());
+		update.setReceivedStaus(2);
+		update.setDeleteTime(new Date());
+		
+		messageReceivedDao.updateByPrimaryKeySelective(update);
+		
 		return new BaseResult().success("信息删除成功");
 	}
 
