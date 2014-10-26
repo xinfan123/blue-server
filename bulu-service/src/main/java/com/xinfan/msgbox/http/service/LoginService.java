@@ -1,5 +1,6 @@
 package com.xinfan.msgbox.http.service;
 
+import java.util.Date;
 import java.util.Random;
 
 import org.apache.commons.lang.StringUtils;
@@ -72,6 +73,14 @@ public class LoginService extends BaseService {
 		login.setMobile(user.getMobile());
 		login.setRegTime(user.getRegTime());
 		login.setRegEarea(user.getRegEarea());
+		
+		//更新用户登录信息
+		User updateUser = new User();
+		updateUser.setUserId(user.getUserId());
+		updateUser.setLoginTime(new Date());
+		updateUser.setOnline(1);
+		
+		this.userDao.updateByPrimaryKeySelective(updateUser);
 
 		return login;
 	}
