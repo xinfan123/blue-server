@@ -391,6 +391,7 @@ public class UserSetService extends BaseService {
 		report.setCreateTime(new Date());
 		report.setDealStatus(0);
 		report.setReportType(param.getReportType());
+		report.setReportUserId(this.getUserFromSession().getUserId());
 
 		Long reportedUserId = null;
 		if (param.getUserId() == null) {
