@@ -402,7 +402,7 @@ public class UserSetService extends BaseService {
 		}
 		report.setReportUserId(reportedUserId);
 		messageReportedDao.insertSelective(report);
-		return new BaseResult().success("举报成功");
+		return new BaseResult().success("感谢您的举报，我们将尽快进行核实处理！");
 	}
 
 	public BaseResult setUserNickname(UserParam param) throws Exception {
