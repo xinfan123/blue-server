@@ -12,7 +12,7 @@ import com.xinfan.msgbox.service.listener.MessageChangeListener;
 import com.xinfan.msgbox.vo.CachedMessage;
 import com.xinfan.msgbox.vo.Position;
 
-public abstract class MessageCacheSupport implements MessageCacheCenter{
+public abstract class MessageCacheSupport extends Thread implements MessageCacheCenter{
 	private Map<Long,CachedMessage> msgCache = new HashMap<Long,CachedMessage>();
 	private LinkedBlockingQueue<CachedMessage> addQueue = new LinkedBlockingQueue<CachedMessage>();
 	private LinkedBlockingQueue<CachedMessage> updateQueue = new LinkedBlockingQueue<CachedMessage>();
@@ -65,7 +65,9 @@ public abstract class MessageCacheSupport implements MessageCacheCenter{
 
 	@Override
 	public List<CachedMessage> getMessageByArea(String areaName) {
-		List<Long> msgIds = areaMsgCache.get(areaName);
+//		List<Long> msgIds = areaMsgCache.get(areaName);
+		List<Long> msgIds = new LinkedList<Long>();
+		msgIds.add(Long.parseLong("1"));
 		if(null == msgIds || msgIds.isEmpty()) return Collections.EMPTY_LIST;
 		
 		return getMessageByIds(msgIds);
@@ -73,6 +75,11 @@ public abstract class MessageCacheSupport implements MessageCacheCenter{
 
 	public boolean addMessageDirectlly(List<CachedMessage> msgs)
 	{
+		for(CachedMessage msg:msgs)
+		{
+			msgCache.put(msg.getMessageId(), msg);
+			//userMsgCache.put(msg.getUserId(), msg.getMessageId());
+		}
 		return true;
 	}
 	
@@ -91,6 +98,7 @@ public abstract class MessageCacheSupport implements MessageCacheCenter{
 		return deleteQueue.offer(msg);
 	}
 	
+	@Override
 	public List<CachedMessage> getMessageByIds(List<Long> msgIds) {
 		List<CachedMessage> messages = new ArrayList<CachedMessage>(msgIds.size());
 		for(Long id:msgIds)
@@ -98,6 +106,11 @@ public abstract class MessageCacheSupport implements MessageCacheCenter{
 			messages.add(msgCache.get(id));
 		}
 		return messages;
+	}
+	
+	@Override
+	public CachedMessage getMessageById(Long msgId) {
+			return msgCache.get(msgId);
 	}
 	
 	/**
@@ -112,7 +125,7 @@ public abstract class MessageCacheSupport implements MessageCacheCenter{
 		while((message = addQueue.poll()) != null)
 		{
 			msgCache.put(message.getMessageId(), message);
-			userMsgCache.get(message.getUserId()).add(message.getMessageId());
+			//userMsgCache.get(message.getUserId()).add(message.getMessageId());
 			//TODO area怎么算
 			changes.add(message.getMessageId());
 		}
@@ -122,5 +135,22 @@ public abstract class MessageCacheSupport implements MessageCacheCenter{
 		}
 		//
 	}
+	@Override
+	public void run() {
+		for(;;)
+		{
+			selfRefresh();
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
 
+	@Override
+	public void setMessageChangeListener(MessageChangeListener listener) {
+		this.listener = listener;
+	}
 }

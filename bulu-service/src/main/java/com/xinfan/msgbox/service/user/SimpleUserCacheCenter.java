@@ -1,11 +1,13 @@
 package com.xinfan.msgbox.service.user;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.xinfan.msgbox.http.context.AppContextHolder;
+import com.xinfan.msgbox.http.service.vo.param.UserMessageListParam;
 import com.xinfan.msgbox.service.dao.MessageDao;
 import com.xinfan.msgbox.service.dao.UserDao;
 import com.xinfan.msgbox.service.dao.UserSetDao;
@@ -24,6 +26,8 @@ import com.xinfan.msgbox.vo.UserProfile;
 public class SimpleUserCacheCenter implements UserCacheCenter{
 
 	Map<Long, CachedUser> userCache = new HashMap<Long, CachedUser>();
+	
+	private MessageContext context;
 	
 	public SimpleUserCacheCenter(MessageContext context) {
 		//初始化所有的用户
@@ -56,8 +60,8 @@ public class SimpleUserCacheCenter implements UserCacheCenter{
 				CachedMessage cm = new CachedMessage();
 				cm.setUserId(cuser.getUserId());
 				cm.setOriginalMsg(interest.getContext());
-				cm.setSrcPosition(new Position());//TODO
-				cm.setTargetPosition(new Position());
+				cm.setSrcPosition(new Position("",""));//TODO
+				cm.setTargetPosition(new Position("",""));
 				cm.setMessageId(interest.getMsgId());
 				caches.add(cm);
 			}
@@ -67,6 +71,8 @@ public class SimpleUserCacheCenter implements UserCacheCenter{
 			//cuser.setSentMsgIds(sentMsgIds);
 			userCache.put(cuser.getUserId(), cuser);
 		}
+		
+		this.context = context;
 	}
 	
 	@Override
@@ -81,55 +87,84 @@ public class SimpleUserCacheCenter implements UserCacheCenter{
 
 	@Override
 	public boolean updateUserPosition(long userId, Position position) {
-		// TODO Auto-generated method stub
-		return false;
+		List<CachedMessage> userInterests = context.getInterestsCache().getUserMessage(userId);
+		for(CachedMessage message:userInterests)
+		{
+			message.setSrcPosition(position);
+			context.getInterestsCache().updateMessage(message);
+		}
+		
+		List<CachedMessage> userMessages = context.getMessagePool().getUserMessage(userId);
+		for(CachedMessage message:userMessages)
+		{
+			message.setSrcPosition(position);
+			context.getMessagePool().updateMessage(message);
+		}
+		
+		return true;
 	}
 
 	@Override
 	public boolean addUserInterestsMsg(long userId, CachedMessage message) {
-		// TODO Auto-generated method stub
-		return false;
+		context.getInterestsCache().addMessage(message);
+		userCache.get(userId).addInterestsMsg(message);
+		return true;
 	}
 
 	@Override
 	public boolean updateUserInterestsMsg(long userId, CachedMessage message) {
-		// TODO Auto-generated method stub
-		return false;
+		context.getInterestsCache().updateMessage(message);
+		return true;
 	}
 
 	@Override
-	public boolean deleteUserInterestsMsg(long userId, long messageId) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean deleteUserInterestsMsg(long userId, CachedMessage message) {
+		context.getInterestsCache().deleteMessage(message);
+		userCache.get(userId).removeInterestsMsg(message);
+		return true;
 	}
 
 	@Override
 	public boolean sendMessage(CachedMessage message) {
-		// TODO Auto-generated method stub
-		return false;
+		context.getMessagePool().addMessage(message);
+		userCache.get(message.getUserId()).addSentMsg(message);
+		return true;
 	}
 
 	@Override
 	public boolean updateMessage(CachedMessage message) {
-		// TODO Auto-generated method stub
-		return false;
+		context.getMessagePool().updateMessage(message);
+		return true;
 	}
 
 	@Override
 	public boolean deleteMessage(CachedMessage message) {
-		// TODO Auto-generated method stub
-		return false;
+		context.getMessagePool().deleteMessage(message);
+		userCache.get(message.getUserId()).getSentMsgIds();
+		return true;
 	}
 
 	@Override
 	public boolean addUser(CachedUser user) {
-		// TODO Auto-generated method stub
-		return false;
+		userCache.put(user.getUserId(), user);
+		return true;
 	}
 
 	@Override
 	public boolean updateUserProfile(CachedUser user) {
-		// TODO Auto-generated method stub
-		return false;
+		CachedUser cuser = userCache.get(user.getUserId());
+		if(null == cuser) return false;
+		cuser.setProfile(user.getProfile());
+		userCache.put(cuser.getUserId(), cuser);
+		return true;
+	}
+
+	@Override
+	public boolean updateMessageValideTime(long userId, long messageId,
+			Date deadTime) {
+		CachedMessage cmessage = context.getMessagePool().getMessageById(messageId);
+		cmessage.setDeadTime(deadTime);
+		context.getMessagePool().updateMessage(cmessage);
+		return true;
 	}
 }

@@ -2,6 +2,7 @@ package com.xinfan.msgbox.service.messagecache;
 
 import java.util.List;
 
+import com.xinfan.msgbox.service.listener.MessageChangeListener;
 import com.xinfan.msgbox.vo.CachedMessage;
 import com.xinfan.msgbox.vo.Position;
 
@@ -22,5 +23,8 @@ public interface MessageCacheCenter {
 	boolean addMessage(CachedMessage msg);
 	boolean updateMessage(CachedMessage msg);
 	boolean deleteMessage(CachedMessage msg);
+	CachedMessage getMessageById(Long msgId);
+	
+	void setMessageChangeListener(MessageChangeListener listener);
 	
 }

@@ -2,12 +2,18 @@ package com.xinfan.msgbox.service.messagecache;
 
 import java.util.Date;
 
+import com.xinfan.msgbox.service.algorithm.SimpleSimilarityAlgorithm;
 import com.xinfan.msgbox.service.dao.entity.Message;
 import com.xinfan.msgbox.service.dao.entity.User;
 import com.xinfan.msgbox.service.dao.entity.UserSet;
+import com.xinfan.msgbox.service.listener.MessageMatchedListener;
+import com.xinfan.msgbox.service.processor.MessageProcessor;
 import com.xinfan.msgbox.service.user.SimpleUserCacheCenter;
 import com.xinfan.msgbox.service.user.UserCacheCenter;
+import com.xinfan.msgbox.vo.CachedMessage;
+import com.xinfan.msgbox.vo.CachedUser;
 import com.xinfan.msgbox.vo.Position;
+import com.xinfan.msgbox.vo.UserProfile;
 
 public class MessageContext implements MessageCenterFacade{
 	private static MessageContext instance;
@@ -30,7 +36,17 @@ public class MessageContext implements MessageCenterFacade{
 		
 		//初始化所有用户
 		userCache = new SimpleUserCacheCenter(this);
-		//初始化所有用户的interests列表
+
+		new MessageProcessor(interestsCache, messagePool, new MessageMatchedListener() {
+			
+			@Override
+			public void onMessageMatched(CachedMessage interests, CachedMessage message) {
+				System.out.println(interests.getOriginalMsg() + " matchs " + message.getOriginalMsg() + " send Message to " + interests.getUserId());
+			}
+		}, new SimpleSimilarityAlgorithm()).start();
+		
+		interestsCache.start();
+		messagePool.start();
 	}
 	
 	public synchronized static MessageContext getInstance()
@@ -68,63 +84,81 @@ public class MessageContext implements MessageCenterFacade{
 
 	@Override
 	public boolean addUser(User user, UserSet userSet) {
-		// TODO Auto-generated method stub
+		UserProfile profile = new UserProfile(userSet);
+		CachedUser cuser = new CachedUser(user, profile);
+		userCache.addUser(cuser);
 		return false;
 	}
 
 	@Override
 	public boolean updateUserProfile(long userId, UserSet userSet) {
-		// TODO Auto-generated method stub
-		return false;
+		User user = new User();
+		user.setUserId(userId);
+		UserProfile profile = new UserProfile(userSet);
+		CachedUser cuser = new CachedUser(user, profile);
+		return userCache.updateUserProfile(cuser);
 	}
 
 	@Override
 	public boolean updateUserPosition(long userId, Position position) {
-		// TODO Auto-generated method stub
-		return false;
+		return userCache.updateUserPosition(userId, position);
 	}
 
 	@Override
 	public boolean addUserInterestMsg(long userId, Message message) {
-		// TODO Auto-generated method stub
-		return false;
+		CachedMessage cmessage = constructCachedMsg(userId, message);
+		return userCache.addUserInterestsMsg(userId, cmessage);
 	}
 
 	@Override
 	public boolean updateUserInterestMsg(long userId, Message message) {
-		// TODO Auto-generated method stub
-		return false;
+		CachedMessage cmessage = constructCachedMsg(userId, message);
+		return userCache.updateUserInterestsMsg(userId, cmessage);
 	}
 
 	@Override
 	public boolean deleteUserInterestMsg(long userId, Message message) {
-		// TODO Auto-generated method stub
-		return false;
+		CachedMessage cmessage = constructCachedMsg(userId, message);
+		return userCache.deleteUserInterestsMsg(userId,cmessage);
 	}
+
+
 
 	@Override
 	public boolean sendMessage(long userId, Message message) {
-		// TODO Auto-generated method stub
-		return false;
+		CachedMessage cmessage = constructCachedMsg(userId, message);
+		return userCache.sendMessage(cmessage);
 	}
 
 	@Override
 	public boolean updateMessage(long userId, Message message) {
-		// TODO Auto-generated method stub
-		return false;
+
+		CachedMessage cmessage = constructCachedMsg(userId, message);
+		return userCache.updateMessage(cmessage);
 	}
 
 	@Override
 	public boolean deleteMessage(long userId, Message message) {
-		// TODO Auto-generated method stub
-		return false;
+		CachedMessage cmessage = constructCachedMsg(userId, message);
+		return userCache.deleteMessage(cmessage);
 	}
 
 	@Override
 	public boolean updateMessageValideTime(long userId, long messageId,
 			Date deadTime) {
-		// TODO Auto-generated method stub
-		return false;
+		CachedMessage cmessage = new CachedMessage();
+		cmessage.setUserId(userId);
+		cmessage.setMessageId(messageId);
+		return userCache.updateMessageValideTime(userId,messageId,deadTime);
 	}
 	
+	private CachedMessage constructCachedMsg(long userId, Message message) {
+		CachedMessage cmessage = new CachedMessage();
+		cmessage.setUserId(userId);
+		cmessage.setMessageId(message.getMsgId());
+		cmessage.setOriginalMsg(message.getContext());
+		cmessage.setSrcPosition(new Position(message.getGpsx(),message.getGpsy()));
+		cmessage.setDeadTime(message.getValidTime());
+		return cmessage;
+	}
 }

@@ -7,7 +7,7 @@ public class SimpleSimilarityAlgorithm implements SimilarityAlgorithm{
 	@Override
 	public boolean matched(CachedMessage interests, CachedMessage message) {
 		// TODO Auto-generated method stub
-		return true;
+		return interests.getOriginalMsg().equals(message.getOriginalMsg());
 	}
 
 }
