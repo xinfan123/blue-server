@@ -9,20 +9,19 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory; 
+import org.slf4j.LoggerFactory;
 
 /**
  * 
  * BEAN处理帮助类
  * 
  * @author cyp
- *
+ * 
  */
 public class MapUtils {
 	public static final String CHECK_OK = "OK";
- 	private static final Logger logger = LoggerFactory
-			.getLogger(MapUtils.class);
-	
+	private static final Logger logger = LoggerFactory.getLogger(MapUtils.class);
+
 	/**
 	 * 将pojo对象属性转换成map
 	 * 
@@ -32,49 +31,46 @@ public class MapUtils {
 	public static Map toMap(Object bean) {
 		try {
 			return BeanUtils.describe(bean);
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			e.printStackTrace();
-		} catch (NoSuchMethodException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
 		}
 		return null;
 	}
-	
+
 	/**
 	 * 简单的将map转为bean
+	 * 
 	 * @param map
 	 * @param clazz
 	 * @return
 	 */
-	public static <T> T toBean(Map<String,Object> map,Class<T> clazz) {
+	public static <T> T toBean(Map<String, Object> map, Class<T> clazz) {
 		System.out.println(map);
-		if(null == clazz ){
+		if (null == clazz) {
 			return null;
 		}
-		if( null == map)
-		{
+		if (null == map) {
 			return null;
 		}
 		T bean = null;
-		try {  
+		try {
 			bean = clazz.newInstance();
-			 for (String key : map.keySet()) {
-			   Class type = PropertyUtils.getPropertyType(bean, key);
-			   if (type != null && !"class".equals(key)) {
-				   try{
-				    // 设置参数
-				    PropertyUtils.setProperty(bean, key, ConvertUtils.convert(map.get(key), type));
-				   }catch (Exception e) {
-					   e.printStackTrace();
-				   }
+			for (String key : map.keySet()) {
+				Class type = PropertyUtils.getPropertyType(bean, key);
+				Object value = map.get(key);
+				if (type != null && !"class".equals(key) && value != null && !"null".equalsIgnoreCase(String.valueOf(value))) {
+					try {
+						// 设置参数
+						PropertyUtils.setProperty(bean, key, ConvertUtils.convert(value, type));
+					} catch (Exception e) {
+						logger.error(e.getMessage(), e);
+					}
 				}
-			 }
+			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(e.getMessage(), e);
 		}
-		 return bean;
+		return bean;
 	}
-	
+
 }
