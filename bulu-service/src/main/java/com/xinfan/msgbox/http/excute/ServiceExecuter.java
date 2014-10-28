@@ -50,7 +50,8 @@ public class ServiceExecuter {
 			e1.printStackTrace();
 			return new BaseResult().bizException("参数错误，找不到参数对应的class");
 		}
-		BaseParam param = MapUtils.toBean(parameters, clazz);
+		
+		BaseParam param = (BaseParam)MapUtils.toBean(parameters, clazz);
 		
 		ServiceMeta meta = ServiceMapConfig.getInstance().getService(param.getFunId().toUpperCase());
 		if (meta == null) {
