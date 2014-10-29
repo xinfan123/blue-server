@@ -94,7 +94,7 @@ public class MessageContext implements MessageCenterFacade{
 		}
 		for(int i=0;i<messagePoolProcessorNum;i++)
 		{
-			interestsProcessors.add(new MessageProcessor(messagePool,interestsCache, messageMatchedListener, algorithm));
+			messagePoolProcessors.add(new MessageProcessor(messagePool,interestsCache, messageMatchedListener, algorithm));
 		}
 
 	}
