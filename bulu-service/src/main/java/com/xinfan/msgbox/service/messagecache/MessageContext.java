@@ -1,11 +1,14 @@
 package com.xinfan.msgbox.service.messagecache;
 
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 
 import com.xinfan.msgbox.service.algorithm.SimpleSimilarityAlgorithm;
 import com.xinfan.msgbox.service.dao.entity.Message;
 import com.xinfan.msgbox.service.dao.entity.User;
 import com.xinfan.msgbox.service.dao.entity.UserSet;
+import com.xinfan.msgbox.service.listener.DefaultMessageMatchedListener;
 import com.xinfan.msgbox.service.listener.MessageMatchedListener;
 import com.xinfan.msgbox.service.processor.MessageProcessor;
 import com.xinfan.msgbox.service.user.SimpleUserCacheCenter;
@@ -24,6 +27,49 @@ public class MessageContext implements MessageCenterFacade{
 	
 	private SentMsgCacheCenter messagePool;//发送的消息缓存
 	
+	private MessageMatchedListener messageMatchedListener = new DefaultMessageMatchedListener();
+	
+	private SimpleSimilarityAlgorithm algorithm = new SimpleSimilarityAlgorithm();
+	
+	private int interestProcessorNum = 1;
+	private int messagePoolProcessorNum = 1;
+	
+	private List<MessageProcessor> interestsProcessors = new LinkedList<MessageProcessor>();
+	private List<MessageProcessor> messagePoolProcessors = new LinkedList<MessageProcessor>();
+	
+	public SimpleSimilarityAlgorithm getAlgorithm() {
+		return algorithm;
+	}
+
+	public void setAlgorithm(SimpleSimilarityAlgorithm algorithm) {
+		this.algorithm = algorithm;
+	}
+
+	public int getInterestProcessorNum() {
+		return interestProcessorNum;
+	}
+
+	public void setInterestProcessorNum(int interestProcessorNum) {
+		this.interestProcessorNum = interestProcessorNum;
+	}
+
+	public int getMessagePoolProcessorNum() {
+		return messagePoolProcessorNum;
+	}
+
+	public void setMessagePoolProcessorNum(int messagePoolProcessorNum) {
+		this.messagePoolProcessorNum = messagePoolProcessorNum;
+	}
+
+	public MessageMatchedListener getMessageMatchedListener() {
+			return messageMatchedListener;
+	}
+
+	public void setMessageMatchedListener(
+			MessageMatchedListener messageMatchedListener) {
+		this.messageMatchedListener = messageMatchedListener;
+	}
+	
 	private MessageContext()
 	{
 		init();
@@ -37,16 +83,36 @@ public class MessageContext implements MessageCenterFacade{
 		//初始化所有用户
 		userCache = new SimpleUserCacheCenter(this);
 
-		new MessageProcessor(interestsCache, messagePool, new MessageMatchedListener() {
-			
-			@Override
-			public void onMessageMatched(CachedMessage interests, CachedMessage message) {
-				System.out.println(interests.getOriginalMsg() + " matchs " + message.getOriginalMsg() + " send Message to " + interests.getUserId());
-			}
-		}, new SimpleSimilarityAlgorithm()).start();
-		
+	}
+	
+	private void setUp()
+	{
+
+		for(int i=0;i<interestProcessorNum;i++)
+		{
+			interestsProcessors.add(new MessageProcessor(interestsCache, messagePool, messageMatchedListener, algorithm));
+		}
+		for(int i=0;i<messagePoolProcessorNum;i++)
+		{
+			interestsProcessors.add(new MessageProcessor(messagePool,interestsCache, messageMatchedListener, algorithm));
+		}
+
+	}
+	
+	public void start()
+	{
+		setUp();
+
 		interestsCache.start();
 		messagePool.start();
+		for(MessageProcessor p:interestsProcessors)
+		{
+			p.start();
+		}
+		for(MessageProcessor p:messagePoolProcessors)
+		{
+			p.start();
+		}
 	}
 	
 	public synchronized static MessageContext getInstance()
@@ -62,16 +128,8 @@ public class MessageContext implements MessageCenterFacade{
 		return interestsCache;
 	}
 
-	public void setInterestsCache(InterestsMsgCacheCenter interestsCache) {
-		this.interestsCache = interestsCache;
-	}
-
 	public SentMsgCacheCenter getMessagePool() {
 		return messagePool;
-	}
-
-	public void setMessagePool(SentMsgCacheCenter messagePool) {
-		this.messagePool = messagePool;
 	}
 
 	public UserCacheCenter getUserCache() {

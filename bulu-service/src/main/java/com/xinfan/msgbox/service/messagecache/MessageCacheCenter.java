@@ -25,6 +25,6 @@ public interface MessageCacheCenter {
 	boolean deleteMessage(CachedMessage msg);
 	CachedMessage getMessageById(Long msgId);
 	
-	void setMessageChangeListener(MessageChangeListener listener);
+	void addMessageChangeListener(MessageChangeListener listener);
 	
 }

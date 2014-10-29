@@ -27,16 +27,14 @@ public abstract class MessageCacheSupport extends Thread implements MessageCache
 	 */
 	private Map<String,List<Long>> areaMsgCache = new HashMap<String, List<Long>>();
 	
-	private MessageChangeListener listener;
+	private List<MessageChangeListener> listeners = new LinkedList<MessageChangeListener>();
+	private int currentListenerIndex=0;
 	
-	public MessageChangeListener getListener() {
-		return listener;
+	
+	public void addMessageChangeListener(MessageChangeListener e)
+	{
+		this.listeners.add(e);
 	}
-
-	public void setListeners(MessageChangeListener listener) {
-		this.listener = listener;
-	}
-
 
 	@Override
 	public int getMessageCount() {
@@ -129,28 +127,32 @@ public abstract class MessageCacheSupport extends Thread implements MessageCache
 			//TODO area怎么算
 			changes.add(message.getMessageId());
 		}
-		if(null != listener)
+		
+		while((message = updateQueue.poll()) != null)
 		{
-			listener.onMessageAdded(changes);
+			msgCache.put(message.getMessageId(), message);
+			//userMsgCache.get(message.getUserId()).add(message.getMessageId());
+			//TODO area怎么算
+			changes.add(message.getMessageId());
 		}
-		//
+		
+		if(!listeners.isEmpty())
+		{
+			listeners.get(currentListenerIndex++).onMessageAdded(changes);
+			if(currentListenerIndex>listeners.size()-1) currentListenerIndex = 0;
+		}
 	}
 	@Override
 	public void run() {
 		for(;;)
 		{
-			selfRefresh();
 			try {
-				Thread.sleep(100);
+				selfRefresh();
+				Thread.sleep(10);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-	}
-
-	@Override
-	public void setMessageChangeListener(MessageChangeListener listener) {
-		this.listener = listener;
 	}
 }

@@ -20,7 +20,7 @@ public class MessageProcessor extends Thread implements MessageChangeListener{
 	public MessageProcessor(MessageCacheCenter local,MessageCacheCenter listen,MessageMatchedListener listener,SimilarityAlgorithm algorithm) {
 		this.interestsMessageCache = local;
 		this.messageCachePool = listen;
-		this.messageCachePool.setMessageChangeListener(this);
+		this.messageCachePool.addMessageChangeListener(this);
 		this.listener = listener;
 		this.algorithm = algorithm;
 	}
