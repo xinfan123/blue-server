@@ -15,37 +15,45 @@ import com.xinfan.msgbox.vo.CachedMessage;
 public class DefaultMessageMatchedListener implements MessageMatchedListener {
 
 	@Override
-	public void onMessageMatched(CachedMessage interests, CachedMessage message) {
-		System.out.println(Thread.currentThread().getName() + "send message :" + message.getOriginalMsg() + " to " + interests.getUserId());
+	public void onMessageMatched(final CachedMessage interests, final CachedMessage message) {
 
-		MessageSendDao sendDao = AppContextHolder.getBean(MessageSendDao.class);
-		MessageReceivedDao receivedDao = AppContextHolder.getBean(MessageReceivedDao.class);
-		UserDao userDao = AppContextHolder.getBean(UserDao.class);
+		new Thread() {
 
-		MessageSend dbSend = sendDao.selectByPrimaryKey(message.getMessageId());
+			@Override
+			public void run() {
 
-		MessageSend updateSend = new MessageSend();
-		updateSend.setMsgId(message.getMessageId());
-		updateSend.setPublishStatus(1);
-		updateSend.setPublishTime(new Date());
-		updateSend.setPublishCount(dbSend.getPublishCount() + 1);
-		sendDao.updateByPrimaryKeySelective(updateSend);
+				System.out.println(Thread.currentThread().getName() + "send message :" + message.getOriginalMsg() + " to " + interests.getUserId());
 
-		MessageReceived newReceive = new MessageReceived();
-		newReceive.setMsgId(message.getMessageId());
-		newReceive.setPubishTime(new Date());
-		newReceive.setReceivedUserid(interests.getUserId());
-		newReceive.setSendUserid(message.getUserId());
-		newReceive.setSendNewReply(0);
-		newReceive.setReceivedNewReply(0);
-		newReceive.setReceivedStaus(0);
+				MessageSendDao sendDao = AppContextHolder.getBean(MessageSendDao.class);
+				MessageReceivedDao receivedDao = AppContextHolder.getBean(MessageReceivedDao.class);
+				UserDao userDao = AppContextHolder.getBean(UserDao.class);
 
-		receivedDao.insertSelective(newReceive);
+				MessageSend dbSend = sendDao.selectByPrimaryKey(message.getMessageId());
 
-		User user = userDao.selectByPrimaryKey(interests.getUserId());
+				MessageSend updateSend = new MessageSend();
+				updateSend.setMsgId(message.getMessageId());
+				updateSend.setPublishStatus(1);
+				updateSend.setPublishTime(new Date());
+				updateSend.setPublishCount(dbSend.getPublishCount() + 1);
+				sendDao.updateByPrimaryKeySelective(updateSend);
 
-		PushServiceFactory.getDefaultService().pushMessageTip(user.getCid(), user.getUserId(), message.getOriginalMsg());
+				MessageReceived newReceive = new MessageReceived();
+				newReceive.setMsgId(message.getMessageId());
+				newReceive.setPubishTime(new Date());
+				newReceive.setReceivedUserid(interests.getUserId());
+				newReceive.setSendUserid(message.getUserId());
+				newReceive.setSendNewReply(0);
+				newReceive.setReceivedNewReply(0);
+				newReceive.setReceivedStaus(0);
+
+				receivedDao.insertSelective(newReceive);
+
+				User user = userDao.selectByPrimaryKey(interests.getUserId());
+
+				PushServiceFactory.getDefaultService().pushMessageTip(user.getCid(), user.getUserId(), message.getOriginalMsg());
+			}
+
+		}.start();
 
 	}
-
 }
