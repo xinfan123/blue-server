@@ -10,7 +10,9 @@ import com.xinfan.msgbox.service.dao.entity.User;
 import com.xinfan.msgbox.service.dao.entity.UserSet;
 import com.xinfan.msgbox.service.listener.DefaultMessageMatchedListener;
 import com.xinfan.msgbox.service.listener.MessageMatchedListener;
+import com.xinfan.msgbox.service.processor.InterestsMessageProcessor;
 import com.xinfan.msgbox.service.processor.MessageProcessor;
+import com.xinfan.msgbox.service.processor.SentMessageProcessor;
 import com.xinfan.msgbox.service.user.SimpleUserCacheCenter;
 import com.xinfan.msgbox.service.user.UserCacheCenter;
 import com.xinfan.msgbox.vo.CachedMessage;
@@ -90,11 +92,11 @@ public class MessageContext implements MessageCenterFacade{
 
 		for(int i=0;i<interestProcessorNum;i++)
 		{
-			interestsProcessors.add(new MessageProcessor(interestsCache, messagePool, messageMatchedListener, algorithm));
+			interestsProcessors.add(new InterestsMessageProcessor(interestsCache, messagePool, messageMatchedListener, algorithm));
 		}
 		for(int i=0;i<messagePoolProcessorNum;i++)
 		{
-			messagePoolProcessors.add(new MessageProcessor(messagePool,interestsCache, messageMatchedListener, algorithm));
+			messagePoolProcessors.add(new SentMessageProcessor(messagePool,interestsCache, messageMatchedListener, algorithm));
 		}
 
 	}

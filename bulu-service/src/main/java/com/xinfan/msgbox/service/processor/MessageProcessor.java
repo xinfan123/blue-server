@@ -9,20 +9,52 @@ import com.xinfan.msgbox.service.listener.MessageMatchedListener;
 import com.xinfan.msgbox.service.messagecache.MessageCacheCenter;
 import com.xinfan.msgbox.vo.CachedMessage;
 
-public class MessageProcessor extends Thread implements MessageChangeListener {
-	private MessageCacheCenter interestsMessageCache;
-	private MessageCacheCenter messageCachePool;
+public abstract class MessageProcessor extends Thread implements MessageChangeListener{
+	private MessageCacheCenter localPool;
+	private MessageCacheCenter listenPool;
+
 	private MessageMatchedListener listener;
 	private SimilarityAlgorithm algorithm;
 
 	private LinkedBlockingQueue<List<Long>> changedMessages = new LinkedBlockingQueue<List<Long>>();
 
 	public MessageProcessor(MessageCacheCenter local, MessageCacheCenter listen, MessageMatchedListener listener, SimilarityAlgorithm algorithm) {
-		this.interestsMessageCache = local;
-		this.messageCachePool = listen;
-		this.messageCachePool.addMessageChangeListener(this);
+		this.localPool = local;
+		this.listenPool = listen;
+		this.listenPool.addMessageChangeListener(this);
 		this.listener = listener;
 		this.algorithm = algorithm;
+	}
+
+	public MessageMatchedListener getListener() {
+		return listener;
+	}
+
+	public void setListener(MessageMatchedListener listener) {
+		this.listener = listener;
+	}
+
+	public SimilarityAlgorithm getAlgorithm() {
+		return algorithm;
+	}
+
+	public void setAlgorithm(SimilarityAlgorithm algorithm) {
+		this.algorithm = algorithm;
+	}
+
+	public MessageCacheCenter getLocalPool() {
+		return localPool;
+	}
+	public void setLocalPool(MessageCacheCenter localPool) {
+		this.localPool = localPool;
+	}
+
+	public MessageCacheCenter getListenPool() {
+		return listenPool;
+	}
+
+	public void setListenPool(MessageCacheCenter listenPool) {
+		this.listenPool = listenPool;
 	}
 
 	@Override
@@ -31,7 +63,8 @@ public class MessageProcessor extends Thread implements MessageChangeListener {
 			for (;;) {
 				List<Long> changes = changedMessages.poll();
 				if (null != changes && !changes.isEmpty()) {
-					matchChanges(changes);
+					List<CachedMessage> changedMsgs = this.listenPool.getMessageByIds(changes);
+					matchChanges(changedMsgs);
 				} else {
 					try {
 						Thread.sleep(10);
@@ -44,19 +77,7 @@ public class MessageProcessor extends Thread implements MessageChangeListener {
 			e.printStackTrace();
 		}
 	}
-
-	private void matchChanges(List<Long> changes) {
-		List<CachedMessage> messages = messageCachePool.getMessageByIds(changes);
-		for (CachedMessage message : messages) {
-			// TODO filter模式过滤不合法的消息
-			List<CachedMessage> firstMatch = interestsMessageCache.getMessageByDistance(message.getTargetPosition(), 1000);
-			for (CachedMessage interest : firstMatch) {
-				if (algorithm.matched(interest, message)) {
-					listener.onMessageMatched(interest, message);
-				}
-			}
-		}
-	}
+	protected abstract void matchChanges(List<CachedMessage> changedMsgs);
 
 	@Override
 	public void onMessageAdded(List<Long> msgIds) {

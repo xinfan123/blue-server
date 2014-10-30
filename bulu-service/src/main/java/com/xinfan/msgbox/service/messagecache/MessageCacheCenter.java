@@ -19,6 +19,7 @@ public interface MessageCacheCenter {
 	List<CachedMessage> getMessageByDistance(Position position,int meters);
 	List<CachedMessage> getMessageByArea(String areaName);
 	List<CachedMessage> getMessageByIds(List<Long> ids);
+	List<CachedMessage> getAllMessages();
 	
 	boolean addMessage(CachedMessage msg);
 	boolean updateMessage(CachedMessage msg);

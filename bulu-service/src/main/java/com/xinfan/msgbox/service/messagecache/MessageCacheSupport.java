@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import com.xinfan.msgbox.service.listener.MessageChangeListener;
@@ -15,7 +17,7 @@ import com.xinfan.msgbox.vo.CachedMessage;
 import com.xinfan.msgbox.vo.Position;
 
 public abstract class MessageCacheSupport extends Thread implements MessageCacheCenter{
-	private Map<Long,CachedMessage> msgCache = new HashMap<Long,CachedMessage>();
+	private Map<Long,CachedMessage> msgCache = new ConcurrentHashMap<Long,CachedMessage>();
 	private LinkedBlockingQueue<CachedMessage> addQueue = new LinkedBlockingQueue<CachedMessage>();
 	private LinkedBlockingQueue<CachedMessage> updateQueue = new LinkedBlockingQueue<CachedMessage>();
 	private LinkedBlockingQueue<CachedMessage> deleteQueue = new LinkedBlockingQueue<CachedMessage>();
@@ -114,6 +116,17 @@ public abstract class MessageCacheSupport extends Thread implements MessageCache
 	@Override
 	public CachedMessage getMessageById(Long msgId) {
 			return msgCache.get(msgId);
+	}
+	
+	
+	@Override
+	public List<CachedMessage> getAllMessages() {
+		List<CachedMessage> list = new LinkedList<CachedMessage>();
+		for(Entry<Long, CachedMessage> entry:msgCache.entrySet())
+		{
+			list.add(entry.getValue());
+		}
+		return list;
 	}
 	
 	/**

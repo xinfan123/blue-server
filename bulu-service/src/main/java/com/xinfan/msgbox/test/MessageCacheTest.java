@@ -38,17 +38,17 @@ public class MessageCacheTest extends BaseTest{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-//			Message message2 = new Message();
-//			message2.setMsgId(2L);
-//			message2.setContext("你想看看");
-//			message2.setCreateUserId(2L);
-//			context.addUserInterestMsg(2L, message2);
-//			try {
-//				Thread.sleep(50);
-//			} catch (InterruptedException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
+			Message message2 = new Message();
+			message2.setMsgId(2L);
+			message2.setContext("你想看看");
+			message2.setCreateUserId(2L);
+			context.addUserInterestMsg(2L, message2);
+			try {
+				Thread.sleep(50);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 		try {
