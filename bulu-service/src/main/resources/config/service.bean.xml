@@ -14,4 +14,6 @@
 	
 	<!-- app service -->
 	<bean id="SmsService" class="com.xinfan.msgbox.service.sms.impl.YunPianSmsServiceImpl" />
+	
+	<bean class="com.xinfan.msgbox.service.messagecache.MessageEngineLoader"></bean>
 </beans>

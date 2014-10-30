@@ -19,6 +19,7 @@ import com.xinfan.msgbox.service.dao.entity.Message;
 import com.xinfan.msgbox.service.dao.entity.MessageReceived;
 import com.xinfan.msgbox.service.dao.entity.MessageSend;
 import com.xinfan.msgbox.service.dao.entity.UserBalance;
+import com.xinfan.msgbox.service.messagecache.MessageContext;
 
 public class MessageSetService {
 
@@ -97,6 +98,8 @@ public class MessageSetService {
 		recevied.setPubishTime(new Date());
 
 		messageReceivedDao.insertSelective(recevied);
+		
+		MessageContext.getInstance().sendMessage(msg.getCreateUserId(), msg);
 
 		// 新启动线程，推送
 		// TODO
