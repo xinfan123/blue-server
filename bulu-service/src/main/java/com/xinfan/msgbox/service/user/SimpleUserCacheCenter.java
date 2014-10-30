@@ -1,13 +1,13 @@
 package com.xinfan.msgbox.service.user;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.xinfan.msgbox.http.context.AppContextHolder;
-import com.xinfan.msgbox.http.service.vo.param.UserMessageListParam;
 import com.xinfan.msgbox.service.dao.MessageDao;
 import com.xinfan.msgbox.service.dao.UserDao;
 import com.xinfan.msgbox.service.dao.UserSetDao;
@@ -37,7 +37,12 @@ public class SimpleUserCacheCenter implements UserCacheCenter{
 		
 		MessageDao messageDao = AppContextHolder.getBean(MessageDao.class);
 		
+		//7天以上没登录用户先不进来
+		Calendar calendar = Calendar.getInstance();
+		calendar.add(Calendar.DAY_OF_MONTH, -7);
+		
 		UserExample example = new UserExample();
+		example.createCriteria().andLoginTimeGreaterThan(calendar.getTime());
 		List<User> users = userDao.selectByExample(example);
 		for(User user:users)
 		{
