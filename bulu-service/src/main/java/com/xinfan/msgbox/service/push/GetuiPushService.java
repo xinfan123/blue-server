@@ -26,7 +26,7 @@ public class GetuiPushService implements PushService {
 		final StringBuilder formatMsg = new StringBuilder("您有新消息");
 
 		if (msgstr != null && msgstr.length() > 20) {
-			formatMsg.append(msgstr.substring(0, 30)).append("...");
+			formatMsg.append(msgstr.substring(0, 20)).append("...");
 		}
 
 		new Thread() {
