@@ -216,7 +216,7 @@ public class MessageContext implements MessageCenterFacade{
 		CachedMessage cmessage = new CachedMessage();
 		cmessage.setUserId(userId);
 		cmessage.setMessageId(message.getMsgId());
-		cmessage.setOriginalMsg(message.getContext());
+		cmessage.setOriginalMsg(message.getTitle());
 		cmessage.setSrcPosition(new Position(message.getGpsx(),message.getGpsy()));
 		cmessage.setDeadTime(message.getValidTime());
 		return cmessage;

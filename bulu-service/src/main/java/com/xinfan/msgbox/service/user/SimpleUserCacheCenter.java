@@ -64,7 +64,7 @@ public class SimpleUserCacheCenter implements UserCacheCenter{
 			{
 				CachedMessage cm = new CachedMessage();
 				cm.setUserId(cuser.getUserId());
-				cm.setOriginalMsg(interest.getContext());
+				cm.setOriginalMsg(interest.getTitle());
 				cm.setSrcPosition(new Position("",""));//TODO
 				cm.setTargetPosition(new Position("",""));
 				cm.setMessageId(interest.getMsgId());
