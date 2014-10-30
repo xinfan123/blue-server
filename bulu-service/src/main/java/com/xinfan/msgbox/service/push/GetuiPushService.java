@@ -44,10 +44,6 @@ public class GetuiPushService implements PushService {
 			public void run() {
 
 				try {
-					String host = WsFileConfig.getInstance().getString("push.host");
-					String appId = WsFileConfig.getInstance().getString("push.appid");
-					String appkey = WsFileConfig.getInstance().getString("push.appkey");
-					String master = WsFileConfig.getInstance().getString("push.master");
 
 					IGtPush push = new IGtPush(host, appkey, master);
 
