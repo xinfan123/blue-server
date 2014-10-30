@@ -1,6 +1,8 @@
 package com.xinfan.msgbox.service.messagecache;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -67,8 +69,11 @@ public abstract class MessageCacheSupport extends Thread implements MessageCache
 		List<Long> msgIds = new LinkedList<Long>();
 		msgIds.add(Long.parseLong("1"));
 		if(null == msgIds || msgIds.isEmpty()) return Collections.EMPTY_LIST;
-		
-		return getMessageByIds(msgIds);
+		 
+		//先返回所有看看运行效果  cyp
+		CachedMessage[] values = (CachedMessage[]) msgCache.values().toArray(new CachedMessage[msgCache.values().size()]);
+		return Arrays.asList(values);
+		//return getMessageByIds(msgIds);
 	}
 
 	public boolean addMessageDirectlly(List<CachedMessage> msgs)
