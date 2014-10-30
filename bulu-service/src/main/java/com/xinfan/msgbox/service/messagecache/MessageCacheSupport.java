@@ -2,7 +2,6 @@ package com.xinfan.msgbox.service.messagecache;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -134,7 +133,7 @@ public abstract class MessageCacheSupport extends Thread implements MessageCache
 	 * 刷新时，让改变写入零时的队列TOD
 	 * 	 
 	 */
-	private void selfRefresh()
+	protected void selfRefresh()
 	{
 		CachedMessage message;
 		List<Long> changes = new LinkedList<Long>();
@@ -154,7 +153,7 @@ public abstract class MessageCacheSupport extends Thread implements MessageCache
 			changes.add(message.getMessageId());
 		}
 		
-		if(!listeners.isEmpty())
+		if(!changes.isEmpty() && !listeners.isEmpty())
 		{
 			listeners.get(currentListenerIndex++).onMessageAdded(changes);
 			if(currentListenerIndex>listeners.size()-1) currentListenerIndex = 0;
