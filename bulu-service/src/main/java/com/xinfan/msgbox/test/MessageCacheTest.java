@@ -1,5 +1,7 @@
 package com.xinfan.msgbox.test;
 
+import java.io.IOException;
+
 import org.junit.Test;
 
 import com.xinfan.msgbox.service.algorithm.SimpleSimilarityAlgorithm;
@@ -9,7 +11,7 @@ import com.xinfan.msgbox.service.messagecache.MessageCenterFacade;
 import com.xinfan.msgbox.service.messagecache.MessageContext;
 
 public class MessageCacheTest extends BaseTest{
-
+ 
 	@Test
 	public void testCacheContext()
 	{
@@ -24,10 +26,10 @@ public class MessageCacheTest extends BaseTest{
 		
 		Message message = new Message();
 		message.setMsgId(1L);
-		message.setContext("你想看看");
+		message.setContext("你的考试考");
 		message.setCreateUserId(2L);
 		//facade.sendMessage(100, new Message());
-		while(true)
+		if(true)
 		{
 			context.sendMessage(2L, message);
 			try {
@@ -47,6 +49,13 @@ public class MessageCacheTest extends BaseTest{
 //				// TODO Auto-generated catch block
 //				e.printStackTrace();
 //			}
+		}
+		
+		try {
+			System.in.read();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
 	}
