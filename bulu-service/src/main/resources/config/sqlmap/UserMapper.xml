@@ -131,9 +131,9 @@
 		#{regTime,jdbcType=TIMESTAMP}, #{cid,jdbcType=VARCHAR}, #{cidTime,jdbcType=TIMESTAMP},
 		#{loginTime,jdbcType=TIMESTAMP}, #{online,jdbcType=INTEGER})
 	</insert>
-	<insert id="insertSelective" parameterType="com.xinfan.msgbox.service.dao.entity.User">
+	<insert id="insertSelective" parameterType="com.xinfan.msgbox.service.dao.entity.User" useGeneratedKeys="true" keyProperty="userId">
 		insert into t_user
-		<trim prefix="(" suffix=")" suffixOverrides=",">
+		<trim prefix="(" suffix=")" suffixOverrides="," >
 			<if test="userId != null">
 				USER_ID,
 			</if>
