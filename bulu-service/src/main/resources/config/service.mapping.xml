@@ -17,8 +17,7 @@
     <service funId="deleteUserSent" bean="UserSetService" method="deleteUserSent" name="删除用户主题"  login="true"/>
     <service funId="reportMessage" bean="UserSetService" method="reportMessage" name="用户举报信息"  login="true"/>
     <service funId="setUserNickname" bean="UserSetService" method="setUserNickname" name="设置用户昵称"  login="true"/>
-    
-    
+     <service funId="setUserGps" bean="UserSetService" method="setUserGps" name="更新用户的GPS信息"  login="true"/>
     
   
     <!-- 用户信息获取部分 -->

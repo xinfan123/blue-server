@@ -11,6 +11,7 @@ import com.xinfan.msgbox.http.service.vo.param.MessageRevParam;
 import com.xinfan.msgbox.http.service.vo.param.RegisterParam;
 import com.xinfan.msgbox.http.service.vo.param.SendMessageParam;
 import com.xinfan.msgbox.http.service.vo.param.UserCIDParam;
+import com.xinfan.msgbox.http.service.vo.param.UserGpsParam;
 import com.xinfan.msgbox.http.service.vo.param.UserLinkmanListParam;
 import com.xinfan.msgbox.http.service.vo.param.UserLinkmanParam;
 import com.xinfan.msgbox.http.service.vo.param.UserMessageListParam;
@@ -53,6 +54,10 @@ public enum FunIdConstants {
 
 	// 修改用户昵称
 	SET_USER_NICKNAME("setUserNickname", UserParam.class, BaseResult.class),
+	
+	// 修改用户GPS信息
+	SET_USER_GPS("UserGpsParam", UserGpsParam.class, BaseResult.class),
+	
 
 	// 增加用户联系人
 	ADD_USER_LINKMAN("addUserLinkman", UserLinkmanParam.class, BaseResult.class),

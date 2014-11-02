@@ -16,6 +16,7 @@ import com.xinfan.msgbox.http.common.ServiceContext;
 import com.xinfan.msgbox.http.service.util.BeanUtils;
 import com.xinfan.msgbox.http.service.vo.param.RegisterParam;
 import com.xinfan.msgbox.http.service.vo.param.UserCIDParam;
+import com.xinfan.msgbox.http.service.vo.param.UserGpsParam;
 import com.xinfan.msgbox.http.service.vo.param.UserLinkmanParam;
 import com.xinfan.msgbox.http.service.vo.param.UserParam;
 import com.xinfan.msgbox.http.service.vo.param.UserReportMessageParam;
@@ -42,7 +43,9 @@ import com.xinfan.msgbox.service.dao.entity.UserExample;
 import com.xinfan.msgbox.service.dao.entity.UserLinkman;
 import com.xinfan.msgbox.service.dao.entity.UserSent;
 import com.xinfan.msgbox.service.dao.entity.UserSet;
+import com.xinfan.msgbox.service.messagecache.MessageContext;
 import com.xinfan.msgbox.service.sms.SmsService;
+import com.xinfan.msgbox.vo.Position;
 
 public class UserSetService extends BaseService {
 	private static Logger logger = LoggerFactory.getLogger(UserSetService.class);
@@ -272,15 +275,15 @@ public class UserSetService extends BaseService {
 
 		UserLinkman linkMan = new UserLinkman();
 		BeanUtils.copyProperties(linkMan, param);
-		
+
 		UserLinkman l = userLinkmanDao.selectByPrimaryKey(linkMan);
-		
+
 		if (l != null) {
 			return new BaseResult().success("联系用户ID已存在");
 		}
-		
+
 		linkMan.setCreateTime(new Date());
-		
+
 		userLinkmanDao.insertSelective(linkMan);
 		return new BaseResult().success("新增联系人成功");
 	}
@@ -371,7 +374,7 @@ public class UserSetService extends BaseService {
 	 * @return
 	 */
 	public BaseResult reportMessage(UserReportMessageParam param) throws Exception {
-		
+
 		if (param.getMsgId() == null) {
 			return new BaseResult().paramIllgal("消息ID不存在");
 		}
@@ -422,4 +425,30 @@ public class UserSetService extends BaseService {
 		return new BaseResult().success("修改成功");
 	}
 
+	public BaseResult setUserGps(UserGpsParam param) throws Exception {
+
+		if (param.getLatitude() == null || param.getLatitude().trim().length() == 0) {
+			return new BaseResult().paramIllgal("参数异常");
+		}
+
+		if (param.getLongitude() == null || param.getLongitude().trim().length() == 0) {
+			return new BaseResult().paramIllgal("参数异常");
+		}
+
+		User session = getUserFromSession();
+
+		User updateUser = new User();
+		updateUser.setUserId(session.getUserId());
+
+		updateUser.setRegGpsx(param.getLongitude());
+		updateUser.setRegGpsy(param.getLatitude());
+		updateUser.setRegEarea(param.getArea());
+
+		userDao.updateByPrimaryKeySelective(updateUser);
+
+		Position position = new Position(updateUser.getRegGpsx(), updateUser.getRegGpsy(), updateUser.getRegEarea());
+		MessageContext.getInstance().updateUserPosition(updateUser.getUserId(), position);
+
+		return new BaseResult().success("修改成功");
+	}
 }
