@@ -11,10 +11,8 @@
 	<packaging>war</packaging>
 
 	<dependencies>
-		<dependency>
-			<groupId>com.xinfan</groupId>
-			<artifactId>bulu-common</artifactId>
-		</dependency>
+		<!-- <dependency> <groupId>com.xinfan</groupId> <artifactId>bulu-common</artifactId> 
+			</dependency> -->
 
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
@@ -42,6 +40,12 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
+		</dependency>
+
+
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
 		</dependency>
 
 		<dependency>
@@ -104,6 +108,28 @@
 
 
 		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
+
+
+		<dependency>
+			<groupId>commons-beanutils</groupId>
+			<artifactId>commons-beanutils</artifactId>
+		</dependency>
+
+
+		<dependency>
 			<groupId>net.sf.ehcache</groupId>
 			<artifactId>ehcache-core</artifactId>
 		</dependency>
@@ -149,7 +175,7 @@
 			<artifactId>tree_split</artifactId>
 			<version>1.0.1</version>
 		</dependency>
-  
+
 		<dependency>
 			<groupId>org.ansj</groupId>
 			<artifactId>ansj_seg</artifactId>

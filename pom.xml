@@ -9,7 +9,7 @@
 	<packaging>pom</packaging>
 
 	<modules>
-		<module>bulu-common</module>
+	<!-- 	<module>bulu-common</module> -->
 		<module>bulu-service</module>
 		<!--<module>mbr-de</module> -->
 	</modules>
@@ -23,11 +23,11 @@
 
 	<dependencyManagement>
 		<dependencies>
-			<dependency>
+<!-- 			<dependency>
 				<groupId>com.xinfan</groupId>
 				<artifactId>bulu-common</artifactId>
 				<version>${blueserver-version}</version>
-			</dependency>
+			</dependency> -->
 
 			<dependency>
 				<groupId>commons-lang</groupId>
