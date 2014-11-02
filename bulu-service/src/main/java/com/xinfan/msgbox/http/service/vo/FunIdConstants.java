@@ -56,7 +56,7 @@ public enum FunIdConstants {
 	SET_USER_NICKNAME("setUserNickname", UserParam.class, BaseResult.class),
 	
 	// 修改用户GPS信息
-	SET_USER_GPS("UserGpsParam", UserGpsParam.class, BaseResult.class),
+	SET_USER_GPS("setUserGps", UserGpsParam.class, BaseResult.class),
 	
 
 	// 增加用户联系人
