@@ -16,9 +16,8 @@ public class SimpleSimilarityAlgorithm implements SimilarityAlgorithm {
 	public boolean matched(CachedMessage interests, CachedMessage message) {
 
 		// MorphoSimilarity similarity = MorphoSimilarity.getInstance();
-		SemanticSimilarity similarity = SemanticSimilarity.getInstance();
 
-		double score = similarity.getSimilarity(interests.getOriginalMsg(), message.getOriginalMsg());
+		double score = calcSimilarity(interests, message);
 
 		logger.debug("similarity score:  " + score + "{" + interests.getOriginalMsg() + "," + message.getOriginalMsg() + "}");
 
@@ -28,6 +27,15 @@ public class SimpleSimilarityAlgorithm implements SimilarityAlgorithm {
 
 		return false;
 		// return interests.getOriginalMsg().equals(message.getOriginalMsg());
+	}
+
+	@Override
+	public double calcSimilarity(CachedMessage interests, CachedMessage message) {
+	// MorphoSimilarity similarity = MorphoSimilarity.getInstance();
+		SemanticSimilarity similarity = SemanticSimilarity.getInstance();
+
+		double score = similarity.getSimilarity(interests.getOriginalMsg(), message.getOriginalMsg());
+		return score;
 	}
 
 }

@@ -2,16 +2,22 @@ package com.xinfan.msgbox.vo;
 
 import java.util.Date;
 
-public class CachedMessage {
+public class CachedMessage implements Cloneable{
 	private String originalMsg;
 	private long userId;
 	private long messageId;
 	private Position srcPosition;
 	private Position targetPosition;
 	private Date deadTime;
+	private int matchType;//1 按地区 2 按距离
+	private int distance;
 	
-	private int matchType;//消息的匹配类型，按类型匹配，减少不必要的匹配
-	
+	public int getDistance() {
+		return distance;
+	}
+	public void setDistance(int distance) {
+		this.distance = distance;
+	}
 	public String getOriginalMsg() {
 		return originalMsg;
 	}
@@ -53,6 +59,11 @@ public class CachedMessage {
 	}
 	public void setMatchType(int matchType) {
 		this.matchType = matchType;
+	}
+	
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+		return super.clone();
 	}
 
 }

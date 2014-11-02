@@ -1,6 +1,7 @@
 package com.xinfan.msgbox.service.listener;
 
 import java.util.Date;
+import java.util.List;
 
 import com.xinfan.msgbox.http.context.AppContextHolder;
 import com.xinfan.msgbox.service.dao.MessageReceivedDao;
@@ -15,6 +16,7 @@ import com.xinfan.msgbox.vo.CachedMessage;
 public class DefaultMessageMatchedListener implements MessageMatchedListener {
 
 	@Override
+	@Deprecated
 	public void onMessageMatched(final CachedMessage interests, final CachedMessage message) {
 
 		new Thread() {
@@ -55,5 +57,17 @@ public class DefaultMessageMatchedListener implements MessageMatchedListener {
 
 		}.start();
 
+	}
+
+	@Override
+	public void onMessageMatched(CachedMessage message,
+			List<CachedMessage> matchs, List<Double> scores) {
+		// TODO Auto-generated method stub
+		System.out.println(message.getOriginalMsg() + " matched + "+matchs.size() + " messages");
+		for(int i=0;i<matchs.size();i++)
+		{
+			System.out.println(message.getOriginalMsg() + " vs " + matchs.get(i).getOriginalMsg() + " score: " + scores.get(i));
+		}
+		
 	}
 }

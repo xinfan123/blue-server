@@ -18,20 +18,15 @@ public class MessageCacheTest extends BaseTest{
 		initSpring();
 		
 		MessageContext context = MessageContext.getInstance();
-		context.setInterestProcessorNum(2);
-		context.setMessagePoolProcessorNum(2);
-		context.setAlgorithm(new SimpleSimilarityAlgorithm());
-		context.setMessageMatchedListener(new DefaultMessageMatchedListener());
-		context.start();
 		
 		Message message = new Message();
 		message.setMsgId(1L);
-		message.setContext("你的考试考");
-		message.setCreateUserId(2L);
+		message.setContext("你想看看");
+		message.setCreateUserId(5L);
 		//facade.sendMessage(100, new Message());
 		if(true)
 		{
-			context.sendMessage(2L, message);
+			context.sendMessage(5L, message);
 			try {
 				Thread.sleep(30);
 			} catch (InterruptedException e) {
@@ -41,8 +36,8 @@ public class MessageCacheTest extends BaseTest{
 			Message message2 = new Message();
 			message2.setMsgId(2L);
 			message2.setContext("你想看看");
-			message2.setCreateUserId(2L);
-			context.addUserInterestMsg(2L, message2);
+			message2.setCreateUserId(1L);
+			context.addUserInterestMsg(1L, message2);
 			try {
 				Thread.sleep(50);
 			} catch (InterruptedException e) {

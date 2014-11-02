@@ -15,13 +15,13 @@ public class BaseTest {
 	public void initSpring(){
 		context = new ClassPathXmlApplicationContext("classpath*:/config/**/*.bean.xml");
 		AppContextHolder.setContext(context);
-		Map<String,ContextPostProcessor> processors = context.getBeansOfType(ContextPostProcessor.class);
-		if (processors != null) {
-			Iterator it = processors.keySet().iterator();
-			while(it.hasNext()){
-				ContextPostProcessor p = processors.get(it.next());
-				p.onInit(context);
-			}
-		}
+//		Map<String,ContextPostProcessor> processors = context.getBeansOfType(ContextPostProcessor.class);
+//		if (processors != null) {
+//			Iterator it = processors.keySet().iterator();
+//			while(it.hasNext()){
+//				ContextPostProcessor p = processors.get(it.next());
+//				p.onInit(context);
+//			}
+//		}
 	}
 }

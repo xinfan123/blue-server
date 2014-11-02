@@ -9,5 +9,6 @@ public class BizConstants {
 	public static final String USER_CHANGE_PASS_WORD_VILIDCODE_SESSION_KEY = "user_change_pass_word_session";
 	public static final String USER_CHANGE_PASS_WORD_MOBILE = "user_change_pass_word_mobile";
 	
-
+	public static final int MESSAGE_MATCH_BY_AREA = 1;
+	public static final int MESSAGE_MATCH_BY_DISTANCE = 2;
 }

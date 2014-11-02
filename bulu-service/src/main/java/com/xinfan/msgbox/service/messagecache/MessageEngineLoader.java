@@ -11,8 +11,8 @@ public class MessageEngineLoader implements ContextPostProcessor {
 	@Override
 	public void onInit(ApplicationContext context) {
 		MessageContext mssageContext = MessageContext.getInstance();
-		mssageContext.setInterestProcessorNum(2);
-		mssageContext.setMessagePoolProcessorNum(2);
+		mssageContext.setInterestProcessorNum(1);
+		mssageContext.setMessagePoolProcessorNum(0);
 		mssageContext.setAlgorithm(new SimpleSimilarityAlgorithm());
 		mssageContext.setMessageMatchedListener(new DefaultMessageMatchedListener());
 		mssageContext.start();

@@ -1,11 +1,15 @@
 package com.xinfan.msgbox.service.user;
 
-import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.concurrent.ConcurrentHashMap;
+
+import org.springframework.util.CollectionUtils;
 
 import com.xinfan.msgbox.http.context.AppContextHolder;
 import com.xinfan.msgbox.service.dao.MessageDao;
@@ -23,13 +27,13 @@ import com.xinfan.msgbox.vo.CachedUser;
 import com.xinfan.msgbox.vo.Position;
 import com.xinfan.msgbox.vo.UserProfile;
 
-public class SimpleUserCacheCenter implements UserCacheCenter{
+public class MemoryUserCache implements UserCache{
 
-	Map<Long, CachedUser> userCache = new HashMap<Long, CachedUser>();
+	Map<Long, CachedUser> userCache = new ConcurrentHashMap<Long, CachedUser>();
 	
 	private MessageContext context;
 	
-	public SimpleUserCacheCenter(MessageContext context) {
+	public MemoryUserCache(MessageContext context) {
 		//初始化所有的用户
 		UserDao userDao = AppContextHolder.getBean(UserDao.class);
 		
@@ -59,19 +63,20 @@ public class SimpleUserCacheCenter implements UserCacheCenter{
 			MessageExample mexample = new MessageExample();
 			mexample.createCriteria().andCreateUserIdEqualTo(cuser.getUserId());
 			List<Message> interests =  messageDao.selectByExample(mexample);
-			List<CachedMessage> caches = new ArrayList<CachedMessage>(interests.size());
+//			List<CachedMessage> caches = new ArrayList<CachedMessage>(interests.size());
 			for(Message interest:interests)
 			{
 				CachedMessage cm = new CachedMessage();
 				cm.setUserId(cuser.getUserId());
 				cm.setOriginalMsg(interest.getTitle());
-				cm.setSrcPosition(new Position("",""));//TODO
-				cm.setTargetPosition(new Position("",""));
+				cm.setSrcPosition(new Position("80.80","80.80","长沙"));//TODO
+				cm.setTargetPosition(new Position("80.80","80.80","长沙"));
 				cm.setMessageId(interest.getMsgId());
-				caches.add(cm);
+				cm.setDeadTime(null!=interest.getValidTime()?interest.getValidTime():new Date(System.currentTimeMillis()+24*60*60*1000*12));
+//				caches.add(cm);
+				context.getInterestsCache().addMessage(cm);
 			}
-			
-			context.getInterestsCache().addMessageDirectlly(caches);
+//			context.getInterestsCache().addMessageDirectlly(caches);
 			//用户发送消息列表，需要将未失效的消息重新load出来，初始化到message pool中
 			//cuser.setSentMsgIds(sentMsgIds);
 			userCache.put(cuser.getUserId(), cuser);
@@ -79,8 +84,7 @@ public class SimpleUserCacheCenter implements UserCacheCenter{
 		
 		this.context = context;
 	}
-	
-	@Override
+		@Override
 	public int getActiveUserCount() {
 		return 100;
 	}
@@ -92,19 +96,32 @@ public class SimpleUserCacheCenter implements UserCacheCenter{
 
 	@Override
 	public boolean updateUserPosition(long userId, Position position) {
-		List<CachedMessage> userInterests = context.getInterestsCache().getUserMessage(userId);
+		//用户位置改变，只修改用户的订阅消息的位置
+		CachedUser user = userCache.get(userId);
+		if(null == user) return false;
+		
+		List<Long> ids = user.getInterestsMsgIds();
+		if(null == ids || ids.isEmpty()) return true;
+		
+		List<CachedMessage> userInterests = context.getInterestsCache().getMessageByIds(ids);
 		for(CachedMessage message:userInterests)
 		{
-			message.setSrcPosition(position);
-			context.getInterestsCache().updateMessage(message);
+			try {
+				CachedMessage newMsg = (CachedMessage) message.clone();
+				newMsg.setSrcPosition(position);
+				context.getInterestsCache().updateMessage(message,newMsg);
+			} catch (CloneNotSupportedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
-		List<CachedMessage> userMessages = context.getMessagePool().getUserMessage(userId);
-		for(CachedMessage message:userMessages)
-		{
-			message.setSrcPosition(position);
-			context.getMessagePool().updateMessage(message);
-		}
+//		List<CachedMessage> userMessages = context.getMessagePool().getUserMessage(userId);
+//		for(CachedMessage message:userMessages)
+//		{
+//			message.setSrcPosition(position);
+//			context.getMessagePool().updateMessage(message);
+//		}
 		
 		return true;
 	}
@@ -118,7 +135,8 @@ public class SimpleUserCacheCenter implements UserCacheCenter{
 
 	@Override
 	public boolean updateUserInterestsMsg(long userId, CachedMessage message) {
-		context.getInterestsCache().updateMessage(message);
+		context.getInterestsCache().updateMessage(context.getInterestsCache()
+				.getMessageById(message.getMessageId()),message);
 		return true;
 	}
 
@@ -138,14 +156,15 @@ public class SimpleUserCacheCenter implements UserCacheCenter{
 
 	@Override
 	public boolean updateMessage(CachedMessage message) {
-		context.getMessagePool().updateMessage(message);
+		context.getMessagePool().updateMessage(context.getMessagePool().
+				getMessageById(message.getMessageId()),message);
 		return true;
 	}
 
 	@Override
 	public boolean deleteMessage(CachedMessage message) {
 		context.getMessagePool().deleteMessage(message);
-		userCache.get(message.getUserId()).getSentMsgIds();
+		userCache.get(message.getUserId()).getSentMsgIds().remove(message.getMessageId());
 		return true;
 	}
 
@@ -169,7 +188,26 @@ public class SimpleUserCacheCenter implements UserCacheCenter{
 			Date deadTime) {
 		CachedMessage cmessage = context.getMessagePool().getMessageById(messageId);
 		cmessage.setDeadTime(deadTime);
-		context.getMessagePool().updateMessage(cmessage);
+		context.getMessagePool().updateMessage(cmessage,cmessage);
+		return true;
+	}
+	@Override
+	public Iterable<Entry<Long, CachedUser>> getUserEntrys() {
+		return userCache.entrySet();
+	}
+	@Override
+	public boolean deleteUser(long userId) {
+		CachedUser cuser = userCache.get(userId);
+		if(null == cuser) return false;
+		if(!CollectionUtils.isEmpty(cuser.getInterestsMsgIds()))
+		{
+			for(Long id:cuser.getInterestsMsgIds())
+			{
+				CachedMessage msg = context.getInterestsCache().getMessageById(id);
+				if(null != msg)
+				context.getInterestsCache().deleteMessage(msg);
+			}
+		}
 		return true;
 	}
 }

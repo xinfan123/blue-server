@@ -1,5 +1,6 @@
 package com.xinfan.msgbox.vo;
 
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -9,6 +10,8 @@ public class CachedUser {
 	private long userId;
 	private User user;
 	private UserProfile profile;
+	private boolean online;
+	private Date lastActiveTime = new Date();
 	private List<Long> interestsMsgIds = new LinkedList<Long>();
 	private List<Long> sentMsgIds = new LinkedList<Long>();
 	
@@ -18,6 +21,22 @@ public class CachedUser {
 		this.userId = user.getUserId();
 	}
 	
+	public boolean isOnline() {
+		return online;
+	}
+
+	public void setOnline(boolean online) {
+		this.online = online;
+	}
+
+	public Date getLastActiveTime() {
+		return lastActiveTime;
+	}
+
+	public void setLastActiveTime(Date lastActiveTime) {
+		this.lastActiveTime = lastActiveTime;
+	}
+
 	public User getUser() {
 		return user;
 	}

@@ -1,24 +1,24 @@
 package com.xinfan.msgbox.service.processor;
 
-import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import com.xinfan.msgbox.service.algorithm.SimilarityAlgorithm;
 import com.xinfan.msgbox.service.listener.MessageChangeListener;
 import com.xinfan.msgbox.service.listener.MessageMatchedListener;
-import com.xinfan.msgbox.service.messagecache.MessageCacheCenter;
+import com.xinfan.msgbox.service.messagecache.AbstractMessageFilter;
+import com.xinfan.msgbox.service.messagecache.MessageCache;
 import com.xinfan.msgbox.vo.CachedMessage;
 
 public abstract class MessageProcessor extends Thread implements MessageChangeListener{
-	private MessageCacheCenter localPool;
-	private MessageCacheCenter listenPool;
+	private AbstractMessageFilter localPool;
+	private AbstractMessageFilter listenPool;
 
 	private MessageMatchedListener listener;
 	private SimilarityAlgorithm algorithm;
 
-	private LinkedBlockingQueue<List<Long>> changedMessages = new LinkedBlockingQueue<List<Long>>();
+	private LinkedBlockingQueue<CachedMessage> changedMessages = new LinkedBlockingQueue<CachedMessage>();
 
-	public MessageProcessor(MessageCacheCenter local, MessageCacheCenter listen, MessageMatchedListener listener, SimilarityAlgorithm algorithm) {
+	public MessageProcessor(AbstractMessageFilter local, AbstractMessageFilter listen, MessageMatchedListener listener, SimilarityAlgorithm algorithm) {
 		this.localPool = local;
 		this.listenPool = listen;
 		this.listenPool.addMessageChangeListener(this);
@@ -42,57 +42,58 @@ public abstract class MessageProcessor extends Thread implements MessageChangeLi
 		this.algorithm = algorithm;
 	}
 
-	public MessageCacheCenter getLocalPool() {
+	public AbstractMessageFilter getLocalPool() {
 		return localPool;
 	}
-	public void setLocalPool(MessageCacheCenter localPool) {
+
+	public void setLocalPool(AbstractMessageFilter localPool) {
 		this.localPool = localPool;
 	}
 
-	public MessageCacheCenter getListenPool() {
+	public AbstractMessageFilter getListenPool() {
 		return listenPool;
 	}
 
-	public void setListenPool(MessageCacheCenter listenPool) {
+	public void setListenPool(AbstractMessageFilter listenPool) {
 		this.listenPool = listenPool;
 	}
 
 	@Override
 	public void run() {
-		try {
-			for (;;) {
-				List<Long> changes = changedMessages.poll();
-				if (null != changes && !changes.isEmpty()) {
-					List<CachedMessage> changedMsgs = this.listenPool.getMessageByIds(changes);
-					matchChanges(changedMsgs);
-				} else {
-					try {
-						Thread.sleep(10);
-					} catch (Exception e) {
-
+		for (;;) {
+			try {
+					CachedMessage changes = changedMessages.poll();
+					if (null != changes) {
+	//					List<CachedMessage> changedMsgs = this.listenPool.getMessageByIds(changes);
+						matchChanges(changes);
+					} else {
+						try {
+							Thread.sleep(10);
+						} catch (Exception e) {
+	
+						}
 					}
-				}
+			} catch (Throwable e) {
+				e.printStackTrace();
 			}
-		} catch (Throwable e) {
-			e.printStackTrace();
 		}
 	}
-	protected abstract void matchChanges(List<CachedMessage> changedMsgs);
+	protected abstract void matchChanges(CachedMessage m);
 
 	@Override
-	public void onMessageAdded(List<Long> msgIds) {
-		while (!changedMessages.offer(msgIds))
+	public void onMessageAdded(CachedMessage m) {
+		while (!changedMessages.offer(m))
 			;
 	}
 
 	@Override
-	public void onMessageUpdated(List<Long> msgIds) {
-		while (!changedMessages.offer(msgIds))
+	public void onMessageUpdated(CachedMessage m) {
+		while (!changedMessages.offer(m))
 			;
 	}
 
 	@Override
-	public void onMessageDeleted(List<Long> msgIds) {
+	public void onMessageDeleted(CachedMessage m) {
 		// nothing to do
 	}
 }

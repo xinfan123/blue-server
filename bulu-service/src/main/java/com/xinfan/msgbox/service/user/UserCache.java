@@ -1,19 +1,23 @@
 package com.xinfan.msgbox.service.user;
 
 import java.util.Date;
+import java.util.Map.Entry;
 
 import com.xinfan.msgbox.vo.CachedMessage;
 import com.xinfan.msgbox.vo.CachedUser;
 import com.xinfan.msgbox.vo.Position;
 
-public interface UserCacheCenter {
+public interface UserCache {
 	
 	int getActiveUserCount();
 	int getOnlineUserCount();
 	
+	Iterable<Entry<Long, CachedUser>> getUserEntrys();
+	
 	boolean addUser(CachedUser user);
 	boolean updateUserProfile(CachedUser user);
 	boolean updateUserPosition(long userId,Position position);
+	boolean deleteUser(long userId);
 	
 	boolean addUserInterestsMsg(long userId,CachedMessage message);
 	boolean updateUserInterestsMsg(long userId,CachedMessage message);

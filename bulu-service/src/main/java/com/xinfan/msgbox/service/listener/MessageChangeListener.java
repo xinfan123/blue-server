@@ -1,9 +1,12 @@
 package com.xinfan.msgbox.service.listener;
 
-import java.util.List;
+import com.xinfan.msgbox.vo.CachedMessage;
 
 public interface MessageChangeListener {
-	void onMessageAdded(List<Long> msgIds);
-	void onMessageUpdated(List<Long> msgIds);
-	void onMessageDeleted(List<Long> msgIds);
+	void onMessageAdded(CachedMessage msg);
+	void onMessageUpdated(CachedMessage msg);
+	void onMessageDeleted(CachedMessage msg);
+//	void onMessageAdded(List<Long> msgIds);
+//	void onMessageUpdated(List<Long> msgIds);
+//	void onMessageDeleted(List<Long> msgIds);
 }

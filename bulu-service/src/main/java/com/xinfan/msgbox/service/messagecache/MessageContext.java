@@ -8,13 +8,15 @@ import com.xinfan.msgbox.service.algorithm.SimpleSimilarityAlgorithm;
 import com.xinfan.msgbox.service.dao.entity.Message;
 import com.xinfan.msgbox.service.dao.entity.User;
 import com.xinfan.msgbox.service.dao.entity.UserSet;
+import com.xinfan.msgbox.service.deamon.MessageCacheDeamon;
+import com.xinfan.msgbox.service.deamon.UserCacheDeamon;
 import com.xinfan.msgbox.service.listener.DefaultMessageMatchedListener;
 import com.xinfan.msgbox.service.listener.MessageMatchedListener;
 import com.xinfan.msgbox.service.processor.InterestsMessageProcessor;
 import com.xinfan.msgbox.service.processor.MessageProcessor;
 import com.xinfan.msgbox.service.processor.SentMessageProcessor;
-import com.xinfan.msgbox.service.user.SimpleUserCacheCenter;
-import com.xinfan.msgbox.service.user.UserCacheCenter;
+import com.xinfan.msgbox.service.user.MemoryUserCache;
+import com.xinfan.msgbox.service.user.UserCache;
 import com.xinfan.msgbox.vo.CachedMessage;
 import com.xinfan.msgbox.vo.CachedUser;
 import com.xinfan.msgbox.vo.Position;
@@ -23,11 +25,11 @@ import com.xinfan.msgbox.vo.UserProfile;
 public class MessageContext implements MessageCenterFacade{
 	private static MessageContext instance;
 	
-	private UserCacheCenter userCache;//用户缓存
+	private UserCache userCache;//用户缓存
 	
-	private InterestsMsgCacheCenter interestsCache;//感兴趣的消息缓存
+	private AbstractMessageFilter interestsCache;//感兴趣的消息缓存
 	
-	private SentMsgCacheCenter messagePool;//发送的消息缓存
+	private AbstractMessageFilter messagePool;//发送的消息缓存
 	
 	private MessageMatchedListener messageMatchedListener = new DefaultMessageMatchedListener();
 	
@@ -78,12 +80,12 @@ public class MessageContext implements MessageCenterFacade{
 	}
 	
 	private void init(){
-		interestsCache = new InterestsMsgCacheCenter();
-		
-		messagePool = new SentMsgCacheCenter();
+		interestsCache = new AreaFilter(new DistanceFilter(new MemoryMessageCache()));
+//		
+		messagePool = new AreaFilter(new DistanceFilter(new MemoryMessageCache()));
 		
 		//初始化所有用户
-		userCache = new SimpleUserCacheCenter(this);
+		userCache = new MemoryUserCache(this);
 
 	}
 	
@@ -104,16 +106,17 @@ public class MessageContext implements MessageCenterFacade{
 	public void start()
 	{
 		setUp();
+		//interestsCache.start();
+		new MessageCacheDeamon(messagePool).start();
+		new UserCacheDeamon(userCache).start();
 
-		interestsCache.start();
-		messagePool.start();
-		for(MessageProcessor p:interestsProcessors)
+		for(int i=0;i<interestProcessorNum;i++)
 		{
-			p.start();
+			interestsProcessors.get(i).start();
 		}
-		for(MessageProcessor p:messagePoolProcessors)
+		for(int i=0;i<messagePoolProcessorNum;i++)
 		{
-			p.start();
+			messagePoolProcessors.get(i).start();
 		}
 	}
 	
@@ -126,19 +129,19 @@ public class MessageContext implements MessageCenterFacade{
 		return instance;
 	}
 
-	public InterestsMsgCacheCenter getInterestsCache() {
+	public MessageCache getInterestsCache() {
 		return interestsCache;
 	}
 
-	public SentMsgCacheCenter getMessagePool() {
+	public MessageCache getMessagePool() {
 		return messagePool;
 	}
 
-	public UserCacheCenter getUserCache() {
+	public UserCache getUserCache() {
 		return userCache;
 	}
 
-	public void setUserCache(UserCacheCenter userCache) {
+	public void setUserCache(UserCache userCache) {
 		this.userCache = userCache;
 	}
 
@@ -206,10 +209,21 @@ public class MessageContext implements MessageCenterFacade{
 	@Override
 	public boolean updateMessageValideTime(long userId, long messageId,
 			Date deadTime) {
-		CachedMessage cmessage = new CachedMessage();
-		cmessage.setUserId(userId);
-		cmessage.setMessageId(messageId);
-		return userCache.updateMessageValideTime(userId,messageId,deadTime);
+//		CachedMessage cmessage = new CachedMessage();
+//		cmessage.setUserId(userId);
+//		cmessage.setMessageId(messageId);
+//		return userCache.updateMessageValideTime(userId,messageId,deadTime);
+		CachedMessage old = messagePool.getMessageById(messageId);
+		CachedMessage newMsg;
+		try {
+			newMsg = (CachedMessage) old.clone();
+			newMsg.setDeadTime(deadTime);
+			return messagePool.updateMessage(old, newMsg);
+		} catch (CloneNotSupportedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
 	}
 	
 	private CachedMessage constructCachedMsg(long userId, Message message) {
@@ -217,8 +231,13 @@ public class MessageContext implements MessageCenterFacade{
 		cmessage.setUserId(userId);
 		cmessage.setMessageId(message.getMsgId());
 		cmessage.setOriginalMsg(message.getTitle());
-		cmessage.setSrcPosition(new Position(message.getGpsx(),message.getGpsy()));
-		cmessage.setDeadTime(message.getValidTime());
+		cmessage.setSrcPosition(new Position(message.getGpsx(),message.getGpsy(),"长沙"));
+		cmessage.setDeadTime(message.getValidTime() == null?new Date(System.currentTimeMillis()+20*60*1000):message.getValidTime());
 		return cmessage;
+	}
+
+	@Override
+	public boolean deleteUser(User user) {
+		return userCache.deleteUser(user.getUserId());
 	}
 }
