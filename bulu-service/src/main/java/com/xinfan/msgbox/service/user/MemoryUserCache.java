@@ -86,7 +86,7 @@ public class MemoryUserCache implements UserCache{
 	}
 		@Override
 	public int getActiveUserCount() {
-		return 100;
+		return userCache.size();
 	}
 
 	@Override

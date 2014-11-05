@@ -5,6 +5,7 @@ import org.springframework.context.ApplicationContext;
 import com.xinfan.msgbox.http.context.ContextPostProcessor;
 import com.xinfan.msgbox.service.algorithm.SimpleSimilarityAlgorithm;
 import com.xinfan.msgbox.service.listener.DefaultMessageMatchedListener;
+import com.xinfan.msgbox.util.MessageConsole;
 
 public class MessageEngineLoader implements ContextPostProcessor {
 
@@ -16,6 +17,10 @@ public class MessageEngineLoader implements ContextPostProcessor {
 		mssageContext.setAlgorithm(new SimpleSimilarityAlgorithm());
 		mssageContext.setMessageMatchedListener(new DefaultMessageMatchedListener());
 		mssageContext.start();
+		
+		//初始化message engine console
+		MessageConsole console = new MessageConsole();
+		console.start();
 	}
 
 
