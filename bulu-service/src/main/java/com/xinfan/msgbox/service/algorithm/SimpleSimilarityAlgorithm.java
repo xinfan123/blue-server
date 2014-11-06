@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import ruc.irm.similarity.sentence.morphology.MorphoSimilarity;
 import ruc.irm.similarity.sentence.morphology.SemanticSimilarity;
+import ruc.irm.similarity.word.CharBasedSimilarity;
 
 import com.xinfan.msgbox.vo.CachedMessage;
 
@@ -32,7 +33,8 @@ public class SimpleSimilarityAlgorithm implements SimilarityAlgorithm {
 	@Override
 	public double calcSimilarity(CachedMessage interests, CachedMessage message) {
 	// MorphoSimilarity similarity = MorphoSimilarity.getInstance();
-		SemanticSimilarity similarity = SemanticSimilarity.getInstance();
+		//SemanticSimilarity similarity = SemanticSimilarity.getInstance();
+		CharBasedSimilarity similarity = new CharBasedSimilarity();
 
 		double score = similarity.getSimilarity(interests.getOriginalMsg(), message.getOriginalMsg());
 		return score;
