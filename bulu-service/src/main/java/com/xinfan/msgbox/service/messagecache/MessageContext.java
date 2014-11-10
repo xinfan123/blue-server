@@ -27,9 +27,9 @@ public class MessageContext implements MessageCenterFacade{
 	
 	private UserCache userCache;//用户缓存
 	
-	private AbstractMessageFilter interestsCache;//感兴趣的消息缓存
+	private MessageCache interestsCache;//感兴趣的消息缓存
 	
-	private AbstractMessageFilter messagePool;//发送的消息缓存
+	private MessageCache messagePool;//发送的消息缓存
 	
 	private MessageMatchedListener messageMatchedListener = new DefaultMessageMatchedListener();
 	
@@ -80,13 +80,18 @@ public class MessageContext implements MessageCenterFacade{
 	}
 	
 	private void init(){
-		interestsCache = new AreaFilter(new DistanceFilter(new MemoryMessageCache()));
+		interestsCache = new MemoryMessageCache();
+		interestsCache.addMessageFilter(new AreaFilter());
+		interestsCache.addMessageFilter(new DistanceFilter());
 //		
-		messagePool = new AreaFilter(new DistanceFilter(new MemoryMessageCache()));
-		
+		messagePool = new MemoryMessageCache();
+		messagePool.addMessageFilter(new AreaFilter());
+		messagePool.addMessageFilter(new DistanceFilter());
 		//初始化所有用户
 		userCache = new MemoryUserCache(this);
 
+		interestsCache.addMessageFilter(new UserFilter(userCache));
+		messagePool.addMessageFilter(new UserFilter(userCache));
 	}
 	
 	private void setUp()

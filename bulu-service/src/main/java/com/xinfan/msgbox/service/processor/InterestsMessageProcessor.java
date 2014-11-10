@@ -7,15 +7,14 @@ import java.util.Map.Entry;
 import com.xinfan.msgbox.service.algorithm.SimilarityAlgorithm;
 import com.xinfan.msgbox.service.listener.MessageChangeListener;
 import com.xinfan.msgbox.service.listener.MessageMatchedListener;
-import com.xinfan.msgbox.service.messagecache.AbstractMessageFilter;
 import com.xinfan.msgbox.service.messagecache.MessageCache;
 import com.xinfan.msgbox.vo.CachedMessage;
 import com.xinfan.msgbox.vo.MessageQueryInfo;
 
 public class InterestsMessageProcessor extends MessageProcessor{
 
-	public InterestsMessageProcessor(AbstractMessageFilter local,
-			AbstractMessageFilter listen, MessageMatchedListener listener,
+	public InterestsMessageProcessor(MessageCache local,
+			MessageCache listen, MessageMatchedListener listener,
 			SimilarityAlgorithm algorithm) {
 		super(local, listen, listener, algorithm);
 		// TODO Auto-generated constructor stub

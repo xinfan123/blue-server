@@ -1,10 +1,9 @@
 package com.xinfan.msgbox.service.messagecache;
 
-import java.util.List;
 
-import com.xinfan.msgbox.vo.CachedMessage;
+import com.xinfan.msgbox.service.listener.MessageChangeListener;
 import com.xinfan.msgbox.vo.MessageQueryInfo;
 
-public interface MessageQuery {
-	List<CachedMessage> queryMessage(MessageQueryInfo queryInfo);
+public interface MessageQuery  extends MessageChangeListener{
+	void doQuery(MessageQueryInfo queryInfo);
 }

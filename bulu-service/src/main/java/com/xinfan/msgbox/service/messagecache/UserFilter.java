@@ -1,25 +1,39 @@
 package com.xinfan.msgbox.service.messagecache;
 
-import java.util.List;
 
-import com.xinfan.msgbox.service.listener.MessageChangeListener;
 import com.xinfan.msgbox.service.user.UserCache;
 import com.xinfan.msgbox.vo.CachedMessage;
 import com.xinfan.msgbox.vo.MessageQueryInfo;
 
-public class UserFilter extends AbstractMessageFilter{
+public class UserFilter implements MessageQuery{
 	
 	private UserCache userCache;
-
-	public UserFilter(MessageCache m,UserCache u) {
-		super(m);
-		userCache = u;
+	
+	public UserFilter(UserCache u) {
+		this.userCache = u;
 	}
 
 	@Override
-	public List<CachedMessage> queryMessage(MessageQueryInfo queryInfo) {
-		//TODO 收消息数达到上限的用户，不进行匹配
-		return super.queryMessage(queryInfo);
+	public void doQuery(MessageQueryInfo queryInfo) {
+		
+	}
+
+	@Override
+	public void onMessageAdded(CachedMessage msg) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onMessageUpdated(CachedMessage old,CachedMessage msg) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onMessageDeleted(CachedMessage msg) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

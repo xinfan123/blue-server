@@ -15,6 +15,7 @@ import org.springframework.util.CollectionUtils;
 
 import com.xinfan.msgbox.service.listener.MessageChangeListener;
 import com.xinfan.msgbox.vo.CachedMessage;
+import com.xinfan.msgbox.vo.MessageQueryInfo;
 import com.xinfan.msgbox.vo.Position;
 
 /**
@@ -29,6 +30,9 @@ public class MemoryMessageCache implements MessageCache{
 	private LinkedBlockingQueue<CachedMessage> deleteQueue = new LinkedBlockingQueue<CachedMessage>();
 
 	private List<Long> allMsgIds = new LinkedList<Long>();
+	
+	private MessageFilterChain filterChain = new MessageFilterChain();
+	
 	//	/**
 //	 * 用户所有的消息key
 //	 */
@@ -93,6 +97,8 @@ public class MemoryMessageCache implements MessageCache{
 			msgCache.put(msg.getMessageId(), msg);
 			//userMsgCache.put(msg.getUserId(), msg.getMessageId());
 			allMsgIds.add(msg.getMessageId());
+			
+			filterChain.onMessageAdded(msg);
 		}
 		return true;
 	}
@@ -102,6 +108,7 @@ public class MemoryMessageCache implements MessageCache{
 //		return addQueue.offer(msg);
 		msgCache.put(msg.getMessageId(), msg);
 		allMsgIds.add(msg.getMessageId());
+		filterChain.onMessageAdded(msg);
 		if(!listeners.isEmpty())
 		{
 			listeners.get(currentListenerIndex++).onMessageAdded(msg);
@@ -114,9 +121,10 @@ public class MemoryMessageCache implements MessageCache{
 	public boolean updateMessage(CachedMessage old,CachedMessage msg) {
 //		return updateQueue.offer(msg);
 		msgCache.put(msg.getMessageId(), msg);
+		filterChain.onMessageUpdated(old, msg);
 		if(!listeners.isEmpty())
 		{
-			listeners.get(currentListenerIndex++).onMessageUpdated(msg);
+			listeners.get(currentListenerIndex++).onMessageUpdated(old,msg);
 			if(currentListenerIndex>listeners.size()-1) currentListenerIndex = 0;
 		}
 		return true;
@@ -127,9 +135,10 @@ public class MemoryMessageCache implements MessageCache{
 //		return deleteQueue.offer(msg);
 		msgCache.remove(msg.getMessageId());
 		allMsgIds.remove(msg.getMessageId());
+		filterChain.onMessageDeleted(msg);
 		if(!listeners.isEmpty())
 		{
-			listeners.get(currentListenerIndex++).onMessageUpdated(msg);
+			listeners.get(currentListenerIndex++).onMessageDeleted(msg);
 			if(currentListenerIndex>listeners.size()-1) currentListenerIndex = 0;
 		}
 		return true;
@@ -167,6 +176,30 @@ public class MemoryMessageCache implements MessageCache{
 		List<Long> copy = new ArrayList<Long>(allMsgIds.size());
 		Collections.copy(allMsgIds, copy);
 		return copy;
+	}
+
+	@Override
+	public void addMessageFilter(MessageQuery query) {
+		filterChain.addFilter(query);
+	}
+
+	@Override
+	public List<CachedMessage> queryMessage(MessageQueryInfo query) {
+		filterChain.doQuery(query);
+		
+		List<Long> ids  = null;
+		if(CollectionUtils.isEmpty(query.getCandidates()))
+		{
+			ids = getAllMessageIds();
+		}else
+		{
+			ids = query.getCandidates();
+		}
+		if(!CollectionUtils.isEmpty(query.getExcludes()))
+		{
+			ids.removeAll(query.getExcludes());
+		}
+		return getMessageByIds(ids);
 	}
 
 //	@Override

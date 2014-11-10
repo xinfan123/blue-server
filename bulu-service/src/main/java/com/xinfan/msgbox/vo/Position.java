@@ -45,4 +45,11 @@ public class Position {
 		return 1000;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if(!(obj instanceof Position)) return false;
+		Position another = (Position) obj;
+		
+		return this.gpsx.equals(another.getGpsx()) && this.gpsy.equals(another.getGpsy());
+	}
 }

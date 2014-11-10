@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.xinfan.msgbox.service.listener.MessageChangeListener;
 import com.xinfan.msgbox.vo.CachedMessage;
-import com.xinfan.msgbox.vo.Position;
+import com.xinfan.msgbox.vo.MessageQueryInfo;
 
 public interface MessageCache {
 	int getMessageCount();
@@ -30,4 +30,7 @@ public interface MessageCache {
 	boolean deleteMessage(CachedMessage msg);
 	
 	void addMessageChangeListener(MessageChangeListener listener);
+	void addMessageFilter(MessageQuery query);
+	
+	List<CachedMessage> queryMessage(MessageQueryInfo query);
 }

@@ -5,20 +5,19 @@ import java.util.concurrent.LinkedBlockingQueue;
 import com.xinfan.msgbox.service.algorithm.SimilarityAlgorithm;
 import com.xinfan.msgbox.service.listener.MessageChangeListener;
 import com.xinfan.msgbox.service.listener.MessageMatchedListener;
-import com.xinfan.msgbox.service.messagecache.AbstractMessageFilter;
 import com.xinfan.msgbox.service.messagecache.MessageCache;
 import com.xinfan.msgbox.vo.CachedMessage;
 
 public abstract class MessageProcessor extends Thread implements MessageChangeListener{
-	private AbstractMessageFilter localPool;
-	private AbstractMessageFilter listenPool;
+	private MessageCache localPool;
+	private MessageCache listenPool;
 
 	private MessageMatchedListener listener;
 	private SimilarityAlgorithm algorithm;
 
 	private LinkedBlockingQueue<CachedMessage> changedMessages = new LinkedBlockingQueue<CachedMessage>();
 
-	public MessageProcessor(AbstractMessageFilter local, AbstractMessageFilter listen, MessageMatchedListener listener, SimilarityAlgorithm algorithm) {
+	public MessageProcessor(MessageCache local, MessageCache listen, MessageMatchedListener listener, SimilarityAlgorithm algorithm) {
 		this.localPool = local;
 		this.listenPool = listen;
 		this.listenPool.addMessageChangeListener(this);
@@ -42,19 +41,19 @@ public abstract class MessageProcessor extends Thread implements MessageChangeLi
 		this.algorithm = algorithm;
 	}
 
-	public AbstractMessageFilter getLocalPool() {
+	public MessageCache getLocalPool() {
 		return localPool;
 	}
 
-	public void setLocalPool(AbstractMessageFilter localPool) {
+	public void setLocalPool(MessageCache localPool) {
 		this.localPool = localPool;
 	}
 
-	public AbstractMessageFilter getListenPool() {
+	public MessageCache getListenPool() {
 		return listenPool;
 	}
 
-	public void setListenPool(AbstractMessageFilter listenPool) {
+	public void setListenPool(MessageCache listenPool) {
 		this.listenPool = listenPool;
 	}
 
@@ -87,7 +86,7 @@ public abstract class MessageProcessor extends Thread implements MessageChangeLi
 	}
 
 	@Override
-	public void onMessageUpdated(CachedMessage m) {
+	public void onMessageUpdated(CachedMessage o,CachedMessage m) {
 		while (!changedMessages.offer(m))
 			;
 	}

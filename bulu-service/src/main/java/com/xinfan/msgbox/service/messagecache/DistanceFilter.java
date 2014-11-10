@@ -1,54 +1,40 @@
 package com.xinfan.msgbox.service.messagecache;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import com.xinfan.msgbox.http.service.BizConstants;
-import com.xinfan.msgbox.service.listener.MessageChangeListener;
 import com.xinfan.msgbox.vo.CachedMessage;
 import com.xinfan.msgbox.vo.MessageQueryInfo;
 import com.xinfan.msgbox.vo.Position;
 
-public class DistanceFilter extends AbstractMessageFilter{
+public class DistanceFilter implements MessageQuery{
 
 	/**
 	 * 每个消息所在的位置
 	 */
 	private Map<Long, Position> posMap = new HashMap<Long, Position>();
-	
-	public DistanceFilter(MessageCache m) {
-		super(m);
-	}
-		@Override
-	public boolean addMessage(CachedMessage msg) {
-		posMap.put(msg.getMessageId(), msg.getSrcPosition());
-		return successor.addMessage(msg);
-	}
 
 	@Override
-	public boolean updateMessage(CachedMessage old,CachedMessage msg) {
-		Position oldp = old.getSrcPosition();
-		Position newp = msg.getSrcPosition();
-		if(!oldp.getGpsx().equals(newp.getGpsx()) || !oldp.getGpsy().equals(newp.getGpsy()))
+	public void onMessageAdded(CachedMessage msg) {
+		posMap.put(msg.getMessageId(), msg.getSrcPosition());		
+	}
+	@Override
+	public void onMessageUpdated(CachedMessage old,CachedMessage msg) {
+		if(!old.getSrcPosition().equals(msg.getSrcPosition()))
 		{
 			posMap.put(msg.getMessageId(), msg.getSrcPosition());
 		}
-		return successor.updateMessage(old,msg);
 	}
-	
 	@Override
-	public boolean deleteMessage(CachedMessage msg) {
-		posMap.remove(msg.getMessageId());
-		return successor.deleteMessage(msg);
+	public void onMessageDeleted(CachedMessage msg) {
+		posMap.remove(msg.getMessageId());		
 	}
-
 	@Override
-	public List<CachedMessage> queryMessage(MessageQueryInfo queryInfo) {
+	public void doQuery(MessageQueryInfo queryInfo) {
 		CachedMessage current = queryInfo.getCurrent();
-		if(null == current) return Collections.EMPTY_LIST;
 		
 		if(current.getMatchType() == BizConstants.MESSAGE_MATCH_BY_DISTANCE){
 			List<Long> ids = queryInfo.getCandidates();
@@ -62,19 +48,9 @@ public class DistanceFilter extends AbstractMessageFilter{
 						{
 							it.remove();
 						}
-					   
 				}
 			}
 			queryInfo.setCandidates(ids);
-		}
-		return super.queryMessage(queryInfo);
-//		
-//		if(successor instanceof MessageQuery)
-//		{
-//			return ((MessageQuery) successor).queryMessage(queryInfo);
-//		}else
-//		{
-//			return successor.getMessageByIds(queryInfo.getCandidates());
-//		}		
+		}		
 	}
 }

@@ -1,40 +1,36 @@
 package com.xinfan.msgbox.service.messagecache;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import com.xinfan.msgbox.service.listener.MessageChangeListener;
+import org.springframework.util.CollectionUtils;
+
 import com.xinfan.msgbox.vo.CachedMessage;
 import com.xinfan.msgbox.vo.MessageQueryInfo;
 import com.xinfan.msgbox.vo.Position;
 
-public class AreaFilter extends AbstractMessageFilter{
+public class AreaFilter implements MessageQuery{
 	
 	/**
 	 * 每个区域有哪些消息
 	 */
 	private Map<String,List<Long>> areaMsgs = new HashMap<String, List<Long>>();
-	
-	public AreaFilter(MessageCache m) {
-		super(m);
-	}
-
 
 	@Override
-	public boolean addMessage(CachedMessage msg) {
+	public void onMessageAdded(CachedMessage msg) {
 		Position p = msg.getSrcPosition();
 		List<Long> ids = areaMsgs.get(p.getAreaName());
 		if(null == ids) ids=new LinkedList<Long>();
 		ids.add(msg.getMessageId());
 		areaMsgs.put(p.getAreaName(), ids);
-		return successor.addMessage(msg);
+		
 	}
 
+
 	@Override
-	public boolean updateMessage(CachedMessage old, CachedMessage msg) {
+	public void onMessageUpdated(CachedMessage old,CachedMessage msg) {
 		String oldArea = old.getSrcPosition().getAreaName();
 		String newArea = msg.getSrcPosition().getAreaName();
 		if(!oldArea.equals(newArea))
@@ -49,12 +45,12 @@ public class AreaFilter extends AbstractMessageFilter{
 			newIds.add(msg.getMessageId());
 			areaMsgs.put(newArea, newIds);
 		}
-		
-		return successor.updateMessage(old, msg);
+				
 	}
-	
+
+
 	@Override
-	public boolean deleteMessage(CachedMessage msg) {
+	public void onMessageDeleted(CachedMessage msg) {
 		Position p = msg.getSrcPosition();
 		List<Long> ids = areaMsgs.get(p.getAreaName());
 		if(null != ids)
@@ -62,17 +58,22 @@ public class AreaFilter extends AbstractMessageFilter{
 			ids.remove(msg.getMessageId());
 		}
 		areaMsgs.put(p.getAreaName(), ids);
-		return successor.deleteMessage(msg);
+		
 	}
 
+
 	@Override
-	public List<CachedMessage> queryMessage(MessageQueryInfo queryInfo) {
+	public void doQuery(MessageQueryInfo queryInfo) {
 		CachedMessage current = queryInfo.getCurrent();
-		if(null == current) return Collections.EMPTY_LIST;
 		
 		List<Long> ids = areaMsgs.get(current.getSrcPosition().getAreaName());
-		queryInfo.setCandidates(ids);
-		
-		return super.queryMessage(queryInfo);
+		if(CollectionUtils.isEmpty(ids)) return;
+		if(!CollectionUtils.isEmpty(queryInfo.getCandidates()))
+		{
+			queryInfo.setCandidates(ids);
+		}else
+		{
+			queryInfo.getCandidates().addAll(ids);
+		}
 	}
 }

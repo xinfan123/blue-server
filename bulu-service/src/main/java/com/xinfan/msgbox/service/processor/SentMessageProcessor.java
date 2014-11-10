@@ -5,17 +5,15 @@ import java.util.List;
 
 import com.xinfan.msgbox.service.algorithm.SimilarityAlgorithm;
 import com.xinfan.msgbox.service.listener.MessageMatchedListener;
-import com.xinfan.msgbox.service.messagecache.AbstractMessageFilter;
 import com.xinfan.msgbox.service.messagecache.MessageCache;
-import com.xinfan.msgbox.service.messagecache.MessageQuery;
 import com.xinfan.msgbox.vo.CachedMessage;
 import com.xinfan.msgbox.vo.MessageQueryInfo;
 
 public class SentMessageProcessor extends MessageProcessor{
 
 
-	public SentMessageProcessor(AbstractMessageFilter local,
-			AbstractMessageFilter listen, MessageMatchedListener listener,
+	public SentMessageProcessor(MessageCache local,
+			MessageCache listen, MessageMatchedListener listener,
 			SimilarityAlgorithm algorithm) {
 		super(local, listen, listener, algorithm);
 	}
