@@ -456,7 +456,9 @@ public class UserSetService extends BaseService {
 		return new BaseResult().success("修改成功");
 	}
 
-	public BaseResult setUserAvatar(UserAvatarParam param) throws Exception {
+	public UserAvatarResult setUserAvatar(UserAvatarParam param) throws Exception {
+
+		UserAvatarResult result = new UserAvatarResult();
 
 		if (param.getAvatar() != null && param.getAvatar().length() > 100) {
 
@@ -469,9 +471,13 @@ public class UserSetService extends BaseService {
 			user.setAvatar(name);
 
 			this.userDao.updateByPrimaryKeySelective(user);
+
+			result.setAvatar(name);
 		}
 
-		return new BaseResult().success("修改成功");
+		result.setResult(1);
+
+		return result;
 	}
 
 	public UserAvatarResult getUserAvatar(UserAvatarParam param) throws Exception {

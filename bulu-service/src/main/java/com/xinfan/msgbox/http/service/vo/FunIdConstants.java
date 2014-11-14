@@ -51,10 +51,10 @@ public enum FunIdConstants {
 	USER_UPDATE_CID("updateUserCID", UserCIDParam.class, BaseResult.class),
 
 	// 更新用户头像
-	USER_AVATAR_SET("user_avatar_set", UserAvatarParam.class, BaseResult.class),
+	USER_AVATAR_SET("setUserAvatar", UserAvatarParam.class, UserAvatarResult.class),
 
 	// 获取头像数据
-	USER_AVATAR_GET("user_avatar_get", UserAvatarParam.class, UserAvatarResult.class),
+	USER_AVATAR_GET("getUserAvatar", UserAvatarParam.class, UserAvatarResult.class),
 
 	// 设置用户设置
 	SET_USERSET("setUserSet", UserSetParam.class, BaseResult.class),
