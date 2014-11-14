@@ -73,6 +73,7 @@ public class LoginService extends BaseService {
 		login.setMobile(user.getMobile());
 		login.setRegTime(user.getRegTime());
 		login.setRegEarea(user.getRegEarea());
+		login.setAvatar(user.getAvatar());
 		
 		//更新用户登录信息
 		User updateUser = new User();
