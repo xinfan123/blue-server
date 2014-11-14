@@ -14,7 +14,9 @@ import org.springframework.util.CollectionUtils;
 import com.xinfan.msgbox.common.security.Md5PwdFactory;
 import com.xinfan.msgbox.http.common.ServiceContext;
 import com.xinfan.msgbox.http.service.util.BeanUtils;
+import com.xinfan.msgbox.http.service.vo.param.BaseParam;
 import com.xinfan.msgbox.http.service.vo.param.RegisterParam;
+import com.xinfan.msgbox.http.service.vo.param.UserAvatarParam;
 import com.xinfan.msgbox.http.service.vo.param.UserCIDParam;
 import com.xinfan.msgbox.http.service.vo.param.UserGpsParam;
 import com.xinfan.msgbox.http.service.vo.param.UserLinkmanParam;
@@ -24,7 +26,9 @@ import com.xinfan.msgbox.http.service.vo.param.UserSentParam;
 import com.xinfan.msgbox.http.service.vo.param.UserSetParam;
 import com.xinfan.msgbox.http.service.vo.param.ValidCodeParam;
 import com.xinfan.msgbox.http.service.vo.result.BaseResult;
+import com.xinfan.msgbox.http.service.vo.result.UserAvatarResult;
 import com.xinfan.msgbox.http.service.vo.result.ValidCodeResult;
+import com.xinfan.msgbox.http.util.AvatarUtils;
 import com.xinfan.msgbox.service.dao.MessageDao;
 import com.xinfan.msgbox.service.dao.MessageReportedDao;
 import com.xinfan.msgbox.service.dao.UserBalanceDao;
@@ -450,5 +454,36 @@ public class UserSetService extends BaseService {
 		MessageContext.getInstance().updateUserPosition(updateUser.getUserId(), position);
 
 		return new BaseResult().success("修改成功");
+	}
+
+	public BaseResult setUserAvatar(UserAvatarParam param) throws Exception {
+
+		if (param.getAvatar() != null && param.getAvatar().length() > 100) {
+
+			User session = getUserFromSession();
+
+			String name = AvatarUtils.save(ServiceContext.getRequest(), param.getAvatar());
+
+			User user = new User();
+			user.setUserId(session.getUserId());
+			user.setAvatar(name);
+
+			this.userDao.updateByPrimaryKeySelective(user);
+		}
+
+		return new BaseResult().success("修改成功");
+	}
+
+	public UserAvatarResult getUserAvatar(UserAvatarParam param) throws Exception {
+
+		UserAvatarResult result = new UserAvatarResult();
+
+		String name = param.getAvatar();
+		String avatar = AvatarUtils.get(ServiceContext.getRequest(), name);
+
+		result.setAvatar(avatar);
+
+		return result;
+
 	}
 }

@@ -17,8 +17,10 @@
     <service funId="deleteUserSent" bean="UserSetService" method="deleteUserSent" name="删除用户主题"  login="true"/>
     <service funId="reportMessage" bean="UserSetService" method="reportMessage" name="用户举报信息"  login="true"/>
     <service funId="setUserNickname" bean="UserSetService" method="setUserNickname" name="设置用户昵称"  login="true"/>
-     <service funId="setUserGps" bean="UserSetService" method="setUserGps" name="更新用户的GPS信息"  login="true"/>
-    
+    <service funId="setUserGps" bean="UserSetService" method="setUserGps" name="更新用户的GPS信息"  login="true"/>
+    <service funId="setUserGps" bean="UserSetService" method="setUserGps" name="更新用户的GPS信息"  login="true"/>
+    <service funId="setUserAvatar" bean="UserSetService" method="setUserAvatar" name="设置用户头像"  login="true"/>
+    <service funId="getUserAvatar" bean="UserSetService" method="getUserAvatar" name="获取头像数据"  login="true"/>
   
     <!-- 用户信息获取部分 -->
     <service funId="getUserLinkmanList" bean="UserGetService" method="getUserLinkmanList" name="获取用户联系人列表" login="true"/>
