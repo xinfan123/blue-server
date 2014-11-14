@@ -3,7 +3,7 @@ package com.xinfan.msgbox.service.dao.entity;
 import java.util.Date;
 
 public class User {
-    private Long userId;
+	private Long userId;
 
 	private String userName;
 
@@ -30,6 +30,8 @@ public class User {
 	private Date loginTime;
 
 	private Integer online;
+
+	private String avatar;
 
 	public Long getUserId() {
 		return userId;
@@ -143,4 +145,11 @@ public class User {
 		this.online = online;
 	}
 
+	public String getAvatar() {
+		return avatar;
+	}
+
+	public void setAvatar(String avatar) {
+		this.avatar = avatar == null ? null : avatar.trim();
+	}
 }

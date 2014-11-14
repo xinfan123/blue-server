@@ -5,7 +5,7 @@ import java.util.Date;
 import java.util.List;
 
 public class UserExample {
-    protected String orderByClause;
+	protected String orderByClause;
 
 	protected boolean distinct;
 
@@ -1012,6 +1012,76 @@ public class UserExample {
 
 		public Criteria andOnlineNotBetween(Integer value1, Integer value2) {
 			addCriterion("online not between", value1, value2, "online");
+			return (Criteria) this;
+		}
+
+		public Criteria andAvatarIsNull() {
+			addCriterion("avatar is null");
+			return (Criteria) this;
+		}
+
+		public Criteria andAvatarIsNotNull() {
+			addCriterion("avatar is not null");
+			return (Criteria) this;
+		}
+
+		public Criteria andAvatarEqualTo(String value) {
+			addCriterion("avatar =", value, "avatar");
+			return (Criteria) this;
+		}
+
+		public Criteria andAvatarNotEqualTo(String value) {
+			addCriterion("avatar <>", value, "avatar");
+			return (Criteria) this;
+		}
+
+		public Criteria andAvatarGreaterThan(String value) {
+			addCriterion("avatar >", value, "avatar");
+			return (Criteria) this;
+		}
+
+		public Criteria andAvatarGreaterThanOrEqualTo(String value) {
+			addCriterion("avatar >=", value, "avatar");
+			return (Criteria) this;
+		}
+
+		public Criteria andAvatarLessThan(String value) {
+			addCriterion("avatar <", value, "avatar");
+			return (Criteria) this;
+		}
+
+		public Criteria andAvatarLessThanOrEqualTo(String value) {
+			addCriterion("avatar <=", value, "avatar");
+			return (Criteria) this;
+		}
+
+		public Criteria andAvatarLike(String value) {
+			addCriterion("avatar like", value, "avatar");
+			return (Criteria) this;
+		}
+
+		public Criteria andAvatarNotLike(String value) {
+			addCriterion("avatar not like", value, "avatar");
+			return (Criteria) this;
+		}
+
+		public Criteria andAvatarIn(List<String> values) {
+			addCriterion("avatar in", values, "avatar");
+			return (Criteria) this;
+		}
+
+		public Criteria andAvatarNotIn(List<String> values) {
+			addCriterion("avatar not in", values, "avatar");
+			return (Criteria) this;
+		}
+
+		public Criteria andAvatarBetween(String value1, String value2) {
+			addCriterion("avatar between", value1, value2, "avatar");
+			return (Criteria) this;
+		}
+
+		public Criteria andAvatarNotBetween(String value1, String value2) {
+			addCriterion("avatar not between", value1, value2, "avatar");
 			return (Criteria) this;
 		}
 	}
