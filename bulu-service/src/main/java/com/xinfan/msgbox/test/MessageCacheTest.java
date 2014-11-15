@@ -4,11 +4,8 @@ import java.io.IOException;
 
 import org.junit.Test;
 
-import com.xinfan.msgbox.service.algorithm.SimpleSimilarityAlgorithm;
+import com.xinfan.msgbox.core.messagecache.MessageContext;
 import com.xinfan.msgbox.service.dao.entity.Message;
-import com.xinfan.msgbox.service.listener.DefaultMessageMatchedListener;
-import com.xinfan.msgbox.service.messagecache.MessageCenterFacade;
-import com.xinfan.msgbox.service.messagecache.MessageContext;
 
 public class MessageCacheTest extends BaseTest{
  
