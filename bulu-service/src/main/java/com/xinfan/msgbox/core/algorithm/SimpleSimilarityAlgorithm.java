@@ -3,11 +3,9 @@ package com.xinfan.msgbox.core.algorithm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ruc.irm.similarity.sentence.morphology.MorphoSimilarity;
-import ruc.irm.similarity.sentence.morphology.SemanticSimilarity;
 import ruc.irm.similarity.word.CharBasedSimilarity;
 
-import com.xinfan.msgbox.vo.CachedMessage;
+import com.xinfan.msgbox.core.vo.CachedMessage;
 
 public class SimpleSimilarityAlgorithm implements SimilarityAlgorithm {
 

@@ -13,6 +13,7 @@ import org.springframework.util.CollectionUtils;
 
 import com.xinfan.msgbox.common.security.Md5PwdFactory;
 import com.xinfan.msgbox.core.messagecache.MessageContext;
+import com.xinfan.msgbox.core.vo.Position;
 import com.xinfan.msgbox.http.common.ServiceContext;
 import com.xinfan.msgbox.http.service.util.BeanUtils;
 import com.xinfan.msgbox.http.service.vo.param.RegisterParam;
@@ -48,7 +49,6 @@ import com.xinfan.msgbox.service.dao.entity.UserLinkman;
 import com.xinfan.msgbox.service.dao.entity.UserSent;
 import com.xinfan.msgbox.service.dao.entity.UserSet;
 import com.xinfan.msgbox.service.sms.SmsService;
-import com.xinfan.msgbox.vo.Position;
 
 public class UserSetService extends BaseService {
 	private static Logger logger = LoggerFactory.getLogger(UserSetService.class);

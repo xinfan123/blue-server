@@ -1,4 +1,4 @@
-package com.xinfan.msgbox.vo;
+package com.xinfan.msgbox.core.vo;
 
 import java.util.Date;
 import java.util.LinkedList;

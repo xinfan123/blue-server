@@ -5,10 +5,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import com.xinfan.msgbox.core.vo.CachedMessage;
+import com.xinfan.msgbox.core.vo.MessageQueryInfo;
+import com.xinfan.msgbox.core.vo.Position;
 import com.xinfan.msgbox.http.service.BizConstants;
-import com.xinfan.msgbox.vo.CachedMessage;
-import com.xinfan.msgbox.vo.MessageQueryInfo;
-import com.xinfan.msgbox.vo.Position;
 
 public class DistanceFilter implements MessageQuery{
 

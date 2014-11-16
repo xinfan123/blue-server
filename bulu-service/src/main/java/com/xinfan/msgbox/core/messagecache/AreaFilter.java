@@ -7,9 +7,9 @@ import java.util.Map;
 
 import org.springframework.util.CollectionUtils;
 
-import com.xinfan.msgbox.vo.CachedMessage;
-import com.xinfan.msgbox.vo.MessageQueryInfo;
-import com.xinfan.msgbox.vo.Position;
+import com.xinfan.msgbox.core.vo.CachedMessage;
+import com.xinfan.msgbox.core.vo.MessageQueryInfo;
+import com.xinfan.msgbox.core.vo.Position;
 
 public class AreaFilter implements MessageQuery{
 	

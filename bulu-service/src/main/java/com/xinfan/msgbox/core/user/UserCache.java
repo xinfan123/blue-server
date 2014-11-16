@@ -3,9 +3,9 @@ package com.xinfan.msgbox.core.user;
 import java.util.Date;
 import java.util.Map.Entry;
 
-import com.xinfan.msgbox.vo.CachedMessage;
-import com.xinfan.msgbox.vo.CachedUser;
-import com.xinfan.msgbox.vo.Position;
+import com.xinfan.msgbox.core.vo.CachedMessage;
+import com.xinfan.msgbox.core.vo.CachedUser;
+import com.xinfan.msgbox.core.vo.Position;
 
 public interface UserCache {
 	

@@ -3,7 +3,7 @@ package com.xinfan.msgbox.core.algorithm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.xinfan.msgbox.vo.CachedMessage;
+import com.xinfan.msgbox.core.vo.CachedMessage;
 
 public class SimHashAlgorithm implements SimilarityAlgorithm {
 	private static Logger logger = LoggerFactory.getLogger(SimilarityAlgorithm.class);

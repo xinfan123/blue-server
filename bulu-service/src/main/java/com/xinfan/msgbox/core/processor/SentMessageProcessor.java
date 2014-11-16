@@ -6,8 +6,8 @@ import java.util.List;
 import com.xinfan.msgbox.core.algorithm.SimilarityAlgorithm;
 import com.xinfan.msgbox.core.listener.MessageMatchedListener;
 import com.xinfan.msgbox.core.messagecache.MessageCache;
-import com.xinfan.msgbox.vo.CachedMessage;
-import com.xinfan.msgbox.vo.MessageQueryInfo;
+import com.xinfan.msgbox.core.vo.CachedMessage;
+import com.xinfan.msgbox.core.vo.MessageQueryInfo;
 
 public class SentMessageProcessor extends MessageProcessor{
 

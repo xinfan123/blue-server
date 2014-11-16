@@ -3,8 +3,8 @@ package com.xinfan.msgbox.core.messagecache;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.xinfan.msgbox.vo.CachedMessage;
-import com.xinfan.msgbox.vo.MessageQueryInfo;
+import com.xinfan.msgbox.core.vo.CachedMessage;
+import com.xinfan.msgbox.core.vo.MessageQueryInfo;
 
 public class MessageFilterChain  implements MessageQuery{
 

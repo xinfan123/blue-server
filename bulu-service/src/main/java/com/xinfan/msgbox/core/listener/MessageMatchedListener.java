@@ -2,7 +2,7 @@ package com.xinfan.msgbox.core.listener;
 
 import java.util.List;
 
-import com.xinfan.msgbox.vo.CachedMessage;
+import com.xinfan.msgbox.core.vo.CachedMessage;
 
 public interface MessageMatchedListener {
 	@Deprecated

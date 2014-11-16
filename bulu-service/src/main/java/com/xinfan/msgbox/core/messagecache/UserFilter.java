@@ -2,8 +2,8 @@ package com.xinfan.msgbox.core.messagecache;
 
 
 import com.xinfan.msgbox.core.user.UserCache;
-import com.xinfan.msgbox.vo.CachedMessage;
-import com.xinfan.msgbox.vo.MessageQueryInfo;
+import com.xinfan.msgbox.core.vo.CachedMessage;
+import com.xinfan.msgbox.core.vo.MessageQueryInfo;
 
 public class UserFilter implements MessageQuery{
 	

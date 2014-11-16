@@ -6,7 +6,7 @@ import com.xinfan.msgbox.core.algorithm.SimilarityAlgorithm;
 import com.xinfan.msgbox.core.listener.MessageChangeListener;
 import com.xinfan.msgbox.core.listener.MessageMatchedListener;
 import com.xinfan.msgbox.core.messagecache.MessageCache;
-import com.xinfan.msgbox.vo.CachedMessage;
+import com.xinfan.msgbox.core.vo.CachedMessage;
 
 public abstract class MessageProcessor extends Thread implements MessageChangeListener{
 	private MessageCache localPool;

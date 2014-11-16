@@ -15,13 +15,13 @@ import com.xinfan.msgbox.core.processor.MessageProcessor;
 import com.xinfan.msgbox.core.processor.SentMessageProcessor;
 import com.xinfan.msgbox.core.user.MemoryUserCache;
 import com.xinfan.msgbox.core.user.UserCache;
+import com.xinfan.msgbox.core.vo.CachedMessage;
+import com.xinfan.msgbox.core.vo.CachedUser;
+import com.xinfan.msgbox.core.vo.Position;
+import com.xinfan.msgbox.core.vo.UserProfile;
 import com.xinfan.msgbox.service.dao.entity.Message;
 import com.xinfan.msgbox.service.dao.entity.User;
 import com.xinfan.msgbox.service.dao.entity.UserSet;
-import com.xinfan.msgbox.vo.CachedMessage;
-import com.xinfan.msgbox.vo.CachedUser;
-import com.xinfan.msgbox.vo.Position;
-import com.xinfan.msgbox.vo.UserProfile;
 
 public class MessageContext implements MessageCenterFacade{
 	private static MessageContext instance;

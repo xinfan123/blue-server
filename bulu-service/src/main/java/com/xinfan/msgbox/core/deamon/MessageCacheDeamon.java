@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
 
 import com.xinfan.msgbox.core.messagecache.MessageCache;
-import com.xinfan.msgbox.vo.CachedMessage;
+import com.xinfan.msgbox.core.vo.CachedMessage;
 
 public class MessageCacheDeamon extends Thread {
 

@@ -11,8 +11,8 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import com.xinfan.msgbox.core.messagecache.MessageContext;
-import com.xinfan.msgbox.vo.CachedMessage;
-import com.xinfan.msgbox.vo.CachedUser;
+import com.xinfan.msgbox.core.vo.CachedMessage;
+import com.xinfan.msgbox.core.vo.CachedUser;
 
 
 public class Handler extends Thread{

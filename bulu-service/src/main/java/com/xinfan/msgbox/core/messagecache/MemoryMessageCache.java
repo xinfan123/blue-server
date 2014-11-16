@@ -12,8 +12,8 @@ import java.util.concurrent.LinkedBlockingQueue;
 import org.springframework.util.CollectionUtils;
 
 import com.xinfan.msgbox.core.listener.MessageChangeListener;
-import com.xinfan.msgbox.vo.CachedMessage;
-import com.xinfan.msgbox.vo.MessageQueryInfo;
+import com.xinfan.msgbox.core.vo.CachedMessage;
+import com.xinfan.msgbox.core.vo.MessageQueryInfo;
 
 /**
  * 内存消息缓存实现

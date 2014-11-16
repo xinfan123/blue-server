@@ -1,6 +1,6 @@
 package com.xinfan.msgbox.core.listener;
 
-import com.xinfan.msgbox.vo.CachedMessage;
+import com.xinfan.msgbox.core.vo.CachedMessage;
 
 public interface MessageChangeListener {
 	void onMessageAdded(CachedMessage msg);

@@ -4,7 +4,7 @@ import java.util.Calendar;
 import java.util.Map.Entry;
 
 import com.xinfan.msgbox.core.user.UserCache;
-import com.xinfan.msgbox.vo.CachedUser;
+import com.xinfan.msgbox.core.vo.CachedUser;
 
 public class UserCacheDeamon extends Thread{
 	

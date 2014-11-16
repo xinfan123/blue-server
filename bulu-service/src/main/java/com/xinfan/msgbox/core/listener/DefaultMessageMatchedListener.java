@@ -3,6 +3,7 @@ package com.xinfan.msgbox.core.listener;
 import java.util.Date;
 import java.util.List;
 
+import com.xinfan.msgbox.core.vo.CachedMessage;
 import com.xinfan.msgbox.http.context.AppContextHolder;
 import com.xinfan.msgbox.service.dao.MessageReceivedDao;
 import com.xinfan.msgbox.service.dao.MessageSendDao;
@@ -11,7 +12,6 @@ import com.xinfan.msgbox.service.dao.entity.MessageReceived;
 import com.xinfan.msgbox.service.dao.entity.MessageSend;
 import com.xinfan.msgbox.service.dao.entity.User;
 import com.xinfan.msgbox.service.push.PushServiceFactory;
-import com.xinfan.msgbox.vo.CachedMessage;
 
 public class DefaultMessageMatchedListener implements MessageMatchedListener {
 

@@ -3,8 +3,8 @@ package com.xinfan.msgbox.core.messagecache;
 import java.util.List;
 
 import com.xinfan.msgbox.core.listener.MessageChangeListener;
-import com.xinfan.msgbox.vo.CachedMessage;
-import com.xinfan.msgbox.vo.MessageQueryInfo;
+import com.xinfan.msgbox.core.vo.CachedMessage;
+import com.xinfan.msgbox.core.vo.MessageQueryInfo;
 
 public interface MessageCache {
 	int getMessageCount();
