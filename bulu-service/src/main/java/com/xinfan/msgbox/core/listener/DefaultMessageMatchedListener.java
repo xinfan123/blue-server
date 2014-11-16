@@ -3,6 +3,7 @@ package com.xinfan.msgbox.core.listener;
 import java.util.Date;
 import java.util.List;
 
+import com.xinfan.msgbox.core.messagecache.MessageContext;
 import com.xinfan.msgbox.core.vo.CachedMessage;
 import com.xinfan.msgbox.http.context.AppContextHolder;
 import com.xinfan.msgbox.service.dao.MessageReceivedDao;
@@ -19,7 +20,7 @@ public class DefaultMessageMatchedListener implements MessageMatchedListener {
 	@Deprecated
 	public void onMessageMatched(final CachedMessage interests, final CachedMessage message) {
 
-		new Thread() {
+		MessageContext.getInstance().getThreadPool().runInThread(new Thread() {
 
 			@Override
 			public void run() {
@@ -54,20 +55,17 @@ public class DefaultMessageMatchedListener implements MessageMatchedListener {
 
 				PushServiceFactory.getDefaultService().pushMessageTip(user.getCid(), user.getUserId(), message.getOriginalMsg());
 			}
-
-		}.start();
-
+		});
 	}
 
 	@Override
-	public void onMessageMatched(CachedMessage message,
-			List<CachedMessage> matchs, List<Double> scores) {
-		// TODO Auto-generated method stub
-		System.out.println(message.getOriginalMsg() + " matched + "+matchs.size() + " messages");
-		for(int i=0;i<matchs.size();i++)
-		{
+	public void onMessageMatched(CachedMessage message, List<CachedMessage> matchs, List<Double> scores) {
+
+		System.out.println(message.getOriginalMsg() + " matched + " + matchs.size() + " messages");
+		for (int i = 0; i < matchs.size(); i++) {
 			System.out.println(message.getOriginalMsg() + " vs " + matchs.get(i).getOriginalMsg() + " score: " + scores.get(i));
+			onMessageMatched(matchs.get(i), message);
 		}
-		
+
 	}
 }

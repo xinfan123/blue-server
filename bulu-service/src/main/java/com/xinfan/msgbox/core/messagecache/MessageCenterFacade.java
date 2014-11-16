@@ -30,4 +30,5 @@ public interface MessageCenterFacade {
 	boolean updateMessageValideTime(long userId,long messageId,Date deadTime);
 	
 	boolean deleteUser(User user);
+	
 }
