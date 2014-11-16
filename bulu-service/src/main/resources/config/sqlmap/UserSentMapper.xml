@@ -2,10 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.xinfan.msgbox.service.dao.UserSentMapper" >
   <resultMap id="BaseResultMap" type="com.xinfan.msgbox.service.dao.entity.UserSent" >
-    <id column="ID" property="id" jdbcType="BIGINT" />
-    <result column="USER_ID" property="userId" jdbcType="BIGINT" />
-    <result column="USER_SENT" property="userSent" jdbcType="VARCHAR" />
-    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="user_sent" property="userSent" jdbcType="VARCHAR" />
+    <result column="gpsy" property="gpsy" jdbcType="VARCHAR" />
+    <result column="gpsx" property="gpsx" jdbcType="VARCHAR" />
+    <result column="regin_code" property="reginCode" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -66,7 +69,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    ID, USER_ID, USER_SENT, CREATE_TIME
+    id, user_id, user_sent, gpsy, gpsx, regin_code, create_time
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xinfan.msgbox.service.dao.entity.UserSentExample" >
     select
@@ -86,11 +89,11 @@
     select 
     <include refid="Base_Column_List" />
     from t_user_sent
-    where ID = #{id,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from t_user_sent
-    where ID = #{id,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
   </delete>
   <delete id="deleteByExample" parameterType="com.xinfan.msgbox.service.dao.entity.UserSentExample" >
     delete from t_user_sent
@@ -99,25 +102,36 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.xinfan.msgbox.service.dao.entity.UserSent" >
-    insert into t_user_sent (ID, USER_ID, USER_SENT, 
-      CREATE_TIME)
+    insert into t_user_sent (id, user_id, user_sent, 
+      gpsy, gpsx, regin_code, 
+      create_time)
     values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{userSent,jdbcType=VARCHAR}, 
+      #{gpsy,jdbcType=VARCHAR}, #{gpsx,jdbcType=VARCHAR}, #{reginCode,jdbcType=VARCHAR}, 
       #{createTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.xinfan.msgbox.service.dao.entity.UserSent" >
     insert into t_user_sent
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
-        ID,
+        id,
       </if>
       <if test="userId != null" >
-        USER_ID,
+        user_id,
       </if>
       <if test="userSent != null" >
-        USER_SENT,
+        user_sent,
+      </if>
+      <if test="gpsy != null" >
+        gpsy,
+      </if>
+      <if test="gpsx != null" >
+        gpsx,
+      </if>
+      <if test="reginCode != null" >
+        regin_code,
       </if>
       <if test="createTime != null" >
-        CREATE_TIME,
+        create_time,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -129,6 +143,15 @@
       </if>
       <if test="userSent != null" >
         #{userSent,jdbcType=VARCHAR},
+      </if>
+      <if test="gpsy != null" >
+        #{gpsy,jdbcType=VARCHAR},
+      </if>
+      <if test="gpsx != null" >
+        #{gpsx,jdbcType=VARCHAR},
+      </if>
+      <if test="reginCode != null" >
+        #{reginCode,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null" >
         #{createTime,jdbcType=TIMESTAMP},
@@ -145,16 +168,25 @@
     update t_user_sent
     <set >
       <if test="record.id != null" >
-        ID = #{record.id,jdbcType=BIGINT},
+        id = #{record.id,jdbcType=BIGINT},
       </if>
       <if test="record.userId != null" >
-        USER_ID = #{record.userId,jdbcType=BIGINT},
+        user_id = #{record.userId,jdbcType=BIGINT},
       </if>
       <if test="record.userSent != null" >
-        USER_SENT = #{record.userSent,jdbcType=VARCHAR},
+        user_sent = #{record.userSent,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gpsy != null" >
+        gpsy = #{record.gpsy,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gpsx != null" >
+        gpsx = #{record.gpsx,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reginCode != null" >
+        regin_code = #{record.reginCode,jdbcType=VARCHAR},
       </if>
       <if test="record.createTime != null" >
-        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
     </set>
     <if test="_parameter != null" >
@@ -163,10 +195,13 @@
   </update>
   <update id="updateByExample" parameterType="map" >
     update t_user_sent
-    set ID = #{record.id,jdbcType=BIGINT},
-      USER_ID = #{record.userId,jdbcType=BIGINT},
-      USER_SENT = #{record.userSent,jdbcType=VARCHAR},
-      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP}
+    set id = #{record.id,jdbcType=BIGINT},
+      user_id = #{record.userId,jdbcType=BIGINT},
+      user_sent = #{record.userSent,jdbcType=VARCHAR},
+      gpsy = #{record.gpsy,jdbcType=VARCHAR},
+      gpsx = #{record.gpsx,jdbcType=VARCHAR},
+      regin_code = #{record.reginCode,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -175,22 +210,34 @@
     update t_user_sent
     <set >
       <if test="userId != null" >
-        USER_ID = #{userId,jdbcType=BIGINT},
+        user_id = #{userId,jdbcType=BIGINT},
       </if>
       <if test="userSent != null" >
-        USER_SENT = #{userSent,jdbcType=VARCHAR},
+        user_sent = #{userSent,jdbcType=VARCHAR},
+      </if>
+      <if test="gpsy != null" >
+        gpsy = #{gpsy,jdbcType=VARCHAR},
+      </if>
+      <if test="gpsx != null" >
+        gpsx = #{gpsx,jdbcType=VARCHAR},
+      </if>
+      <if test="reginCode != null" >
+        regin_code = #{reginCode,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null" >
-        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+        create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
     </set>
-    where ID = #{id,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.xinfan.msgbox.service.dao.entity.UserSent" >
     update t_user_sent
-    set USER_ID = #{userId,jdbcType=BIGINT},
-      USER_SENT = #{userSent,jdbcType=VARCHAR},
-      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
-    where ID = #{id,jdbcType=BIGINT}
+    set user_id = #{userId,jdbcType=BIGINT},
+      user_sent = #{userSent,jdbcType=VARCHAR},
+      gpsy = #{gpsy,jdbcType=VARCHAR},
+      gpsx = #{gpsx,jdbcType=VARCHAR},
+      regin_code = #{reginCode,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>
