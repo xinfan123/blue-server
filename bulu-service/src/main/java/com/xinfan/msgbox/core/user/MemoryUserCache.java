@@ -51,6 +51,8 @@ public class MemoryUserCache implements UserCache{
 			UserSetExample setExample = new UserSetExample();
 			setExample.createCriteria().andUserIdEqualTo(user.getUserId());
 			List<UserSet> sets = userSetDao.selectByExample(setExample);
+			if(sets.size()==1){
+				
 			
 			//用户设置
 			UserProfile profile = new UserProfile(sets.get(0));
@@ -78,6 +80,7 @@ public class MemoryUserCache implements UserCache{
 			//用户发送消息列表，需要将未失效的消息重新load出来，初始化到message pool中
 			//cuser.setSentMsgIds(sentMsgIds);
 			userCache.put(cuser.getUserId(), cuser);
+			}
 		}
 		
 		this.context = context;
