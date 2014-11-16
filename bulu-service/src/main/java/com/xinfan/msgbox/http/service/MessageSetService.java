@@ -10,6 +10,7 @@ import com.xinfan.msgbox.http.service.util.BeanUtils;
 import com.xinfan.msgbox.http.service.vo.param.MessageRevDelParam;
 import com.xinfan.msgbox.http.service.vo.param.SendMessageParam;
 import com.xinfan.msgbox.http.service.vo.result.BaseResult;
+import com.xinfan.msgbox.http.util.BizUtils;
 import com.xinfan.msgbox.http.util.TimeUtils;
 import com.xinfan.msgbox.service.dao.MessageDao;
 import com.xinfan.msgbox.service.dao.MessageReceivedDao;
@@ -64,6 +65,8 @@ public class MessageSetService {
 		msg.setMsgStatus(2);
 		msg.setRefreshCount(1);
 		msg.setRefreshTime(new Date());
+		msg.setSendDistance(BizUtils.getMessageDistanceValue(param.getSendType()));
+		msg.setSendArea(param.getSendArea());
 
 		Date validTime = TimeUtils.getValidTime(new Date(), param.getDurationTime());
 		msg.setValidTime(validTime);

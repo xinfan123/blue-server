@@ -353,6 +353,8 @@ public class UserSetService extends BaseService {
 		BeanUtils.copyProperties(userSent, param);
 		userSentDao.insertSelective(userSent);
 		return new BaseResult().success("设置接收语成功");
+		
+		
 	}
 
 	/**
