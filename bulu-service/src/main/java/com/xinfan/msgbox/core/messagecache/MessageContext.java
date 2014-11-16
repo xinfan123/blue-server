@@ -4,7 +4,8 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.xinfan.msgbox.core.algorithm.SimpleSimilarityAlgorithm;
+import com.xinfan.msgbox.core.algorithm.SimHashAlgorithm;
+import com.xinfan.msgbox.core.algorithm.SimilarityAlgorithm;
 import com.xinfan.msgbox.core.deamon.MessageCacheDeamon;
 import com.xinfan.msgbox.core.deamon.UserCacheDeamon;
 import com.xinfan.msgbox.core.listener.DefaultMessageMatchedListener;
@@ -33,7 +34,7 @@ public class MessageContext implements MessageCenterFacade{
 	
 	private MessageMatchedListener messageMatchedListener = new DefaultMessageMatchedListener();
 	
-	private SimpleSimilarityAlgorithm algorithm = new SimpleSimilarityAlgorithm();
+	private SimilarityAlgorithm algorithm = new SimHashAlgorithm();
 	
 	private int interestProcessorNum = 1;
 	private int messagePoolProcessorNum = 1;
@@ -41,11 +42,11 @@ public class MessageContext implements MessageCenterFacade{
 	private List<MessageProcessor> interestsProcessors = new LinkedList<MessageProcessor>();
 	private List<MessageProcessor> messagePoolProcessors = new LinkedList<MessageProcessor>();
 	
-	public SimpleSimilarityAlgorithm getAlgorithm() {
+	public SimilarityAlgorithm getAlgorithm() {
 		return algorithm;
 	}
 
-	public void setAlgorithm(SimpleSimilarityAlgorithm algorithm) {
+	public void setAlgorithm(SimilarityAlgorithm algorithm) {
 		this.algorithm = algorithm;
 	}
 
