@@ -118,14 +118,14 @@
 			<include refid="Example_Where_Clause" />
 		</if>
 	</delete>
-	<insert id="insert" parameterType="com.xinfan.msgbox.service.dao.entity.User">
-		insert into t_user (USER_ID, USER_NAME, MOBILE,
+	<insert id="insert" parameterType="com.xinfan.msgbox.service.dao.entity.User" useGeneratedKeys="true" keyProperty="userId" >
+		insert into t_user (USER_NAME, MOBILE,
 		USER_STATE, PASSWD, REG_GPSY,
 		REG_GPSX, REG_EAREA, VIP,
 		REG_TIME, cid, cid_time,
 		login_time, online, avatar
 		)
-		values (#{userId,jdbcType=BIGINT}, #{userName,jdbcType=VARCHAR},
+		values ( #{userName,jdbcType=VARCHAR},
 		#{mobile,jdbcType=VARCHAR},
 		#{userState,jdbcType=INTEGER}, #{passwd,jdbcType=VARCHAR}, #{regGpsy,jdbcType=VARCHAR},
 		#{regGpsx,jdbcType=VARCHAR}, #{regEarea,jdbcType=VARCHAR},
@@ -135,7 +135,7 @@
 		#{avatar,jdbcType=VARCHAR}
 		)
 	</insert>
-	<insert id="insertSelective" parameterType="com.xinfan.msgbox.service.dao.entity.User" useGeneratedKeys="true" keyProperty="user_id">
+	<insert id="insertSelective" parameterType="com.xinfan.msgbox.service.dao.entity.User" useGeneratedKeys="true" keyProperty="userId" >
 		insert into t_user
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="userId != null">
