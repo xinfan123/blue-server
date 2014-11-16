@@ -135,7 +135,7 @@
 		#{avatar,jdbcType=VARCHAR}
 		)
 	</insert>
-	<insert id="insertSelective" parameterType="com.xinfan.msgbox.service.dao.entity.User">
+	<insert id="insertSelective" parameterType="com.xinfan.msgbox.service.dao.entity.User" useGeneratedKeys="true" keyProperty="user_id">
 		insert into t_user
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="userId != null">
