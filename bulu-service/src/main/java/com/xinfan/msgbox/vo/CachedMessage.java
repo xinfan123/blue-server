@@ -3,6 +3,8 @@ package com.xinfan.msgbox.vo;
 import java.util.Date;
 
 public class CachedMessage implements Cloneable{
+	public static int MSG_MATCH_TYPE_AREA = 2;
+	public static int MSG_MATCH_TYPE_DISTANCE = 1;
 	private String originalMsg;
 	private long userId;
 	private long messageId;

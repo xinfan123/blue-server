@@ -13,11 +13,14 @@ import com.xinfan.msgbox.core.messagecache.MessageContext;
 import com.xinfan.msgbox.http.context.AppContextHolder;
 import com.xinfan.msgbox.service.dao.MessageDao;
 import com.xinfan.msgbox.service.dao.UserDao;
+import com.xinfan.msgbox.service.dao.UserSentDao;
 import com.xinfan.msgbox.service.dao.UserSetDao;
 import com.xinfan.msgbox.service.dao.entity.Message;
 import com.xinfan.msgbox.service.dao.entity.MessageExample;
 import com.xinfan.msgbox.service.dao.entity.User;
 import com.xinfan.msgbox.service.dao.entity.UserExample;
+import com.xinfan.msgbox.service.dao.entity.UserSent;
+import com.xinfan.msgbox.service.dao.entity.UserSentExample;
 import com.xinfan.msgbox.service.dao.entity.UserSet;
 import com.xinfan.msgbox.service.dao.entity.UserSetExample;
 import com.xinfan.msgbox.vo.CachedMessage;
@@ -36,6 +39,8 @@ public class MemoryUserCache implements UserCache{
 		UserDao userDao = AppContextHolder.getBean(UserDao.class);
 		
 		UserSetDao userSetDao = AppContextHolder.getBean(UserSetDao.class);
+		
+		UserSentDao userSentDao = AppContextHolder.getBean(UserSentDao.class);
 		
 		MessageDao messageDao = AppContextHolder.getBean(MessageDao.class);
 		
@@ -59,26 +64,38 @@ public class MemoryUserCache implements UserCache{
 			CachedUser cuser = new CachedUser(user, profile);
 			
 			//用户订阅的消息列表，需要取出用户的订阅消息，初始化到interests Cache中
-			//cuser.setInterestsMsgIds();
-			MessageExample mexample = new MessageExample();
-			mexample.createCriteria().andCreateUserIdEqualTo(cuser.getUserId());
-			List<Message> interests =  messageDao.selectByExample(mexample);
-//			List<CachedMessage> caches = new ArrayList<CachedMessage>(interests.size());
-			for(Message interest:interests)
-			{	
-				//这里应该是取出user_sent表的数据吧？
+			UserSentExample usExample = new UserSentExample();
+			usExample.createCriteria().andUserIdEqualTo(cuser.getUserId());
+			List<UserSent> sends = userSentDao.selectByExample(usExample);
+			for(UserSent us:sends)
+			{
 				CachedMessage cm = new CachedMessage();
-				cm.setUserId(cuser.getUserId());
-				cm.setOriginalMsg(interest.getTitle());
-				cm.setSrcPosition(new Position("80.80","80.80","长沙"));//TODO
-				cm.setTargetPosition(new Position("80.80","80.80","长沙"));
-				cm.setMessageId(interest.getMsgId());
-				cm.setDeadTime(null!=interest.getValidTime()?interest.getValidTime():new Date(System.currentTimeMillis()+24*60*60*1000*12));
-//				caches.add(cm);
+				cm.setUserId(us.getUserId());
+				cm.setOriginalMsg(us.getUserSent());
+				cm.setSrcPosition(new Position(us.getGpsx(), us.getGpsy(),us.getReginCode()));
+				cm.setTargetPosition(new Position(us.getGpsx(), us.getGpsy(),us.getReginCode()));
+				cm.setMessageId(us.getId());
 				context.getInterestsCache().addMessage(cm);
 			}
-//			context.getInterestsCache().addMessageDirectlly(caches);
+
+			//			List<CachedMessage> caches = new ArrayList<CachedMessage>(interests.size());
 			//用户发送消息列表，需要将未失效的消息重新load出来，初始化到message pool中
+			MessageExample mexample = new MessageExample();
+			mexample.createCriteria().andCreateUserIdEqualTo(cuser.getUserId()).andValidTimeGreaterThan(new Date());
+			List<Message> interests =  messageDao.selectByExample(mexample);
+			for(Message msg:interests)
+			{	
+				CachedMessage cm = new CachedMessage();
+				cm.setUserId(cuser.getUserId());
+				cm.setOriginalMsg(msg.getTitle());
+				cm.setSrcPosition(new Position(msg.getGpsx(),msg.getGpsy(),msg.getReginCode()));
+				cm.setTargetPosition(new Position("80.80","80.80",msg.getSendArea()));
+				cm.setMessageId(msg.getMsgId());
+				cm.setDeadTime(null!=msg.getValidTime()?msg.getValidTime():new Date(System.currentTimeMillis()+24*60*60*1000*12));
+				cm.setMatchType(msg.getSendType());
+				context.getMessagePool().addMessage(cm);
+			}
+//			context.getInterestsCache().addMessageDirectlly(caches);
 			//cuser.setSentMsgIds(sentMsgIds);
 			userCache.put(cuser.getUserId(), cuser);
 			}
