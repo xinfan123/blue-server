@@ -203,11 +203,11 @@ public class UserSetService extends BaseService {
 	public ValidCodeResult validUserRegisterValidCode(ValidCodeParam param) {
 
 		if (param.getMobile() == null || param.getMobile().length() == 0) {
-			return new BaseResult().paramIllgal("手机号码为空");
+			return new ValidCodeResult().paramIllgal("手机号码为空");
 		}
 
 		if (param.getValidCode() == null || param.getValidCode().length() == 0) {
-			return new BaseResult().paramIllgal("验证码为空");
+			return new ValidCodeResult().paramIllgal("验证码为空");
 		}
 
 		ValidCodeResult rs = new ValidCodeResult();
@@ -216,11 +216,11 @@ public class UserSetService extends BaseService {
 		String sessionValidCode = String.valueOf(ServiceContext.getRequest().getSession().getAttribute(BizConstants.USER_REGISTER_VALID_CODE_SESSION_KEY));
 
 		if (!param.getValidCode().equals(sessionValidCode)) {
-			return new BaseResult().paramIllgal("验证码错误");
+			return new ValidCodeResult().paramIllgal("验证码错误");
 		}
 
 		if (!param.getMobile().equals(sessionMobile)) {
-			return new BaseResult().paramIllgal("验证手机号码不比配");
+			return new ValidCodeResult().paramIllgal("验证手机号码不比配");
 		}
 
 		UserExample example = new UserExample();
