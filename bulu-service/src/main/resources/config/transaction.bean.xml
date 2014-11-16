@@ -24,7 +24,7 @@
   			<tx:method name="modify*" propagation="REQUIRED" />   
   			<tx:method name="reSend*" propagation="REQUIRED" />   
   			<tx:method name="login*" propagation="REQUIRED" />   
-  			
+  			<tx:method name="set*" propagation="REQUIRED" />   
   			
         </tx:attributes>
     </tx:advice>
