@@ -109,7 +109,7 @@
       #{gpsy,jdbcType=VARCHAR}, #{gpsx,jdbcType=VARCHAR}, #{reginCode,jdbcType=VARCHAR}, 
       #{createTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.xinfan.msgbox.service.dao.entity.UserSent" >
+  <insert id="insertSelective" parameterType="com.xinfan.msgbox.service.dao.entity.UserSent" useGeneratedKeys="true" keyProperty="id" >
     insert into t_user_sent
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >

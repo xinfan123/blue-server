@@ -13,6 +13,8 @@ import org.springframework.util.CollectionUtils;
 
 import com.xinfan.msgbox.common.security.Md5PwdFactory;
 import com.xinfan.msgbox.core.messagecache.MessageContext;
+import com.xinfan.msgbox.core.util.TimeHelper;
+import com.xinfan.msgbox.core.vo.CachedMessage;
 import com.xinfan.msgbox.core.vo.Position;
 import com.xinfan.msgbox.http.common.ServiceContext;
 import com.xinfan.msgbox.http.service.util.BeanUtils;
@@ -152,8 +154,7 @@ public class UserSetService extends BaseService {
 		UserBalanceHis balanceHis = new UserBalanceHis();
 		BeanUtils.copyProperties(balanceHis, balance);
 		userBalanceHisDao.insertSelective(balanceHis);
-		
-		
+
 		return new BaseResult().success("注册成功");
 	}
 
@@ -349,12 +350,28 @@ public class UserSetService extends BaseService {
 		if (StringUtils.isEmpty(param.getUserSent())) {
 			return new BaseResult().paramIllgal("用户接收语句不存在");
 		}
+
+		User sessionUser = getUserFromSession();
+
 		UserSent userSent = new UserSent();
 		BeanUtils.copyProperties(userSent, param);
+
+		userSent.setUserId(sessionUser.getUserId());
 		userSentDao.insertSelective(userSent);
+
+		User user = userDao.selectByPrimaryKey(sessionUser.getUserId());
+
+		CachedMessage cm = new CachedMessage();
+		cm.setUserId(user.getUserId());
+		cm.setOriginalMsg(userSent.getUserSent());
+		cm.setSrcPosition(new Position(user.getRegGpsx(), user.getRegGpsy(), user.getRegEarea()));
+		cm.setTargetPosition(new Position(user.getRegGpsx(), user.getRegGpsy(), user.getRegEarea()));
+		cm.setMessageId(userSent.getId());
+		cm.setDeadTime(TimeHelper.getMaxDeadTime());
+
+		MessageContext.getInstance().getInterestsCache().addMessage(cm);
+
 		return new BaseResult().success("设置接收语成功");
-		
-		
 	}
 
 	/**
@@ -369,14 +386,18 @@ public class UserSetService extends BaseService {
 		}
 
 		long sentId = param.getId();
-		
+
 		UserSent sent = userSentDao.selectByPrimaryKey(sentId);
-		if(sent == null){
+		if (sent == null) {
 			return new BaseResult().success("删除用户接收语成功");
 		}
-		
+
 		userSentDao.deleteByPrimaryKey(sentId);
-		
+
+		CachedMessage msg = new CachedMessage();
+		msg.setMessageId(sentId);
+		MessageContext.getInstance().getInterestsCache().deleteMessage(msg);
+
 		return new BaseResult().success("删除用户接收语成功");
 	}
 
