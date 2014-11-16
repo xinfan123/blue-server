@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.xinfan.msgbox.common.security.Md5PwdFactory;
+import com.xinfan.msgbox.core.messagecache.MessageContext;
 import com.xinfan.msgbox.http.common.ServiceContext;
 import com.xinfan.msgbox.http.service.vo.param.BaseParam;
 import com.xinfan.msgbox.http.service.vo.param.ChangePasswdAfterLoginParam;
@@ -19,7 +20,9 @@ import com.xinfan.msgbox.http.service.vo.result.BaseResult;
 import com.xinfan.msgbox.http.service.vo.result.LoginResult;
 import com.xinfan.msgbox.http.service.vo.result.ValidCodeResult;
 import com.xinfan.msgbox.service.dao.UserDao;
+import com.xinfan.msgbox.service.dao.UserSetDao;
 import com.xinfan.msgbox.service.dao.entity.User;
+import com.xinfan.msgbox.service.dao.entity.UserSet;
 import com.xinfan.msgbox.service.sms.SmsService;
 
 public class LoginService extends BaseService {
@@ -28,6 +31,10 @@ public class LoginService extends BaseService {
 
 	@Autowired
 	UserDao userDao;
+	
+	@Autowired
+	UserSetDao userSetDao;
+
 
 	@Autowired
 	SmsService smsService;
@@ -82,6 +89,11 @@ public class LoginService extends BaseService {
 		updateUser.setOnline(1);
 		
 		this.userDao.updateByPrimaryKeySelective(updateUser);
+		
+		
+		
+		UserSet userSet = userSetDao.selectByPrimaryKey(updateUser.getUserId());
+		MessageContext.getInstance().addUser(updateUser, userSet);
 
 		return login;
 	}

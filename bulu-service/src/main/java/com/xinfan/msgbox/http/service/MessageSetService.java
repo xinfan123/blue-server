@@ -10,6 +10,7 @@ import com.xinfan.msgbox.http.service.util.BeanUtils;
 import com.xinfan.msgbox.http.service.vo.param.MessageRevDelParam;
 import com.xinfan.msgbox.http.service.vo.param.SendMessageParam;
 import com.xinfan.msgbox.http.service.vo.result.BaseResult;
+import com.xinfan.msgbox.http.util.TimeUtils;
 import com.xinfan.msgbox.service.dao.MessageDao;
 import com.xinfan.msgbox.service.dao.MessageReceivedDao;
 import com.xinfan.msgbox.service.dao.MessageSendDao;
@@ -64,6 +65,9 @@ public class MessageSetService {
 		msg.setRefreshCount(1);
 		msg.setRefreshTime(new Date());
 
+		Date validTime = TimeUtils.getValidTime(new Date(), param.getDurationTime());
+		msg.setValidTime(validTime);
+
 		messageDao.insertSelective(msg);
 
 		// 写入发信表
@@ -98,7 +102,7 @@ public class MessageSetService {
 		recevied.setPubishTime(new Date());
 
 		messageReceivedDao.insertSelective(recevied);
-		
+
 		MessageContext.getInstance().sendMessage(msg.getCreateUserId(), msg);
 
 		// 新启动线程，推送
@@ -130,9 +134,12 @@ public class MessageSetService {
 		send.setMsgId(message.getMsgId());
 		send.setMsgStatus(4);
 		messageSendDao.updateByPrimaryKeySelective(send);
+
+		MessageContext.getInstance().deleteMessage(message.getCreateUserId(), message);
+
 		return new BaseResult().success("信息删除成功");
 	}
-	
+
 	/**
 	 * 删除信息接口
 	 * 
@@ -140,18 +147,18 @@ public class MessageSetService {
 	 * @return
 	 */
 	public BaseResult deleteRevMessage(MessageRevDelParam param) {
-		
+
 		if (param.getPublishId() == null || param.getPublishId() <= 0) {
 			return new BaseResult().paramIllgal("信息编号不能为空");
 		}
-		
+
 		MessageReceived update = new MessageReceived();
 		update.setPublishId(param.getPublishId());
 		update.setReceivedStaus(2);
 		update.setDeleteTime(new Date());
-		
+
 		messageReceivedDao.updateByPrimaryKeySelective(update);
-		
+
 		return new BaseResult().success("信息删除成功");
 	}
 
@@ -172,12 +179,16 @@ public class MessageSetService {
 		}
 		// 延长有效期
 		message.getCreateTime();
-		long pieriod = message.getValidTime().getTime() - message.getCreateTime().getTime();
-		message.setValidTime(new Date(new Date().getTime() + pieriod));
+
+		Date valTime = TimeUtils.getValidTime(new Date(), message.getDurationTime());
+		message.setValidTime(valTime);
+
 		message.setRefreshCount(message.getRefreshCount() + 1);
 		message.setRefreshTime(new Date());
 
 		messageDao.updateByPrimaryKeySelective(message);
+
+		MessageContext.getInstance().updateMessageValideTime(message.getCreateUserId(), message.getMsgId(), valTime);
 
 		// 新启动线程，推送
 		return new BaseResult().success("信息重发成功");

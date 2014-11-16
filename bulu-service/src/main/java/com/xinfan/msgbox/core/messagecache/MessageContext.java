@@ -236,7 +236,7 @@ public class MessageContext implements MessageCenterFacade{
 		cmessage.setUserId(userId);
 		cmessage.setMessageId(message.getMsgId());
 		cmessage.setOriginalMsg(message.getTitle());
-		cmessage.setSrcPosition(new Position(message.getGpsx(),message.getGpsy(),"长沙"));
+		cmessage.setSrcPosition(new Position(message.getGpsx(),message.getGpsy(),message.getReginCode()));
 		cmessage.setDeadTime(message.getValidTime() == null?new Date(System.currentTimeMillis()+20*60*1000):message.getValidTime());
 		return cmessage;
 	}

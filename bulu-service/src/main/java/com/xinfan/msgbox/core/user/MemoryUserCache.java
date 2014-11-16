@@ -65,7 +65,8 @@ public class MemoryUserCache implements UserCache{
 			List<Message> interests =  messageDao.selectByExample(mexample);
 //			List<CachedMessage> caches = new ArrayList<CachedMessage>(interests.size());
 			for(Message interest:interests)
-			{
+			{	
+				//这里应该是取出user_sent表的数据吧？
 				CachedMessage cm = new CachedMessage();
 				cm.setUserId(cuser.getUserId());
 				cm.setOriginalMsg(interest.getTitle());

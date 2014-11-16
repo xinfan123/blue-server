@@ -152,6 +152,8 @@ public class UserSetService extends BaseService {
 		UserBalanceHis balanceHis = new UserBalanceHis();
 		BeanUtils.copyProperties(balanceHis, balance);
 		userBalanceHisDao.insertSelective(balanceHis);
+		
+		
 		return new BaseResult().success("注册成功");
 	}
 
@@ -364,9 +366,15 @@ public class UserSetService extends BaseService {
 			return new BaseResult().paramIllgal("ID不存在");
 		}
 
-		UserSent userSent = new UserSent();
-		BeanUtils.copyProperties(userSent, param);
-		userSentDao.deleteByPrimaryKey(userSent);
+		long sentId = param.getId();
+		
+		UserSent sent = userSentDao.selectByPrimaryKey(sentId);
+		if(sent == null){
+			return new BaseResult().success("删除用户接收语成功");
+		}
+		
+		userSentDao.deleteByPrimaryKey(sentId);
+		
 		return new BaseResult().success("删除用户接收语成功");
 	}
 
