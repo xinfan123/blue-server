@@ -81,7 +81,7 @@ public class UserSetService extends BaseService {
 	 * @param param
 	 * @return
 	 */
-	public BaseResult userRegister(RegisterParam param) throws Exception {
+	public BaseResult addUserRegister(RegisterParam param) throws Exception {
 		if (param == null) {
 			return new BaseResult().paramIllgal("获取参数失败");
 		}

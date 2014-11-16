@@ -2,7 +2,7 @@
 <service-map>
 	
 	<!-- 用户设置部分 -->
-    <service funId="userRegister" bean="UserSetService" method="userRegister" name="用户注册"/>
+    <service funId="userRegister" bean="UserSetService" method="addUserRegister" name="用户注册"/>
     <service funId="updateUserCID" bean="UserSetService" method="updateUserCID" name="更新用户的CID"/>
      
     <service funId="getUserRegisterValidCode" bean="UserSetService" method="getUserRegisterValidCode" name="获取注册验证码"  />
@@ -39,7 +39,7 @@
     
     
     <!-- 消息设置相关部分 -->
-    <service funId="sendMessage" bean="MessageSetService" method="sendMessage" name="发送消息" login="true"/>
+    <service funId="sendMessage" bean="MessageSetService" method="addMessage" name="发送消息" login="true"/>
     <service funId="deleteMessage" bean="MessageSetService" method="deleteMessage" name="删除消息" login="true"/>
     <service funId="reSendMessage" bean="MessageSetService" method="reSendMessage" name="重发消息" login="true"/>
     <service funId="deleteRevMessage" bean="MessageSetService" method="deleteRevMessage" name="删除收集列表消息" login="true"/>

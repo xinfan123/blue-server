@@ -49,7 +49,7 @@ public class MessageSetService {
 	 * @param param
 	 * @return
 	 */
-	public BaseResult sendMessage(SendMessageParam param) throws Exception {
+	public BaseResult addMessage(SendMessageParam param) throws Exception {
 
 		if (param.getCreateUserId() == null || param.getCreateUserId() < 0) {
 			return new BaseResult().paramIllgal("创建用户ID不能为空");
