@@ -37,6 +37,8 @@ public class MessageRevDetailVO {
 
 	private Long sendUserId;
 
+	private String sendUserAvatar;
+
 	private Integer publishStatus;
 
 	private Date publishTime;
@@ -62,6 +64,14 @@ public class MessageRevDetailVO {
 	private String sendUserName;
 
 	private Integer sendUserCredit;
+
+	public String getSendUserAvatar() {
+		return sendUserAvatar;
+	}
+
+	public void setSendUserAvatar(String sendUserAvatar) {
+		this.sendUserAvatar = sendUserAvatar;
+	}
 
 	public Integer getSendUserCredit() {
 		return sendUserCredit;

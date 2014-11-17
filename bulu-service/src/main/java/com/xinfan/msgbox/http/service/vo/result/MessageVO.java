@@ -27,6 +27,8 @@ public class MessageVO {
 
 	private Long createUserId;
 
+	private String createUserAvatar;
+
 	private String gpsy;
 
 	private String gpsx;
@@ -58,6 +60,14 @@ public class MessageVO {
 	private Date refreshTime;
 
 	private Integer refreshCount;
+
+	public String getCreateUserAvatar() {
+		return createUserAvatar;
+	}
+
+	public void setCreateUserAvatar(String createUserAvatar) {
+		this.createUserAvatar = createUserAvatar;
+	}
 
 	public Date getRefreshTime() {
 		return refreshTime;

@@ -38,6 +38,8 @@ public class MessageSendSummaryVO {
 
 	private Long sendUserId;
 
+	private String sendUserAvatar;
+
 	private Integer publishStatus;
 
 	private Date publishTime;
@@ -59,6 +61,14 @@ public class MessageSendSummaryVO {
 	private Date refreshTime;
 
 	private Integer refreshCount;
+
+	public String getSendUserAvatar() {
+		return sendUserAvatar;
+	}
+
+	public void setSendUserAvatar(String sendUserAvatar) {
+		this.sendUserAvatar = sendUserAvatar;
+	}
 
 	public Date getRefreshTime() {
 		return refreshTime;

@@ -3,15 +3,35 @@ package com.xinfan.msgbox.http.service.vo.result;
 import java.util.Date;
 
 public class UserLinkmanResult {
-    private Long userId;
+	private Long userId;
 
-    private Long linkUserId;
-    
-    private String linkRemark;
+	private String userName;
 
-    private Date createTime;
-    
-    private String userName;
+	private String linkAvatar;
+
+	private Long linkUserId;
+
+	private String linkUserName;
+
+	private String linkRemark;
+
+	private Date createTime;
+
+	public String getLinkUserName() {
+		return linkUserName;
+	}
+
+	public void setLinkUserName(String linkUserName) {
+		this.linkUserName = linkUserName;
+	}
+
+	public String getLinkAvatar() {
+		return linkAvatar;
+	}
+
+	public void setLinkAvatar(String linkAvatar) {
+		this.linkAvatar = linkAvatar;
+	}
 
 	public Long getUserId() {
 		return userId;
@@ -52,6 +72,5 @@ public class UserLinkmanResult {
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
-    
-    
+
 }

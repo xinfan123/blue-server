@@ -112,9 +112,11 @@ public class MessageGetService {
 				MessageRevSummaryVO rrs = new MessageRevSummaryVO();
 				BeanUtils.copyProperties(rrs, ms);
 				Message message = messageDao.selectByPrimaryKey(ms.getMsgId());
+				User sendUser = userDao.selectByPrimaryKey(ms.getSendUserid());
 				if (message != null) {
 					BeanUtils.copyProperties(rrs, message);
 				}
+				rrs.setSendUserAvatar(sendUser.getAvatar());
 				rsList.add(rrs);
 			}
 		}
@@ -145,6 +147,12 @@ public class MessageGetService {
 		if (send != null) {
 			BeanUtils.copyProperties(messageVO, send);
 		}
+
+		User user = this.userDao.selectByPrimaryKey(message.getCreateUserId());
+		if (user != null) {
+			messageVO.setCreateUserAvatar(user.getAvatar());
+		}
+
 		/*
 		 * MessageReceived recived =
 		 * messageReceivedDao.selectByPrimaryKey(param.getMsgId()); if (recived
@@ -176,6 +184,7 @@ public class MessageGetService {
 		User user = userDao.selectByPrimaryKey(message.getCreateUserId());
 		if (user != null) {
 			messageVO.setSendUserName(user.getUserName());
+			messageVO.setSendUserAvatar(user.getAvatar());
 		}
 
 		UserBalance balance = userBalanceDao.selectByPrimaryKey(user.getUserId());

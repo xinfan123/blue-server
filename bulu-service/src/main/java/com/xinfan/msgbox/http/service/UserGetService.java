@@ -33,7 +33,7 @@ import com.xinfan.msgbox.service.dao.entity.UserSentExample;
 import com.xinfan.msgbox.service.dao.entity.UserSet;
 import com.xinfan.msgbox.service.dao.entity.UserVip;
 
-public class UserGetService extends BaseService{
+public class UserGetService extends BaseService {
 	@Autowired
 	UserDao userDao;
 	@Autowired
@@ -97,12 +97,13 @@ public class UserGetService extends BaseService{
 			for (UserLinkman linkMan : list) {
 				UserLinkmanResult rs = new UserLinkmanResult();
 				BeanUtils.copyProperties(rs, linkMan);
-				if (StringUtils.isEmpty(linkMan.getLinkRemark())) {
-					User user = userDao.selectByPrimaryKey(linkMan.getUserId());
-					if (user != null) {
-						rs.setUserName(user.getUserName());
-					}
+
+				User linkUser = userDao.selectByPrimaryKey(linkMan.getLinkUserId());
+				if (linkUser != null) {
+					rs.setLinkUserName(linkUser.getUserName());
+					rs.setLinkAvatar(linkUser.getAvatar());
 				}
+
 				rsList.add(rs);
 			}
 		}

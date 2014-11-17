@@ -7,6 +7,8 @@ public class UserResult extends BaseResult {
 
 	private String userName;
 
+	private String avatar;
+
 	private String mobile;
 
 	private Integer userState;
@@ -32,6 +34,14 @@ public class UserResult extends BaseResult {
 	private Date vipRegTime;
 
 	private Date vipEndTime;
+
+	public String getAvatar() {
+		return avatar;
+	}
+
+	public void setAvatar(String avatar) {
+		this.avatar = avatar;
+	}
 
 	public Long getUserId() {
 		return userId;
