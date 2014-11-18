@@ -9,9 +9,14 @@ import com.xinfan.msgbox.core.messagecache.MessageCache;
 import com.xinfan.msgbox.core.vo.CachedMessage;
 import com.xinfan.msgbox.core.vo.MessageQueryInfo;
 
-public class InterestsMessageProcessor extends MessageProcessor{
+/**
+ * 静态消息的处理类，监听动态消息池的变化，与自己的消息进行匹配
+ * @author wendell
+ *
+ */
+public class StaticMessageProcessor extends MessageProcessor{
 
-	public InterestsMessageProcessor(MessageCache local,
+	public StaticMessageProcessor(MessageCache local,
 			MessageCache listen, MessageMatchedListener listener,
 			SimilarityAlgorithm algorithm) {
 		super(local, listen, listener, algorithm);
@@ -30,18 +35,44 @@ public class InterestsMessageProcessor extends MessageProcessor{
 			List<CachedMessage> candidates = this.getLocalPool().queryMessage(queryInfo);
 			if(null == candidates || candidates.isEmpty()) return ;
 			System.out.println(System.currentTimeMillis()/1000 + "'s start matching " + candidates.size() + " messages" );
-			for(CachedMessage interests:candidates)
+			for(CachedMessage staticMsg:candidates)
 			{
-				double score = this.getAlgorithm().calcSimilarity(interests, msg);
+				double score = this.getAlgorithm().calcSimilarity(staticMsg, msg);
 				if(score > 0.8)
 				{
 					//getListener().onMessageMatched(interests, msg);
-					matchs.add(interests);
+					matchs.add(staticMsg);
 					scores.add(new Double(score));
 				}
 			}
 			System.out.println(System.currentTimeMillis()/1000 + "'s end matching " + candidates.size() + " messages" );
-			getListener().onMessageMatched(msg, matchs, scores);
+			
+			getListener().onDynamicMsgMatchedStaticMsgs(msg, matchs, scores);
+			
+			//与动态消息匹配一把
+
+			queryInfo = new MessageQueryInfo();
+			queryInfo.setCurrent(msg);
+			candidates = this.getListenPool().queryMessage(queryInfo);
+			if(null == candidates || candidates.isEmpty()) return ;
+			
+			matchs = new LinkedList<CachedMessage>();
+			scores = new LinkedList<Double>();
+
+			for(CachedMessage dynamics:candidates){
+				if(dynamics.getUserId() == msg.getUserId()) continue;
+				if(this.getAlgorithm().matched(dynamics, msg))
+				{
+					double score = this.getAlgorithm().calcSimilarity(dynamics, msg);
+					if(score > 0.8)
+					{
+						//getListener().onMessageMatched(interests, msg);
+						matchs.add(dynamics);
+						scores.add(new Double(score));
+					}
+				}
+			}
+			getListener().onDynamicMsgMatchedDynamicMsgs(msg, matchs, scores);
 //		}
 	}
 	

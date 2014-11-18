@@ -59,13 +59,35 @@ public class DefaultMessageMatchedListener implements MessageMatchedListener {
 	}
 
 	@Override
-	public void onMessageMatched(CachedMessage message, List<CachedMessage> matchs, List<Double> scores) {
-
-		System.out.println(message.getOriginalMsg() + " matched + " + matchs.size() + " messages");
-		for (int i = 0; i < matchs.size(); i++) {
-			System.out.println(message.getOriginalMsg() + " vs " + matchs.get(i).getOriginalMsg() + " score: " + scores.get(i));
-			onMessageMatched(matchs.get(i), message);
+	public void onStaticMsgMatchedDynamicMsgs(CachedMessage staticMessage,
+			List<CachedMessage> dynamics, List<Double> scores) {
+		System.out.println(staticMessage.getOriginalMsg() + " matched + "+dynamics.size() + " messages");
+		for(int i=0;i<dynamics.size();i++)
+		{
+			System.out.println(staticMessage.getOriginalMsg() + " vs " + dynamics.get(i).getOriginalMsg() + " score: " + scores.get(i));
+			onMessageMatched(dynamics.get(i), staticMessage);
 		}
 
+	}
+
+	@Override
+	public void onStaticMsgMatchedStaticMsgs(CachedMessage staticMessage,
+			List<CachedMessage> statics, List<Double> scores) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onDynamicMsgMatchedDynamicMsgs(CachedMessage dynamicMessage,
+			List<CachedMessage> dynamics, List<Double> scores) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onDynamicMsgMatchedStaticMsgs(CachedMessage dynamicMessage,
+			List<CachedMessage> statics, List<Double> scores) {
+		// TODO Auto-generated method stub
+		
 	}
 }

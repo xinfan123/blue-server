@@ -10,11 +10,11 @@ import com.xinfan.msgbox.core.deamon.MessageCacheDeamon;
 import com.xinfan.msgbox.core.deamon.UserCacheDeamon;
 import com.xinfan.msgbox.core.listener.DefaultMessageMatchedListener;
 import com.xinfan.msgbox.core.listener.MessageMatchedListener;
+import com.xinfan.msgbox.core.processor.StaticMessageProcessor;
 import com.xinfan.msgbox.core.listener.SimpleThreadPool;
 import com.xinfan.msgbox.core.listener.ThreadPool;
-import com.xinfan.msgbox.core.processor.InterestsMessageProcessor;
 import com.xinfan.msgbox.core.processor.MessageProcessor;
-import com.xinfan.msgbox.core.processor.SentMessageProcessor;
+import com.xinfan.msgbox.core.processor.DynamicMessageProcessor;
 import com.xinfan.msgbox.core.user.MemoryUserCache;
 import com.xinfan.msgbox.core.user.UserCache;
 import com.xinfan.msgbox.core.vo.CachedMessage;
@@ -112,10 +112,11 @@ public class MessageContext implements MessageCenterFacade {
 	private void setUp() {
 
 		for (int i = 0; i < interestProcessorNum; i++) {
-			interestsProcessors.add(new InterestsMessageProcessor(interestsCache, messagePool, messageMatchedListener, algorithm));
+			interestsProcessors.add(new StaticMessageProcessor(interestsCache, messagePool, messageMatchedListener, algorithm));
 		}
-		for (int i = 0; i < messagePoolProcessorNum; i++) {
-			messagePoolProcessors.add(new SentMessageProcessor(messagePool, interestsCache, messageMatchedListener, algorithm));
+		for(int i=0;i<messagePoolProcessorNum;i++)
+		{
+			messagePoolProcessors.add(new DynamicMessageProcessor(messagePool,interestsCache, messageMatchedListener, algorithm));
 		}
 
 	}
