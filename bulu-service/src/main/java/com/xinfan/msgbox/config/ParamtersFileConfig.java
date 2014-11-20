@@ -11,19 +11,19 @@ import org.springframework.core.io.ClassPathResource;
  * @author cyp
  *
  */
-public class SmsFileConfig {
+public class ParamtersFileConfig {
 	
-	private static SmsFileConfig instance;
+	private static ParamtersFileConfig instance;
 	
 	private Properties prop;
 	
-	public static SmsFileConfig getInstance() {
+	public static ParamtersFileConfig getInstance() {
 		try {
 			if (instance == null) {
-				instance = new SmsFileConfig();
+				instance = new ParamtersFileConfig();
 				instance.prop = new Properties();
 				ClassPathResource loader = new ClassPathResource(
-						"/config/sms.properties");
+						"/config/paramters.properties");
 				instance.prop.load(loader.getInputStream());
 			}
 		} catch (Exception e) {
@@ -46,7 +46,7 @@ public class SmsFileConfig {
 	}
 	
 	public static void main(String[] args){
-		String configId = SmsFileConfig.getInstance().getString("yunpian_sms_apikey");
+		String configId = ParamtersFileConfig.getInstance().getString("yunpian_sms_apikey");
 		System.out.println(configId);
 	}
 

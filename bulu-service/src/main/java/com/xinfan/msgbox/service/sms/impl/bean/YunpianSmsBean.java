@@ -17,7 +17,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 
-import com.xinfan.msgbox.config.SmsFileConfig;
+import com.xinfan.msgbox.config.ParamtersFileConfig;
 import com.xinfan.msgbox.http.util.HttpUtils;
 
 public class YunpianSmsBean {
@@ -53,9 +53,9 @@ public class YunpianSmsBean {
 	private static final String AIP_KEY ;
 	
 	static{
-		REGISTER_TPL_ID = SmsFileConfig.getInstance().getLong("yunpian_sms_register_tpl_id");
-		CHANGE_PASSWORD_TPL_ID = SmsFileConfig.getInstance().getLong("yunpian_sms_change_password_tpl_id");
-		AIP_KEY = SmsFileConfig.getInstance().getString("yunpian_sms_apikey");
+		REGISTER_TPL_ID = ParamtersFileConfig.getInstance().getLong("yunpian_sms_register_tpl_id");
+		CHANGE_PASSWORD_TPL_ID = ParamtersFileConfig.getInstance().getLong("yunpian_sms_change_password_tpl_id");
+		AIP_KEY = ParamtersFileConfig.getInstance().getString("yunpian_sms_apikey");
 		
 		 httpClient.getParams().setParameter("http.protocol.content-charset",HTTP.UTF_8);  
          httpClient.getParams().setParameter(HTTP.CONTENT_ENCODING, HTTP.UTF_8);  
