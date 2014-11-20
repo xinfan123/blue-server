@@ -20,59 +20,38 @@ public class StaticMessageProcessor extends MessageProcessor{
 			MessageCache listen, MessageMatchedListener listener,
 			SimilarityAlgorithm algorithm) {
 		super(local, listen, listener, algorithm);
+		
+		getListenPool().addMessageChangeListener(this);
+		
 		// TODO Auto-generated constructor stub
 	}
 
 	@Override
-	protected void matchChanges(CachedMessage msg) {
-//		for(CachedMessage msg:changedMsgs)
-//		{
-//			for(Entry<Long, CachedMessage> entry:local)
-			List<CachedMessage> matchs = new LinkedList<CachedMessage>();
-			List<Double> scores = new LinkedList<Double>();
-			MessageQueryInfo queryInfo = new MessageQueryInfo();
-			queryInfo.setCurrent(msg);
-			List<CachedMessage> candidates = this.getLocalPool().queryMessage(queryInfo);
-			if(null == candidates || candidates.isEmpty()) return ;
-			System.out.println(System.currentTimeMillis()/1000 + "'s start matching " + candidates.size() + " messages" );
-			for(CachedMessage staticMsg:candidates)
+	protected void matchChanges(CachedMessage statics) {
+		
+		List<CachedMessage> matchs = new LinkedList<CachedMessage>();
+		List<Double> scores = new LinkedList<Double>();
+		MessageQueryInfo queryInfo = new MessageQueryInfo();
+		queryInfo.setCurrent(statics);
+		List<CachedMessage> candidates = this.getLocalPool().queryMessage(queryInfo);
+		if(null == candidates || candidates.isEmpty()) return ;
+		for(CachedMessage interests:candidates){
+			//不跟自己比
+			if(interests.getUserId() == statics.getUserId()) continue;
+			if(this.getAlgorithm().matched(interests, statics))
 			{
-				double score = this.getAlgorithm().calcSimilarity(staticMsg, msg);
+				double score = this.getAlgorithm().calcSimilarity(interests, statics);
 				if(score > 0.8)
 				{
 					//getListener().onMessageMatched(interests, msg);
-					matchs.add(staticMsg);
+					matchs.add(interests);
 					scores.add(new Double(score));
 				}
 			}
-			System.out.println(System.currentTimeMillis()/1000 + "'s end matching " + candidates.size() + " messages" );
-			
-			getListener().onDynamicMsgMatchedStaticMsgs(msg, matchs, scores);
-			
-			//与动态消息匹配一把
-
-			queryInfo = new MessageQueryInfo();
-			queryInfo.setCurrent(msg);
-			candidates = this.getListenPool().queryMessage(queryInfo);
-			if(null == candidates || candidates.isEmpty()) return ;
-			
-			matchs = new LinkedList<CachedMessage>();
-			scores = new LinkedList<Double>();
-
-			for(CachedMessage dynamics:candidates){
-				if(dynamics.getUserId() == msg.getUserId()) continue;
-				if(this.getAlgorithm().matched(dynamics, msg))
-				{
-					double score = this.getAlgorithm().calcSimilarity(dynamics, msg);
-					if(score > 0.8)
-					{
-						//getListener().onMessageMatched(interests, msg);
-						matchs.add(dynamics);
-						scores.add(new Double(score));
-					}
-				}
-			}
-			getListener().onDynamicMsgMatchedDynamicMsgs(msg, matchs, scores);
+		}
+		getListener().onStaticMsgMatchedDynamicMsgs(statics, matchs, scores);
+		
+		
 //		}
 	}
 	

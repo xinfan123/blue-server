@@ -17,77 +17,139 @@ import com.xinfan.msgbox.service.push.PushServiceFactory;
 public class DefaultMessageMatchedListener implements MessageMatchedListener {
 
 	@Override
-	@Deprecated
-	public void onMessageMatched(final CachedMessage interests, final CachedMessage message) {
+	public void onStaticMsgMatchedDynamicMsgs(final CachedMessage sourceStaticMessage, List<CachedMessage> targetDynamicMsgs, List<Double> scores) {
 
-		MessageContext.getInstance().getThreadPool().runInThread(new Thread() {
+		for (int i = 0; i < targetDynamicMsgs.size(); i++) {
 
-			@Override
-			public void run() {
+			final CachedMessage targetDynamicMsg = targetDynamicMsgs.get(i);
 
-				System.out.println(Thread.currentThread().getName() + "send message :" + message.getOriginalMsg() + " to " + interests.getUserId());
+			MessageContext.getInstance().getThreadPool().runInThread(new Thread() {
 
-				MessageSendDao sendDao = AppContextHolder.getBean(MessageSendDao.class);
-				MessageReceivedDao receivedDao = AppContextHolder.getBean(MessageReceivedDao.class);
-				UserDao userDao = AppContextHolder.getBean(UserDao.class);
+				@Override
+				public void run() {
 
-				MessageSend dbSend = sendDao.selectByPrimaryKey(message.getMessageId());
+					MessageSendDao sendDao = AppContextHolder.getBean(MessageSendDao.class);
+					MessageReceivedDao receivedDao = AppContextHolder.getBean(MessageReceivedDao.class);
+					UserDao userDao = AppContextHolder.getBean(UserDao.class);
 
-				MessageSend updateSend = new MessageSend();
-				updateSend.setMsgId(message.getMessageId());
-				updateSend.setPublishStatus(1);
-				updateSend.setPublishTime(new Date());
-				updateSend.setPublishCount(dbSend.getPublishCount() + 1);
-				sendDao.updateByPrimaryKeySelective(updateSend);
+					MessageSend dbSend = sendDao.selectByPrimaryKey(targetDynamicMsg.getMessageId());
 
-				MessageReceived newReceive = new MessageReceived();
-				newReceive.setMsgId(message.getMessageId());
-				newReceive.setPubishTime(new Date());
-				newReceive.setReceivedUserid(interests.getUserId());
-				newReceive.setSendUserid(message.getUserId());
-				newReceive.setSendNewReply(0);
-				newReceive.setReceivedNewReply(0);
-				newReceive.setReceivedStaus(0);
+					MessageSend updateSend = new MessageSend();
+					updateSend.setMsgId(targetDynamicMsg.getMessageId());
+					updateSend.setPublishStatus(1);
+					updateSend.setPublishTime(new Date());
+					updateSend.setPublishCount(dbSend.getPublishCount() + 1);
+					sendDao.updateByPrimaryKeySelective(updateSend);
 
-				receivedDao.insertSelective(newReceive);
+					MessageReceived newReceive = new MessageReceived();
+					newReceive.setMsgId(targetDynamicMsg.getMessageId());
+					newReceive.setPubishTime(new Date());
+					newReceive.setReceivedUserid(targetDynamicMsg.getUserId());
+					newReceive.setSendUserid(sourceStaticMessage.getUserId());
+					newReceive.setSendNewReply(0);
+					newReceive.setReceivedNewReply(0);
+					newReceive.setReceivedStaus(0);
 
-				User user = userDao.selectByPrimaryKey(interests.getUserId());
+					receivedDao.insertSelective(newReceive);
 
-				PushServiceFactory.getDefaultService().pushMessageTip(user.getCid(), user.getUserId(), message.getOriginalMsg());
-			}
-		});
-	}
+					User user = userDao.selectByPrimaryKey(targetDynamicMsg.getUserId());
 
-	@Override
-	public void onStaticMsgMatchedDynamicMsgs(CachedMessage staticMessage,
-			List<CachedMessage> dynamics, List<Double> scores) {
-		System.out.println(staticMessage.getOriginalMsg() + " matched + "+dynamics.size() + " messages");
-		for(int i=0;i<dynamics.size();i++)
-		{
-			System.out.println(staticMessage.getOriginalMsg() + " vs " + dynamics.get(i).getOriginalMsg() + " score: " + scores.get(i));
-			onMessageMatched(dynamics.get(i), staticMessage);
+					PushServiceFactory.getDefaultService().pushMessageTip(user.getCid(), user.getUserId(), targetDynamicMsg.getOriginalMsg());
+				}
+			});
 		}
+	}
+
+	@Override
+	public void onStaticMsgMatchedStaticMsgs(CachedMessage staticMessage, List<CachedMessage> statics, List<Double> scores) {
 
 	}
 
 	@Override
-	public void onStaticMsgMatchedStaticMsgs(CachedMessage staticMessage,
-			List<CachedMessage> statics, List<Double> scores) {
-		// TODO Auto-generated method stub
-		
+	public void onDynamicMsgMatchedDynamicMsgs(final CachedMessage sourceDynamicMsg, List<CachedMessage> targetDynamicMsgs, List<Double> scores) {
+		for (int i = 0; i < targetDynamicMsgs.size(); i++) {
+			System.out.println(sourceDynamicMsg.getOriginalMsg() + " vs " + targetDynamicMsgs.get(i).getOriginalMsg() + " score: " + scores.get(i));
+
+			final CachedMessage targetDynamicMsg = targetDynamicMsgs.get(i);
+
+			MessageContext.getInstance().getThreadPool().runInThread(new Thread() {
+
+				@Override
+				public void run() {
+
+					MessageSendDao sendDao = AppContextHolder.getBean(MessageSendDao.class);
+					MessageReceivedDao receivedDao = AppContextHolder.getBean(MessageReceivedDao.class);
+					UserDao userDao = AppContextHolder.getBean(UserDao.class);
+
+					MessageSend dbSend = sendDao.selectByPrimaryKey(sourceDynamicMsg.getMessageId());
+
+					MessageSend updateSend = new MessageSend();
+					updateSend.setMsgId(sourceDynamicMsg.getMessageId());
+					updateSend.setPublishStatus(1);
+					updateSend.setPublishTime(new Date());
+					updateSend.setPublishCount(dbSend.getPublishCount() + 1);
+					sendDao.updateByPrimaryKeySelective(updateSend);
+
+					MessageReceived newReceive = new MessageReceived();
+					newReceive.setMsgId(sourceDynamicMsg.getMessageId());
+					newReceive.setPubishTime(new Date());
+					newReceive.setReceivedUserid(targetDynamicMsg.getUserId());
+					newReceive.setSendUserid(sourceDynamicMsg.getUserId());
+					newReceive.setSendNewReply(0);
+					newReceive.setReceivedNewReply(0);
+					newReceive.setReceivedStaus(0);
+
+					receivedDao.insertSelective(newReceive);
+
+					User user = userDao.selectByPrimaryKey(targetDynamicMsg.getUserId());
+
+					PushServiceFactory.getDefaultService().pushMessageTip(user.getCid(), user.getUserId(), sourceDynamicMsg.getOriginalMsg());
+				}
+			});
+		}
 	}
 
 	@Override
-	public void onDynamicMsgMatchedDynamicMsgs(CachedMessage dynamicMessage,
-			List<CachedMessage> dynamics, List<Double> scores) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void onDynamicMsgMatchedStaticMsgs(final CachedMessage sourceDynamicMsg, List<CachedMessage> targetStaticMsgs, List<Double> scores) {
+		for (int i = 0; i < targetStaticMsgs.size(); i++) {
+			System.out.println(sourceDynamicMsg.getOriginalMsg() + " vs " + targetStaticMsgs.get(i).getOriginalMsg() + " score: " + scores.get(i));
 
-	@Override
-	public void onDynamicMsgMatchedStaticMsgs(CachedMessage dynamicMessage,
-			List<CachedMessage> statics, List<Double> scores) {
-		// TODO Auto-generated method stub
-		
+			final CachedMessage targetStaticMsg = targetStaticMsgs.get(i);
+
+			MessageContext.getInstance().getThreadPool().runInThread(new Thread() {
+
+				@Override
+				public void run() {
+
+					MessageSendDao sendDao = AppContextHolder.getBean(MessageSendDao.class);
+					MessageReceivedDao receivedDao = AppContextHolder.getBean(MessageReceivedDao.class);
+					UserDao userDao = AppContextHolder.getBean(UserDao.class);
+
+					MessageSend dbSend = sendDao.selectByPrimaryKey(sourceDynamicMsg.getMessageId());
+
+					MessageSend updateSend = new MessageSend();
+					updateSend.setMsgId(sourceDynamicMsg.getMessageId());
+					updateSend.setPublishStatus(1);
+					updateSend.setPublishTime(new Date());
+					updateSend.setPublishCount(dbSend.getPublishCount() + 1);
+					sendDao.updateByPrimaryKeySelective(updateSend);
+
+					MessageReceived newReceive = new MessageReceived();
+					newReceive.setMsgId(sourceDynamicMsg.getMessageId());
+					newReceive.setPubishTime(new Date());
+					newReceive.setReceivedUserid(targetStaticMsg.getUserId());
+					newReceive.setSendUserid(sourceDynamicMsg.getUserId());
+					newReceive.setSendNewReply(0);
+					newReceive.setReceivedNewReply(0);
+					newReceive.setReceivedStaus(0);
+
+					receivedDao.insertSelective(newReceive);
+
+					User user = userDao.selectByPrimaryKey(targetStaticMsg.getUserId());
+
+					PushServiceFactory.getDefaultService().pushMessageTip(user.getCid(), user.getUserId(), sourceDynamicMsg.getOriginalMsg());
+				}
+			});
+		}
 	}
 }

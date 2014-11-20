@@ -112,7 +112,7 @@ public class MessageContext implements MessageCenterFacade {
 	private void setUp() {
 
 		for (int i = 0; i < interestProcessorNum; i++) {
-			interestsProcessors.add(new StaticMessageProcessor(interestsCache, messagePool, messageMatchedListener, algorithm));
+			interestsProcessors.add(new StaticMessageProcessor(messagePool, interestsCache, messageMatchedListener, algorithm));
 		}
 		for(int i=0;i<messagePoolProcessorNum;i++)
 		{

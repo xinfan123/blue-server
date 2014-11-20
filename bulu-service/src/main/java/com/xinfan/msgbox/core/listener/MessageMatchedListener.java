@@ -5,8 +5,6 @@ import java.util.List;
 import com.xinfan.msgbox.core.vo.CachedMessage;
 
 public interface MessageMatchedListener {
-	@Deprecated
-	void onMessageMatched(CachedMessage interests,CachedMessage message);
 	/**
 	 * 
 	 * @param staticMessage 静态消息本身

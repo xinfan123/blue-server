@@ -20,7 +20,6 @@ public abstract class MessageProcessor extends Thread implements MessageChangeLi
 	public MessageProcessor(MessageCache local, MessageCache listen, MessageMatchedListener listener, SimilarityAlgorithm algorithm) {
 		this.localPool = local;
 		this.listenPool = listen;
-		this.listenPool.addMessageChangeListener(this);
 		this.listener = listener;
 		this.algorithm = algorithm;
 	}
