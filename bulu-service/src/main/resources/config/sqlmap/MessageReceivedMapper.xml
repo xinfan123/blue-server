@@ -329,4 +329,14 @@
 		limit ${currentRow},${pageSize}
 
 	</select>
+	
+	
+	<select id="selectUnReadCountForHttpService" parameterType="map" resultType="long">
+		select count(*) 
+		from t_message_received where received_staus !=2
+		
+			and received_userid = ${userId}
+			and pubish_time >= #{pubishTime}
+			
+	</select>
 </mapper>

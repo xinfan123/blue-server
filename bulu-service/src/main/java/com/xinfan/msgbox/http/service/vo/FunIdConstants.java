@@ -8,6 +8,7 @@ import com.xinfan.msgbox.http.service.vo.param.ClientVersionParam;
 import com.xinfan.msgbox.http.service.vo.param.LoginParam;
 import com.xinfan.msgbox.http.service.vo.param.MessageRevDelParam;
 import com.xinfan.msgbox.http.service.vo.param.MessageRevParam;
+import com.xinfan.msgbox.http.service.vo.param.MessageUnReadCountParam;
 import com.xinfan.msgbox.http.service.vo.param.RegisterParam;
 import com.xinfan.msgbox.http.service.vo.param.RevMessageReadParam;
 import com.xinfan.msgbox.http.service.vo.param.SendMessageParam;
@@ -30,6 +31,7 @@ import com.xinfan.msgbox.http.service.vo.result.MessageResult;
 import com.xinfan.msgbox.http.service.vo.result.MessageRevListResult;
 import com.xinfan.msgbox.http.service.vo.result.MessageRevResult;
 import com.xinfan.msgbox.http.service.vo.result.MessageSendListResult;
+import com.xinfan.msgbox.http.service.vo.result.MessageUnReadCountResult;
 import com.xinfan.msgbox.http.service.vo.result.UserAvatarResult;
 import com.xinfan.msgbox.http.service.vo.result.UserLinkmanListResult;
 import com.xinfan.msgbox.http.service.vo.result.UserResult;
@@ -116,7 +118,9 @@ public enum FunIdConstants {
 	RESEND_MESSAGE("reSendMessage", SendMessageParam.class, BaseResult.class),
 	// 回写已读消息
 	READED_MESSAGE("updateRevMessageReadState", RevMessageReadParam.class, BaseResult.class),
-	
+	// 未读消息
+	UNREAD_MESSAGE_COUNT("getUnReadMessageCount", MessageUnReadCountParam.class, MessageUnReadCountResult.class),
+
 
 	// 删除收信信息
 	DELETE_REV_MESSAGE("deleteRevMessage", MessageRevDelParam.class, BaseResult.class),

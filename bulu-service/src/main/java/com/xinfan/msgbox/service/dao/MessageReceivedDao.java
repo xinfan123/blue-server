@@ -12,4 +12,8 @@ public class MessageReceivedDao extends BaseDao<MessageReceived,MessageReceivedE
 	public List<MessageReceived> selectListForHttpService(Map<String, String> map) {
 		return this.getSqlSession().selectList(wrapCommand("selectListForHttpService"), map);
 	}
+	
+	public long selectUnReadCountForHttpService(Map<String, String> map) {
+		return this.getSqlSession().selectOne(wrapCommand("selectUnReadCountForHttpService"), map);
+	}
 }

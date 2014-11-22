@@ -45,7 +45,7 @@ public class MessageRevSummaryVO {
 	private String sendUserAvatar;
 
 	private String sendUserName;
-	
+
 	private Integer sendNewReply;
 
 	private Integer receivedNewReply;
@@ -57,6 +57,8 @@ public class MessageRevSummaryVO {
 	private Date deleteTime;
 
 	private Date pubishTime;
+
+	private Integer sendUserCredit;
 
 	public String getSendUserName() {
 		return sendUserName;
@@ -76,6 +78,14 @@ public class MessageRevSummaryVO {
 
 	public Long getMsgId() {
 		return msgId;
+	}
+
+	public Integer getSendUserCredit() {
+		return sendUserCredit;
+	}
+
+	public void setSendUserCredit(Integer sendUserCredit) {
+		this.sendUserCredit = sendUserCredit;
 	}
 
 	public void setMsgId(Long msgId) {

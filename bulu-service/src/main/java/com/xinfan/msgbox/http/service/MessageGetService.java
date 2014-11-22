@@ -1,6 +1,7 @@
 package com.xinfan.msgbox.http.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -9,6 +10,7 @@ import org.springframework.util.CollectionUtils;
 
 import com.xinfan.msgbox.http.service.util.BeanUtils;
 import com.xinfan.msgbox.http.service.vo.param.MessageRevParam;
+import com.xinfan.msgbox.http.service.vo.param.MessageUnReadCountParam;
 import com.xinfan.msgbox.http.service.vo.param.SendMessageParam;
 import com.xinfan.msgbox.http.service.vo.param.UserMessageListParam;
 import com.xinfan.msgbox.http.service.vo.result.BaseResult;
@@ -19,7 +21,9 @@ import com.xinfan.msgbox.http.service.vo.result.MessageRevResult;
 import com.xinfan.msgbox.http.service.vo.result.MessageRevSummaryVO;
 import com.xinfan.msgbox.http.service.vo.result.MessageSendListResult;
 import com.xinfan.msgbox.http.service.vo.result.MessageSendSummaryVO;
+import com.xinfan.msgbox.http.service.vo.result.MessageUnReadCountResult;
 import com.xinfan.msgbox.http.service.vo.result.MessageVO;
+import com.xinfan.msgbox.http.util.BizUtils;
 import com.xinfan.msgbox.http.util.PageUtils;
 import com.xinfan.msgbox.service.dao.MessageDao;
 import com.xinfan.msgbox.service.dao.MessageReceivedDao;
@@ -32,7 +36,7 @@ import com.xinfan.msgbox.service.dao.entity.MessageSend;
 import com.xinfan.msgbox.service.dao.entity.User;
 import com.xinfan.msgbox.service.dao.entity.UserBalance;
 
-public class MessageGetService {
+public class MessageGetService extends BaseService {
 	@Autowired
 	MessageReceivedDao messageReceivedDao;
 	@Autowired
@@ -118,6 +122,10 @@ public class MessageGetService {
 				}
 				rrs.setSendUserAvatar(sendUser.getAvatar());
 				rrs.setSendUserName(sendUser.getUserName());
+
+				MessageSend messageSend = this.messageSendDao.selectByPrimaryKey(ms.getMsgId());
+				rrs.setSendUserCredit(messageSend.getSendCurrentCredit());
+
 				rsList.add(rrs);
 			}
 		}
@@ -166,6 +174,22 @@ public class MessageGetService {
 		return rs;
 	}
 
+	public MessageUnReadCountResult getUnReadMessageCount(MessageUnReadCountParam param) throws Exception {
+
+		User sessionUser = getUserFromSession();
+
+		Map map = new HashMap();
+		map.put("userId", sessionUser.getUserId());
+		map.put("pubishTime", BizUtils.getUnreadTimeLimit());
+
+		long unReadCount = this.messageReceivedDao.selectUnReadCountForHttpService(map);
+
+		MessageUnReadCountResult rs = new MessageUnReadCountResult();
+		rs.setUnReadCount(unReadCount);
+		rs.setMsg("获取消息成功");
+		return rs;
+	}
+
 	public MessageRevResult getRevMessage(MessageRevParam param) throws Exception {
 		if (param.getMsgId() == null || param.getMsgId() == null) {
 			return new MessageRevResult().paramIllgal("用户ID不存在");
@@ -204,6 +228,5 @@ public class MessageGetService {
 		rs.setMsg("获取消息成功");
 		return rs;
 	}
-	
-	
+
 }
