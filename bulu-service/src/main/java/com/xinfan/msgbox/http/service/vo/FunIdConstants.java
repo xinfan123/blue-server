@@ -9,6 +9,7 @@ import com.xinfan.msgbox.http.service.vo.param.LoginParam;
 import com.xinfan.msgbox.http.service.vo.param.MessageRevDelParam;
 import com.xinfan.msgbox.http.service.vo.param.MessageRevParam;
 import com.xinfan.msgbox.http.service.vo.param.RegisterParam;
+import com.xinfan.msgbox.http.service.vo.param.RevMessageReadParam;
 import com.xinfan.msgbox.http.service.vo.param.SendMessageParam;
 import com.xinfan.msgbox.http.service.vo.param.UserAvatarParam;
 import com.xinfan.msgbox.http.service.vo.param.UserCIDParam;
@@ -113,6 +114,9 @@ public enum FunIdConstants {
 	DELETE_MESSAGE("deleteMessage", SendMessageParam.class, BaseResult.class),
 	// 重发消息
 	RESEND_MESSAGE("reSendMessage", SendMessageParam.class, BaseResult.class),
+	// 回写已读消息
+	READED_MESSAGE("updateRevMessageReadState", RevMessageReadParam.class, BaseResult.class),
+	
 
 	// 删除收信信息
 	DELETE_REV_MESSAGE("deleteRevMessage", MessageRevDelParam.class, BaseResult.class),

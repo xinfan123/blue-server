@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.xinfan.msgbox.core.messagecache.MessageContext;
 import com.xinfan.msgbox.http.service.util.BeanUtils;
 import com.xinfan.msgbox.http.service.vo.param.MessageRevDelParam;
+import com.xinfan.msgbox.http.service.vo.param.RevMessageReadParam;
 import com.xinfan.msgbox.http.service.vo.param.SendMessageParam;
 import com.xinfan.msgbox.http.service.vo.result.BaseResult;
 import com.xinfan.msgbox.http.util.BizUtils;
@@ -164,6 +165,36 @@ public class MessageSetService {
 
 		return new BaseResult().success("信息删除成功");
 	}
+
+	public BaseResult updateRevMessageReadState(RevMessageReadParam param) throws Exception {
+		if (param.getMsgId() == null ) {
+			return new BaseResult().paramIllgal("消息id不存在");
+		}
+		
+		if(param.getPublishId()==null ){
+			return new BaseResult().paramIllgal("收消息id不存在");
+		}
+		
+
+		MessageReceived messageReceived = new MessageReceived();
+		messageReceived.setPublishId(param.getPublishId());
+		messageReceived.setReceivedStaus(1);
+		messageReceived.setReadTime(new Date());
+		messageReceivedDao.updateByPrimaryKeySelective(messageReceived);
+		
+		
+		MessageSend messageSend = messageSendDao.selectByPrimaryKey(param.getMsgId());
+		
+		MessageSend updateMessageSend = new MessageSend();
+		updateMessageSend.setMsgId(param.getMsgId());
+		updateMessageSend.setReadCount(messageSend.getReadCount()+1);
+		
+		this.messageSendDao.updateByPrimaryKeySelective(updateMessageSend);
+		
+		BaseResult rs = new BaseResult().success("成功");
+		return rs;
+	}
+	
 
 	/**
 	 * 重发用户设置接口
