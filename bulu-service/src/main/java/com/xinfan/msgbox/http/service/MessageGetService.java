@@ -117,6 +117,7 @@ public class MessageGetService {
 					BeanUtils.copyProperties(rrs, message);
 				}
 				rrs.setSendUserAvatar(sendUser.getAvatar());
+				rrs.setSendUserName(sendUser.getUserName());
 				rsList.add(rrs);
 			}
 		}

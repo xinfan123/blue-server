@@ -41,9 +41,11 @@ public class MessageRevSummaryVO {
 	private Long receivedUserid;
 
 	private Long sendUserid;
-	
+
 	private String sendUserAvatar;
 
+	private String sendUserName;
+	
 	private Integer sendNewReply;
 
 	private Integer receivedNewReply;
@@ -55,9 +57,14 @@ public class MessageRevSummaryVO {
 	private Date deleteTime;
 
 	private Date pubishTime;
-	
-	
-	
+
+	public String getSendUserName() {
+		return sendUserName;
+	}
+
+	public void setSendUserName(String sendUserName) {
+		this.sendUserName = sendUserName;
+	}
 
 	public String getSendUserAvatar() {
 		return sendUserAvatar;
