@@ -1,11 +1,12 @@
 package com.xinfan.msgbox.core.vo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MessageQueryInfo {
 	private CachedMessage current;
-	private List<Long> candidates;
-	private List<Long> excludes;
+	private List<Long> candidates = new ArrayList<Long>();
+	private List<Long> excludes = new ArrayList<Long>();
 	public CachedMessage getCurrent() {
 		return current;
 	}

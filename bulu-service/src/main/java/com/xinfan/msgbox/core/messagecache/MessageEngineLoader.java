@@ -13,7 +13,7 @@ public class MessageEngineLoader implements ContextPostProcessor {
 	public void onInit(ApplicationContext context) {
 		MessageContext mssageContext = MessageContext.getInstance();
 		mssageContext.setInterestProcessorNum(1);
-		mssageContext.setMessagePoolProcessorNum(0);
+		mssageContext.setMessagePoolProcessorNum(1);
 		mssageContext.setAlgorithm(new SimHashAlgorithm());
 		mssageContext.setMessageMatchedListener(new DefaultMessageMatchedListener());
 		mssageContext.start();

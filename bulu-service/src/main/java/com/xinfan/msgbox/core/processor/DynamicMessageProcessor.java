@@ -39,7 +39,8 @@ public class DynamicMessageProcessor extends MessageProcessor{
 			if(null == candidates || candidates.isEmpty()) return ;
 			System.out.println(System.currentTimeMillis()/1000 + "'s start matching " + candidates.size() + " messages" );
 			for(CachedMessage staticMsg:candidates)
-			{
+			{	
+				if(staticMsg.getUserId() == dynamic.getUserId()) continue;
 				double score = this.getAlgorithm().calcSimilarity(staticMsg, dynamic);
 				if(score > 0.8)
 				{

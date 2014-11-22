@@ -72,8 +72,8 @@ public class MemoryUserCache implements UserCache{
 				CachedMessage cm = new CachedMessage();
 				cm.setUserId(us.getUserId());
 				cm.setOriginalMsg(us.getUserSent());
-				cm.setSrcPosition(new Position(us.getGpsx(), us.getGpsy(),us.getReginCode()));
-				cm.setTargetPosition(new Position(us.getGpsx(), us.getGpsy(),us.getReginCode()));
+				cm.setSrcPosition(new Position(user.getRegGpsx(), user.getRegGpsy(),user.getRegEarea()));
+				cm.setTargetPosition(new Position(user.getRegGpsx(), user.getRegGpsy(),user.getRegEarea()));
 				cm.setMessageId(us.getId());
 				context.getInterestsCache().addMessage(cm);
 			}

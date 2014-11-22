@@ -93,7 +93,7 @@ public class MessageSetService {
 		messageSendDao.insertSelective(send);
 
 		// 插入发送人列表
-		MessageReceived recevied = new MessageReceived();
+/*		MessageReceived recevied = new MessageReceived();
 		recevied.setMsgId(msg.getMsgId());
 		recevied.setReceivedUserid(send.getSendUserId());
 		recevied.setSendUserid(send.getSendUserId());
@@ -104,7 +104,7 @@ public class MessageSetService {
 		recevied.setReadTime(new Date());
 		recevied.setPubishTime(new Date());
 
-		messageReceivedDao.insertSelective(recevied);
+		messageReceivedDao.insertSelective(recevied);*/
 
 		MessageContext.getInstance().sendMessage(msg.getCreateUserId(), msg);
 
