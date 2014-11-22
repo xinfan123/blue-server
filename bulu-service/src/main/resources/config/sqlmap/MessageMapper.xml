@@ -244,6 +244,12 @@
         #{refreshCount,jdbcType=INTEGER},
       </if>
     </trim>
+    
+<!-- <selectKey resultType="java.lang.Long" order="AFTER" keyProperty="msgId"> 
+	SELECT LAST_INSERT_ID() 
+</selectKey>  -->
+    
+    
   </insert>
   <select id="countByExample" parameterType="com.xinfan.msgbox.service.dao.entity.MessageExample" resultType="java.lang.Integer" >
     select count(*) from t_message
