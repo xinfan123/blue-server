@@ -176,10 +176,9 @@ public class MessageGetService extends BaseService {
 
 	public MessageUnReadCountResult getUnReadMessageCount(MessageUnReadCountParam param) throws Exception {
 
-		User sessionUser = getUserFromSession();
 
 		Map map = new HashMap();
-		map.put("userId", sessionUser.getUserId());
+		map.put("userId", param.getUserId());
 		map.put("pubishTime", BizUtils.getUnreadTimeLimit());
 
 		long unReadCount = this.messageReceivedDao.selectUnReadCountForHttpService(map);

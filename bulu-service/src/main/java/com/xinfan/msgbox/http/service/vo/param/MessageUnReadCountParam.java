@@ -1,7 +1,7 @@
 package com.xinfan.msgbox.http.service.vo.param;
 
 
-public class MessageUnReadCountParam implements java.io.Serializable{
+public class MessageUnReadCountParam extends BaseParam{
 	
 	private Long userId;
 	

@@ -44,6 +44,10 @@
     <service funId="reSendMessage" bean="MessageSetService" method="reSendMessage" name="重发消息" login="true"/>
     <service funId="deleteRevMessage" bean="MessageSetService" method="deleteRevMessage" name="删除收集列表消息" login="true"/>
     <service funId="updateRevMessageReadState" bean="MessageSetService" method="updateRevMessageReadState" name="回写已读消息" login="true"/>
+    <service funId="getUnReadMessageCount" bean="MessageGetService" method="getUnReadMessageCount" name="未读消息数量" login="true"/>
+    
+    
+    
     
     <!-- 消息获取相关部分 -->
     <service funId="getUserSendMessageList" bean="MessageGetService" method="getUserSendMessageList" name="获取发信列表" login="true"/>
