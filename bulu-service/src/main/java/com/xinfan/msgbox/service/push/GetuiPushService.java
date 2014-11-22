@@ -91,8 +91,8 @@ public class GetuiPushService implements PushService {
 		template.setIsVibrate(true);
 		template.setIsClearable(true);
 		// 透传消息设置
-		template.setTransmissionType(1);
-		template.setTransmissionContent("请输入您要透传的内容");
+		//template.setTransmissionType(1);
+		//template.setTransmissionContent("请输入您要透传的内容");
 		return template;
 	}
 
