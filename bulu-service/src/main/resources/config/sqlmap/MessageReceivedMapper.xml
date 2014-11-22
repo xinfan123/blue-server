@@ -323,7 +323,7 @@
 		</if>
 
 		<if test="orderBy != null and orderBy != ''">
-			order by ${orderBy}
+			order by ${orderBy} desc
 		</if>
 
 		limit ${currentRow},${pageSize}
