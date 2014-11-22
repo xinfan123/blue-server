@@ -15,7 +15,17 @@ public class UserLinkmanResult {
 
 	private String linkRemark;
 
+	private Integer linkUserCredit;
+
 	private Date createTime;
+
+	public Integer getLinkUserCredit() {
+		return linkUserCredit;
+	}
+
+	public void setLinkUserCredit(Integer linkUserCredit) {
+		this.linkUserCredit = linkUserCredit;
+	}
 
 	public String getLinkUserName() {
 		return linkUserName;

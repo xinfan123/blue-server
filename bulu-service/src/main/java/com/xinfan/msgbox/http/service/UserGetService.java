@@ -103,6 +103,11 @@ public class UserGetService extends BaseService {
 					rs.setLinkUserName(linkUser.getUserName());
 					rs.setLinkAvatar(linkUser.getAvatar());
 				}
+				
+				UserBalance balance = userBalanceDao.selectByPrimaryKey(linkUser.getUserId());
+				if(balance!=null){
+					rs.setLinkUserCredit(balance.getUserCredit());
+				}
 
 				rsList.add(rs);
 			}

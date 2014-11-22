@@ -19,9 +19,11 @@ import com.xinfan.msgbox.http.service.vo.param.ValidCodeParam;
 import com.xinfan.msgbox.http.service.vo.result.BaseResult;
 import com.xinfan.msgbox.http.service.vo.result.LoginResult;
 import com.xinfan.msgbox.http.service.vo.result.ValidCodeResult;
+import com.xinfan.msgbox.service.dao.UserBalanceDao;
 import com.xinfan.msgbox.service.dao.UserDao;
 import com.xinfan.msgbox.service.dao.UserSetDao;
 import com.xinfan.msgbox.service.dao.entity.User;
+import com.xinfan.msgbox.service.dao.entity.UserBalance;
 import com.xinfan.msgbox.service.dao.entity.UserSet;
 import com.xinfan.msgbox.service.sms.SmsService;
 
@@ -31,10 +33,12 @@ public class LoginService extends BaseService {
 
 	@Autowired
 	UserDao userDao;
-	
+
 	@Autowired
 	UserSetDao userSetDao;
 
+	@Autowired
+	UserBalanceDao userBalanceDao;
 
 	@Autowired
 	SmsService smsService;
@@ -81,17 +85,20 @@ public class LoginService extends BaseService {
 		login.setRegTime(user.getRegTime());
 		login.setRegEarea(user.getRegEarea());
 		login.setAvatar(user.getAvatar());
-		
-		//更新用户登录信息
+
+		UserBalance userBalance = userBalanceDao.selectByPrimaryKey(user.getUserId());
+		if (userBalance != null) {
+			login.setCredit(userBalance.getUserCredit());
+		}
+
+		// 更新用户登录信息
 		User updateUser = new User();
 		updateUser.setUserId(user.getUserId());
 		updateUser.setLoginTime(new Date());
 		updateUser.setOnline(1);
-		
+
 		this.userDao.updateByPrimaryKeySelective(updateUser);
-		
-		
-		
+
 		UserSet userSet = userSetDao.selectByPrimaryKey(updateUser.getUserId());
 		MessageContext.getInstance().addUser(updateUser, userSet);
 

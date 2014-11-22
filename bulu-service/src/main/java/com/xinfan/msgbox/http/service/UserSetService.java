@@ -397,9 +397,12 @@ public class UserSetService extends BaseService {
 		}
 
 		userSentDao.deleteByPrimaryKey(sentId);
+		
+		User user = this.userDao.selectByPrimaryKey(sent.getUserId());
 
 		CachedMessage msg = new CachedMessage();
 		msg.setMessageId(sentId);
+		msg.setSrcPosition(new Position(user.getRegGpsx(),user.getRegGpsy(),user.getRegEarea()));
 		MessageContext.getInstance().getInterestsCache().deleteMessage(msg);
 
 		return new BaseResult().success("删除用户接收语成功");

@@ -21,11 +21,18 @@ public class LoginResult extends BaseResult {
 	private Date regTime;
 
 	private String cid;
-	
+
 	private String avatar;
-	
-	
-	
+
+	private Integer credit;
+
+	public Integer getCredit() {
+		return credit;
+	}
+
+	public void setCredit(Integer credit) {
+		this.credit = credit;
+	}
 
 	public String getAvatar() {
 		return avatar;
