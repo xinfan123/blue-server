@@ -310,11 +310,13 @@ public class UserSetService extends BaseService {
 		}
 
 		UserLinkman linkMan = new UserLinkman();
+		linkMan.setUserId(param.getUserId());
+		linkMan.setLinkUserId(param.getLinkUserId());
 		UserLinkman l = userLinkmanDao.selectByPrimaryKey(linkMan);
 		if (l == null) {
 			return new BaseResult().paramIllgal("联系用户ID不存在");
 		}
-		BeanUtils.copyProperties(linkMan, param);
+		linkMan.setLinkRemark(param.getLinkRemark());
 		userLinkmanDao.updateByPrimaryKeySelective(linkMan);
 		return new BaseResult().success("修改联系人成功");
 	}
