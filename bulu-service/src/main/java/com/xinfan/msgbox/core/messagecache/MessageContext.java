@@ -114,9 +114,8 @@ public class MessageContext implements MessageCenterFacade {
 		for (int i = 0; i < interestProcessorNum; i++) {
 			interestsProcessors.add(new StaticMessageProcessor(messagePool, interestsCache, messageMatchedListener, algorithm));
 		}
-		for(int i=0;i<messagePoolProcessorNum;i++)
-		{
-			messagePoolProcessors.add(new DynamicMessageProcessor(messagePool,interestsCache, messageMatchedListener, algorithm));
+		for (int i = 0; i < messagePoolProcessorNum; i++) {
+			messagePoolProcessors.add(new DynamicMessageProcessor(messagePool, interestsCache, messageMatchedListener, algorithm));
 		}
 
 	}
@@ -224,18 +223,22 @@ public class MessageContext implements MessageCenterFacade {
 	}
 
 	@Override
-	public boolean updateMessageValideTime(long userId, long messageId, Date deadTime) {
+	public boolean updateMessageValideTime(long userId, Message message) {
 		// CachedMessage cmessage = new CachedMessage();
 		// cmessage.setUserId(userId);
 		// cmessage.setMessageId(messageId);
 		// return userCache.updateMessageValideTime(userId,messageId,deadTime);
-		CachedMessage old = messagePool.getMessageById(messageId);
+		CachedMessage old = messagePool.getMessageById(message.getMsgId());
 		CachedMessage newMsg;
 		try {
-			newMsg = (CachedMessage) old.clone();
-			newMsg.setDeadTime(deadTime);
-			return messagePool.updateMessage(old, newMsg);
-		} catch (CloneNotSupportedException e) {
+
+			if (old == null) {
+				return sendMessage(userId, message);
+			} else {
+				return updateMessage(userId, message);
+			}
+
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

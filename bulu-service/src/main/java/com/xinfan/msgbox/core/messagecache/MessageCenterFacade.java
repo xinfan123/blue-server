@@ -27,7 +27,7 @@ public interface MessageCenterFacade {
 	
 	boolean deleteMessage(long userId,Message message);
 	//更新消息的有效期
-	boolean updateMessageValideTime(long userId,long messageId,Date deadTime);
+	boolean updateMessageValideTime(long userId, Message message);
 	
 	boolean deleteUser(User user);
 	

@@ -263,10 +263,9 @@ public class UserSetService extends BaseService {
 			userSet.setUpdatetime(new Date());
 			userSetDao.updateByPrimaryKeySelective(userSet);
 		}
-		
-		
+
 		MessageContext.getInstance().updateUserProfile(userId, userSet);
-		
+
 		return new BaseResult().success("设置成功");
 	}
 
@@ -289,7 +288,11 @@ public class UserSetService extends BaseService {
 		UserLinkman l = userLinkmanDao.selectByPrimaryKey(linkMan);
 
 		if (l != null) {
-			return new BaseResult().success("联系用户ID已存在");
+
+			l.setLinkRemark(param.getLinkRemark());
+			l.setCreateTime(new Date());
+			userLinkmanDao.updateByPrimaryKeySelective(l);
+			return new BaseResult().success("新增联系人成功");
 		}
 
 		linkMan.setCreateTime(new Date());
@@ -399,12 +402,12 @@ public class UserSetService extends BaseService {
 		}
 
 		userSentDao.deleteByPrimaryKey(sentId);
-		
+
 		User user = this.userDao.selectByPrimaryKey(sent.getUserId());
 
 		CachedMessage msg = new CachedMessage();
 		msg.setMessageId(sentId);
-		msg.setSrcPosition(new Position(user.getRegGpsx(),user.getRegGpsy(),user.getRegEarea()));
+		msg.setSrcPosition(new Position(user.getRegGpsx(), user.getRegGpsy(), user.getRegEarea()));
 		MessageContext.getInstance().getInterestsCache().deleteMessage(msg);
 
 		return new BaseResult().success("删除用户接收语成功");

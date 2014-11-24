@@ -222,7 +222,7 @@ public class MessageSetService {
 
 		messageDao.updateByPrimaryKeySelective(message);
 
-		MessageContext.getInstance().updateMessageValideTime(message.getCreateUserId(), message.getMsgId(), valTime);
+		MessageContext.getInstance().updateMessageValideTime(message.getCreateUserId(), message);
 
 		// 新启动线程，推送
 		return new BaseResult().success("信息重发成功");
