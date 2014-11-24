@@ -264,7 +264,7 @@ public class UserSetService extends BaseService {
 			userSetDao.updateByPrimaryKeySelective(userSet);
 		}
 
-		MessageContext.getInstance().updateUserProfile(userId, userSet);
+		MessageContext.getInstance().updateUserProfile(userId, u);
 
 		return new BaseResult().success("设置成功");
 	}
