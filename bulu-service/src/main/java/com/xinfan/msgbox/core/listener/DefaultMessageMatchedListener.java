@@ -13,6 +13,7 @@ import com.xinfan.msgbox.service.dao.entity.MessageReceived;
 import com.xinfan.msgbox.service.dao.entity.MessageSend;
 import com.xinfan.msgbox.service.dao.entity.User;
 import com.xinfan.msgbox.service.push.PushServiceFactory;
+import com.xinfan.msgbox.service.util.SeqFactory;
 
 public class DefaultMessageMatchedListener implements MessageMatchedListener {
 
@@ -42,6 +43,7 @@ public class DefaultMessageMatchedListener implements MessageMatchedListener {
 					sendDao.updateByPrimaryKeySelective(updateSend);
 
 					MessageReceived newReceive = new MessageReceived();
+					newReceive.setPublishId(SeqFactory.getInstance().getSeqReceive());
 					newReceive.setMsgId(targetDynamicMsg.getMessageId());
 					newReceive.setPubishTime(new Date());
 					newReceive.setReceivedUserid(targetDynamicMsg.getUserId());
@@ -92,6 +94,7 @@ public class DefaultMessageMatchedListener implements MessageMatchedListener {
 
 					MessageReceived newReceive = new MessageReceived();
 					newReceive.setMsgId(sourceDynamicMsg.getMessageId());
+					newReceive.setPublishId(SeqFactory.getInstance().getSeqReceive());
 					newReceive.setPubishTime(new Date());
 					newReceive.setReceivedUserid(targetDynamicMsg.getUserId());
 					newReceive.setSendUserid(sourceDynamicMsg.getUserId());
@@ -136,6 +139,7 @@ public class DefaultMessageMatchedListener implements MessageMatchedListener {
 
 					MessageReceived newReceive = new MessageReceived();
 					newReceive.setMsgId(sourceDynamicMsg.getMessageId());
+					newReceive.setPublishId(SeqFactory.getInstance().getSeqReceive());
 					newReceive.setPubishTime(new Date());
 					newReceive.setReceivedUserid(targetStaticMsg.getUserId());
 					newReceive.setSendUserid(sourceDynamicMsg.getUserId());
