@@ -51,6 +51,7 @@ import com.xinfan.msgbox.service.dao.entity.UserLinkman;
 import com.xinfan.msgbox.service.dao.entity.UserSent;
 import com.xinfan.msgbox.service.dao.entity.UserSet;
 import com.xinfan.msgbox.service.sms.SmsService;
+import com.xinfan.msgbox.service.util.SeqFactory;
 
 public class UserSetService extends BaseService {
 	private static Logger logger = LoggerFactory.getLogger(UserSetService.class);
@@ -124,6 +125,7 @@ public class UserSetService extends BaseService {
 		user.setRegTime(new Date());
 		user.setUserState(1);
 		user.setVip(0);
+		user.setUserId(SeqFactory.getInstance().getSeqUser());
 
 		user.setCid("");
 		user.setCidTime(new Date());

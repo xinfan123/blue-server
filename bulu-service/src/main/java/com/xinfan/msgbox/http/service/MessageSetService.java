@@ -23,6 +23,7 @@ import com.xinfan.msgbox.service.dao.entity.Message;
 import com.xinfan.msgbox.service.dao.entity.MessageReceived;
 import com.xinfan.msgbox.service.dao.entity.MessageSend;
 import com.xinfan.msgbox.service.dao.entity.UserBalance;
+import com.xinfan.msgbox.service.util.SeqFactory;
 
 public class MessageSetService {
 
@@ -68,6 +69,7 @@ public class MessageSetService {
 		msg.setRefreshTime(new Date());
 		msg.setSendDistance(BizUtils.getMessageDistanceValue(param.getSendType()));
 		msg.setSendArea(param.getSendArea());
+		msg.setMsgId(SeqFactory.getInstance().getSeqMessage());
 
 		Date validTime = TimeUtils.getValidTime(new Date(), param.getDurationTime());
 		msg.setValidTime(validTime);
@@ -94,18 +96,17 @@ public class MessageSetService {
 		messageSendDao.insertSelective(send);
 
 		// 插入发送人列表
-/*		MessageReceived recevied = new MessageReceived();
-		recevied.setMsgId(msg.getMsgId());
-		recevied.setReceivedUserid(send.getSendUserId());
-		recevied.setSendUserid(send.getSendUserId());
-		recevied.setSendNewReply(0);
-		recevied.setReceivedNewReply(1);
-		recevied.setReceivedStaus(1);
-		recevied.setDeleteTime(new Date());
-		recevied.setReadTime(new Date());
-		recevied.setPubishTime(new Date());
-
-		messageReceivedDao.insertSelective(recevied);*/
+		/*
+		 * MessageReceived recevied = new MessageReceived();
+		 * recevied.setMsgId(msg.getMsgId());
+		 * recevied.setReceivedUserid(send.getSendUserId());
+		 * recevied.setSendUserid(send.getSendUserId());
+		 * recevied.setSendNewReply(0); recevied.setReceivedNewReply(1);
+		 * recevied.setReceivedStaus(1); recevied.setDeleteTime(new Date());
+		 * recevied.setReadTime(new Date()); recevied.setPubishTime(new Date());
+		 * 
+		 * messageReceivedDao.insertSelective(recevied);
+		 */
 
 		MessageContext.getInstance().sendMessage(msg.getCreateUserId(), msg);
 
@@ -167,34 +168,31 @@ public class MessageSetService {
 	}
 
 	public BaseResult updateRevMessageReadState(RevMessageReadParam param) throws Exception {
-		if (param.getMsgId() == null ) {
+		if (param.getMsgId() == null) {
 			return new BaseResult().paramIllgal("消息id不存在");
 		}
-		
-		if(param.getPublishId()==null ){
+
+		if (param.getPublishId() == null) {
 			return new BaseResult().paramIllgal("收消息id不存在");
 		}
-		
 
 		MessageReceived messageReceived = new MessageReceived();
 		messageReceived.setPublishId(param.getPublishId());
 		messageReceived.setReceivedStaus(1);
 		messageReceived.setReadTime(new Date());
 		messageReceivedDao.updateByPrimaryKeySelective(messageReceived);
-		
-		
+
 		MessageSend messageSend = messageSendDao.selectByPrimaryKey(param.getMsgId());
-		
+
 		MessageSend updateMessageSend = new MessageSend();
 		updateMessageSend.setMsgId(param.getMsgId());
-		updateMessageSend.setReadCount(messageSend.getReadCount()+1);
-		
+		updateMessageSend.setReadCount(messageSend.getReadCount() + 1);
+
 		this.messageSendDao.updateByPrimaryKeySelective(updateMessageSend);
-		
+
 		BaseResult rs = new BaseResult().success("成功");
 		return rs;
 	}
-	
 
 	/**
 	 * 重发用户设置接口
