@@ -1,4 +1,4 @@
-package com.xinfan.msgbox.test;
+/*package com.xinfan.msgbox.test;
 
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
@@ -42,9 +42,9 @@ public class LuenceTest {
 		}
 	}
 
-	/**
+	*//**
 	 * @param args
-	 */
+	 *//*
 	public static void main(String[] args) {
 
 		Query query;
@@ -72,3 +72,4 @@ public class LuenceTest {
 	}
 
 }
+*/
